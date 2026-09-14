@@ -31,6 +31,10 @@ import { PosterPopupBanner, openPosterBanner } from "@/components/PosterPopupBan
 import { syncEventsFromDb, events, type EventItem } from "@/lib/mock-data";
 import { useAuth, useProfile } from "@/lib/auth";
 import heroFest from "@/assets/hero-fest.jpg";
+import hackathonImg from "@/assets/event-hackathon.jpg";
+import culturalImg from "@/assets/event-cultural.jpg";
+import sportsImg from "@/assets/event-sports.jpg";
+import workshopImg from "@/assets/event-workshop.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -157,58 +161,65 @@ function Home() {
   return (
     <AppShell>
       {/* Official Poster Popup Banner Component */}
-      {/* Mobile Story / Quick Discovery Row */}
-      <div className="mb-4 flex items-center gap-2.5 overflow-x-auto no-scrollbar py-1">
+      {/* Mobile Story / Quick Discovery Row (With Real Photos & Dynamic Rings) */}
+      <div className="mb-4 flex items-center gap-3 overflow-x-auto no-scrollbar py-1">
         {[
           {
             label: "Hackathon",
+            image: hackathonImg,
             Icon: Code2,
             to: "/events",
-            tone: "bg-red-50/80 border-red-200/80 text-red-700",
-            ring: "ring-1 ring-red-500/20",
+            ring: "from-amber-500 via-red-600 to-rose-600",
+            iconBg: "bg-red-600 text-white",
           },
           {
             label: "Cultural",
+            image: culturalImg,
             Icon: Sparkles,
             to: "/events",
-            tone: "bg-amber-50/80 border-amber-200/80 text-amber-700",
-            ring: "ring-1 ring-amber-500/20",
+            ring: "from-rose-500 via-pink-600 to-amber-500",
+            iconBg: "bg-amber-600 text-white",
           },
           {
             label: "Esports",
+            image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300&h=300&fit=crop&q=80",
             Icon: Gamepad2,
             to: "/events",
-            tone: "bg-indigo-50/80 border-indigo-200/80 text-indigo-700",
-            ring: "ring-1 ring-indigo-500/20",
+            ring: "from-indigo-500 via-purple-600 to-rose-500",
+            iconBg: "bg-indigo-600 text-white",
           },
           {
             label: "Star Night",
+            image: heroFest,
             Icon: Mic2,
             to: "/events",
-            tone: "bg-rose-50/80 border-rose-200/80 text-rose-700",
-            ring: "ring-1 ring-rose-500/20",
+            ring: "from-red-600 via-amber-500 to-red-700",
+            iconBg: "bg-rose-600 text-white",
           },
           {
             label: "Live 4K",
+            image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=300&h=300&fit=crop&q=80",
             Icon: Radio,
             to: "/live",
-            tone: "bg-emerald-50/80 border-emerald-200/80 text-emerald-700",
-            ring: "ring-1 ring-emerald-500/30",
+            ring: "from-emerald-400 via-teal-500 to-emerald-600",
+            iconBg: "bg-emerald-600 text-white",
             isLive: true,
           },
           {
             label: "Vote",
+            image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=300&fit=crop&q=80",
             Icon: Trophy,
             to: "/voting",
-            tone: "bg-amber-50/80 border-amber-200/80 text-amber-800",
-            ring: "ring-1 ring-amber-500/20",
+            ring: "from-amber-400 via-yellow-500 to-amber-600",
+            iconBg: "bg-amber-600 text-white",
           },
           {
             label: "Entry Pass",
+            image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=300&h=300&fit=crop&q=80",
             Icon: QrCode,
             to: "/qr-pass",
-            tone: "bg-slate-100/90 border-slate-200 text-slate-800",
-            ring: "ring-1 ring-slate-400/20",
+            ring: "from-slate-400 via-slate-600 to-slate-800",
+            iconBg: "bg-slate-900 text-white",
           },
         ].map((item) => (
           <Link
@@ -216,22 +227,32 @@ function Home() {
             to={item.to}
             className="flex flex-col items-center gap-1.5 shrink-0 group active:scale-92 transition-all"
           >
-            <div
-              className={`relative size-13 rounded-2xl border p-0.5 bg-white shadow-xs flex items-center justify-center ${item.ring} group-hover:scale-105 transition-transform`}
-            >
-              <div
-                className={`size-full rounded-xl flex items-center justify-center ${item.tone}`}
-              >
-                <item.Icon className="size-5" />
+            {/* Story Ring Avatar with Photo */}
+            <div className={`relative size-14 rounded-full p-[2px] bg-gradient-to-tr ${item.ring} shadow-xs group-hover:scale-105 transition-transform duration-200`}>
+              <div className="size-full rounded-full overflow-hidden bg-white p-[1.5px]">
+                <img
+                  src={item.image}
+                  alt={item.label}
+                  className="size-full rounded-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  loading="lazy"
+                />
               </div>
+
+              {/* Floating Mini Icon Badge */}
+              <span className={`absolute -bottom-0.5 -right-0.5 grid size-4.5 place-items-center rounded-full ${item.iconBg} ring-2 ring-white shadow-xs`}>
+                <item.Icon className="size-2.5" />
+              </span>
+
+              {/* Live Blinking Pill */}
               {item.isLive && (
-                <span className="absolute -top-1 -right-1 flex size-3">
+                <span className="absolute -top-1 -right-0.5 flex size-3">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex rounded-full size-3 bg-emerald-500 ring-2 ring-white" />
                 </span>
               )}
             </div>
-            <span className="text-[10px] font-bold text-slate-700 tracking-tight">
+
+            <span className="text-[10px] font-bold text-slate-700 tracking-tight group-hover:text-red-700 transition-colors">
               {item.label}
             </span>
           </Link>
