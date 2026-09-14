@@ -40,11 +40,11 @@ export function AppShell({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
   return (
     <div
-      className="min-h-screen bg-background pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-0"
+      className="min-h-screen bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-12"
       style={{ paddingTop: "env(safe-area-inset-top)" }}
     >
       <TopBar />
-      <main className="mx-auto max-w-6xl px-4 pt-4 md:pt-8">{children}</main>
+      <main className="mx-auto max-w-6xl px-4 pt-4 md:pt-6">{children}</main>
       <BottomNav pathname={pathname} />
     </div>
   );
@@ -56,50 +56,65 @@ export function TopBar() {
   const dash = user ? dashboardLink(roles) : null;
   const items: NavItem[] = [...nav];
   if (user) items.push({ to: "/profile", label: "Profile", Icon: User });
+
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background shadow-sm">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <Link to="/" className="flex items-center gap-2">
-          <JnuLogo />
-          <div className="leading-tight">
-            <div className="font-display text-base font-semibold">JNU <span className="text-primary">Connect</span></div>
-            <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Jaipur National University</div>
+    <header className="sticky top-0 z-50 w-full transition-all duration-200">
+      <div className="mx-auto max-w-6xl px-4 py-3">
+        <div className="flex items-center justify-between rounded-full border border-black/[0.08] dark:border-white/[0.1] bg-white/80 dark:bg-zinc-950/80 px-4 py-2 backdrop-blur-2xl shadow-apple transition-all">
+          <Link to="/" className="flex items-center gap-2.5 group">
+            <div className="transition-transform duration-200 group-hover:scale-105">
+              <JnuLogo />
+            </div>
+            <div className="leading-tight">
+              <div className="font-display text-sm font-bold tracking-tight text-foreground flex items-center gap-1.5">
+                JNU <span className="text-primary font-extrabold">Connect</span>
+                <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[9px] font-semibold text-emerald-600 dark:text-emerald-400">
+                  <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live
+                </span>
+              </div>
+              <div className="text-[9px] tracking-wider text-muted-foreground uppercase font-medium">Jaipur National University</div>
+            </div>
+          </Link>
+
+          <nav className="hidden items-center gap-1 lg:flex bg-slate-100/60 dark:bg-zinc-900/60 p-1 rounded-full border border-black/[0.04] dark:border-white/[0.05]">
+            {items.map((n) => (
+              <Link
+                key={n.to}
+                to={n.to}
+                className="rounded-full px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-all duration-200 hover:text-foreground hover:bg-white/80 dark:hover:bg-zinc-800/80 data-[active]:bg-white dark:data-[active]:bg-zinc-800 data-[active]:text-foreground data-[active]:shadow-sm"
+                activeProps={{ "data-active": "true" } as any}
+                activeOptions={{ exact: n.to === "/" }}
+              >
+                {n.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            {dash && (
+              <Link
+                to={dash.to}
+                className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 border border-primary/20 px-3.5 py-1.5 text-xs font-semibold text-primary transition-all duration-200 hover:bg-primary/20 hover:scale-[1.02] active:scale-[0.98]"
+                activeProps={{ "data-active": "true" } as any}
+              >
+                <LayoutDashboard className="size-3.5" />
+                <span className="hidden sm:inline">{dash.label}</span> Console
+              </Link>
+            )}
+
+            {user && (
+              <Link
+                to="/notifications"
+                className="relative grid size-8 place-items-center rounded-full bg-slate-100 dark:bg-zinc-900 text-foreground transition-all duration-200 hover:bg-slate-200 dark:hover:bg-zinc-800"
+                aria-label="Notifications"
+              >
+                <Bell className="size-3.5" />
+                <span className="absolute right-1.5 top-1.5 size-1.5 rounded-full bg-primary ring-2 ring-background" />
+              </Link>
+            )}
+
+            <AuthButton />
           </div>
-        </Link>
-        <nav className="hidden items-center gap-1 md:flex">
-          {items.map((n) => (
-            <Link
-              key={n.to}
-              to={n.to}
-              className="rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground data-[active]:bg-secondary data-[active]:text-foreground"
-              activeProps={{ "data-active": "true" } as any}
-              activeOptions={{ exact: n.to === "/" }}
-            >
-              {n.label}
-            </Link>
-          ))}
-          {dash && (
-            <Link
-              to={dash.to}
-              className="ml-1 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-2 text-sm font-semibold text-primary hover:bg-primary/20"
-              activeProps={{ "data-active": "true" } as any}
-            >
-              <LayoutDashboard className="size-4" /> {dash.label} Console
-            </Link>
-          )}
-        </nav>
-        <div className="flex items-center gap-2">
-          {user && (
-            <Link
-              to="/notifications"
-              className="relative grid size-10 place-items-center rounded-full bg-secondary text-foreground transition-colors hover:bg-secondary/70"
-              aria-label="Notifications"
-            >
-              <Bell className="size-4" />
-              <span className="absolute right-2 top-2 size-2 rounded-full bg-accent" />
-            </Link>
-          )}
-          <AuthButton />
         </div>
       </div>
     </header>
@@ -111,7 +126,11 @@ function AuthButton() {
   if (loading) return null;
   if (!user) {
     return (
-      <Link to="/auth/login" search={{ next: "/profile" }} className="hidden rounded-full bg-gradient-primary px-5 py-2 text-sm font-semibold text-primary-foreground shadow-glow transition-transform hover:-translate-y-0.5 md:inline-flex">
+      <Link
+        to="/auth/login"
+        search={{ next: "/profile" }}
+        className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-1.5 text-xs font-semibold text-background transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
+      >
         Sign in
       </Link>
     );
@@ -119,10 +138,11 @@ function AuthButton() {
   return (
     <button
       onClick={() => void signOut()}
-      className="hidden items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold text-foreground shadow-sm hover:bg-secondary md:inline-flex"
+      className="inline-flex items-center gap-1.5 rounded-full border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-zinc-900 px-3.5 py-1.5 text-xs font-semibold text-muted-foreground hover:text-destructive hover:border-destructive/30 transition-all duration-200 active:scale-[0.98]"
       title={user.email ?? ""}
     >
-      <LogOut className="size-4" /> Logout
+      <LogOut className="size-3.5" />
+      <span className="hidden sm:inline">Logout</span>
     </button>
   );
 }
