@@ -22,6 +22,7 @@ import { useState, useEffect } from "react";
 import { AppShell } from "@/components/AppShell";
 import { AuthGuard } from "@/components/AuthGuard";
 import { EventCard } from "@/components/EventCard";
+import { PosterPopupBanner, openPosterBanner } from "@/components/PosterPopupBanner";
 import { syncEventsFromDb, events, type EventItem } from "@/lib/mock-data";
 import { useAuth, useProfile } from "@/lib/auth";
 import heroFest from "@/assets/hero-fest.jpg";
@@ -154,6 +155,9 @@ function Home() {
 
   return (
     <AppShell>
+      {/* Official Poster Popup Banner Component */}
+      <PosterPopupBanner />
+
       {/* Apple-style Keynote Hero */}
       <section className="relative mb-10 overflow-hidden rounded-3xl bg-slate-950 text-white shadow-2xl border border-white/10">
         {/* Ambient Backlight Glows */}
@@ -164,10 +168,19 @@ function Home() {
         <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 sm:p-8 md:p-12 items-center">
           <div className="lg:col-span-7 flex flex-col justify-center">
             {/* Live Campus Pill */}
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold backdrop-blur-md w-fit">
-              <span className="flex size-2 rounded-full bg-emerald-400 animate-ping" />
-              <span className="size-2 rounded-full bg-emerald-400" />
-              <span className="text-white/90">Technorazz 2026 • Sept 28–30</span>
+            <div className="mb-4 flex flex-wrap items-center gap-2">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold backdrop-blur-md w-fit">
+                <span className="flex size-2 rounded-full bg-emerald-400 animate-ping" />
+                <span className="size-2 rounded-full bg-emerald-400" />
+                <span className="text-white/90">Technorazz 2026 • Sept 29–Oct 01</span>
+              </div>
+
+              <button
+                onClick={openPosterBanner}
+                className="inline-flex items-center gap-1.5 rounded-full border border-pink-500/30 bg-pink-500/10 px-3 py-1 text-xs font-bold text-pink-300 backdrop-blur-md hover:bg-pink-500/20 transition-all cursor-pointer shadow-sm"
+              >
+                <Sparkles className="size-3 text-pink-400" /> Official Poster 📄
+              </button>
             </div>
 
             <h1 className="font-display text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08] text-white">
@@ -178,7 +191,7 @@ function Home() {
             </h1>
 
             <p className="mt-4 max-w-xl text-sm sm:text-base text-slate-300 leading-relaxed">
-              Welcome back, <span className="text-white font-semibold">{displayName}</span>! Experience 3 days of high-octane technical summits, cultural showcases, esports championships, and verified digital certifications.
+              Welcome back, <span className="text-white font-semibold">{displayName}</span>! Experience 3 days of high-octane technical summits, cultural showcases, esports championships, star-vibes celebrity nights, and verified digital certifications.
             </p>
 
             {/* Live Countdown Grid */}
@@ -211,38 +224,41 @@ function Home() {
               >
                 Register for Events <ArrowRight className="size-4" />
               </Link>
+              <button
+                onClick={openPosterBanner}
+                className="inline-flex items-center gap-2 rounded-full border border-pink-400/30 bg-pink-500/20 px-5 py-3 text-xs sm:text-sm font-bold text-pink-200 backdrop-blur-md transition-all duration-200 hover:bg-pink-500/30 active:scale-[0.98]"
+              >
+                <Sparkles className="size-4 text-pink-400" /> View Poster
+              </button>
               <Link
                 to="/qr-pass"
                 className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-3 text-xs sm:text-sm font-semibold text-white backdrop-blur-md transition-all duration-200 hover:bg-white/20 active:scale-[0.98]"
               >
-                <QrCode className="size-4" /> My QR Pass
-              </Link>
-              <Link
-                to="/calendar"
-                className="inline-flex items-center gap-1.5 rounded-full px-4 py-3 text-xs sm:text-sm font-medium text-slate-300 hover:text-white transition-colors"
-              >
-                <Calendar className="size-4" /> Schedule
+                <QrCode className="size-4" /> My Pass
               </Link>
             </div>
           </div>
 
-          {/* Right Visual Card */}
+          {/* Right Visual Card - Interactive Poster Card */}
           <div className="lg:col-span-5 relative">
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/15 shadow-2xl group">
+            <div
+              onClick={openPosterBanner}
+              className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/15 shadow-2xl group cursor-pointer"
+            >
               <img
-                src={heroFest}
-                alt="JNU Technorazz 2026"
-                className="size-full object-cover transition-transform duration-700 group-hover:scale-105"
+                src="/image.png"
+                alt="JNU Technorazz 2026 Official Poster"
+                className="size-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4">
-                <div className="inline-flex items-center gap-1 rounded-full bg-rose-500/90 text-white px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider mb-1.5">
-                  <Flame className="size-3" /> Flagship Summit
+                <div className="inline-flex items-center gap-1 rounded-full bg-pink-500 text-white px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider mb-1.5 shadow-sm">
+                  <Sparkles className="size-3" /> Click to Expand Poster
                 </div>
-                <div className="font-display text-base font-bold text-white">Technorazz 2026 Main Arena</div>
+                <div className="font-display text-base font-bold text-white">Technorazz 2026 Official Brochure</div>
                 <div className="flex items-center justify-between text-xs text-slate-300 mt-1">
-                  <span>📍 Main Stadium Ground</span>
-                  <span className="font-semibold text-emerald-400">₹5,00,000+ Prizes</span>
+                  <span>📍 Main Campus, Jaipur</span>
+                  <span className="font-semibold text-emerald-400">₹5 Lakhs+ Prizes</span>
                 </div>
               </div>
             </div>
