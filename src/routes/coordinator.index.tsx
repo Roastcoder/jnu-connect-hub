@@ -21,28 +21,32 @@ function CoordinatorHome() {
 
   useEffect(() => {
     async function loadCoordinatorStats() {
-      const [evs, conts, subsRes, judgesRes] = await Promise.all([
-        syncEventsFromDb(),
-        syncContestantsFromDb(),
-        api.from("sub_events").select("*").catch(() => ({ data: [] })),
-        api.from("judges").select("*").catch(() => ({ data: [] })),
-      ]);
+      try {
+        const evs = await syncEventsFromDb();
+        const conts = await syncContestantsFromDb();
+        const [subsRes, judgesRes] = await Promise.all([
+          api.from("sub_events").select("*"),
+          api.from("judges").select("*"),
+        ]);
 
-      const evCount = Array.isArray(evs) ? evs.length : 0;
-      const subCount = Array.isArray(subsRes.data)
-        ? subsRes.data.length
-        : Array.isArray(evs)
-        ? evs.reduce((s, e) => s + (e.subEvents?.length || 0), 0)
-        : 0;
-      const contCount = Array.isArray(conts) ? conts.length : 0;
-      const judgeCount = Array.isArray(judgesRes.data) ? judgesRes.data.length : 3;
+        const evCount = Array.isArray(evs) ? evs.length : 0;
+        const subCount = Array.isArray(subsRes.data)
+          ? subsRes.data.length
+          : Array.isArray(evs)
+          ? evs.reduce((s, e) => s + (e.subEvents?.length || 0), 0)
+          : 0;
+        const contCount = Array.isArray(conts) ? conts.length : 0;
+        const judgeCount = Array.isArray(judgesRes.data) ? judgesRes.data.length : 3;
 
-      setStats({
-        events: evCount,
-        subEvents: subCount,
-        contestants: contCount,
-        judges: judgeCount,
-      });
+        setStats({
+          events: evCount,
+          subEvents: subCount,
+          contestants: contCount,
+          judges: judgeCount,
+        });
+      } catch (err) {
+        console.error("Failed to load coordinator stats:", err);
+      }
     }
 
     loadCoordinatorStats();

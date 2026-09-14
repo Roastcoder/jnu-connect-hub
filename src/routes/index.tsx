@@ -168,7 +168,7 @@ function Home() {
             className="group relative w-full cursor-pointer overflow-hidden bg-slate-50"
           >
             <img
-              src="/image.png"
+              src="/Technorazz-2026%20Poster.png"
               alt="Jaipur National University Technorazz 2026 Official Festival Poster"
               className="w-full max-h-[360px] sm:max-h-[440px] md:max-h-[500px] object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.01]"
             />

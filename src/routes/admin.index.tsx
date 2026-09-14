@@ -22,33 +22,38 @@ function AdminDashboard() {
 
   useEffect(() => {
     async function loadStats() {
-      const [evs, conts, strms, usersRes, regsRes, certsRes, paysRes] = await Promise.all([
-        syncEventsFromDb(),
-        syncContestantsFromDb(),
-        syncLiveStreamsFromDb(),
-        api.from("users").select("*").catch(() => ({ data: [] })),
-        api.from("registrations").select("*").catch(() => ({ data: [] })),
-        api.from("certificates").select("*").catch(() => ({ data: [] })),
-        api.from("payments").select("*").catch(() => ({ data: [] })),
-      ]);
+      try {
+        const evs = await syncEventsFromDb();
+        const conts = await syncContestantsFromDb();
+        const strms = await syncLiveStreamsFromDb();
 
-      setEventList(evs || []);
-      setTopContestants(conts ? [...conts].sort((a, b) => b.votes - a.votes).slice(0, 5) : []);
-      setStreams(strms || []);
+        const [usersRes, regsRes, certsRes, paysRes] = await Promise.all([
+          api.from("users").select("*"),
+          api.from("registrations").select("*"),
+          api.from("certificates").select("*"),
+          api.from("payments").select("*"),
+        ]);
 
-      const userCount = Array.isArray(usersRes.data) ? usersRes.data.length : 0;
-      const regCount = Array.isArray(regsRes.data) ? regsRes.data.length : 0;
-      const certCount = Array.isArray(certsRes.data) ? certsRes.data.length : 0;
-      const totalRev = Array.isArray(paysRes.data)
-        ? paysRes.data.reduce((sum: number, p: any) => sum + Number(p.amount || 0), 0)
-        : 0;
+        setEventList(evs || []);
+        setTopContestants(conts ? [...conts].sort((a, b) => b.votes - a.votes).slice(0, 5) : []);
+        setStreams(strms || []);
 
-      setCounts({
-        users: userCount || 8420,
-        registrations: regCount || 3201,
-        certificates: certCount || 1890,
-        revenue: totalRev > 0 ? `₹${(totalRev / 100000).toFixed(1)}L` : "₹6.4L",
-      });
+        const userCount = Array.isArray(usersRes.data) ? usersRes.data.length : 0;
+        const regCount = Array.isArray(regsRes.data) ? regsRes.data.length : 0;
+        const certCount = Array.isArray(certsRes.data) ? certsRes.data.length : 0;
+        const totalRev = Array.isArray(paysRes.data)
+          ? paysRes.data.reduce((sum: number, p: any) => sum + Number(p.amount || 0), 0)
+          : 0;
+
+        setCounts({
+          users: userCount || 8420,
+          registrations: regCount || 3201,
+          certificates: certCount || 1890,
+          revenue: totalRev > 0 ? `₹${(totalRev / 100000).toFixed(1)}L` : "₹6.4L",
+        });
+      } catch (err) {
+        console.error("Failed to load admin stats:", err);
+      }
     }
 
     loadStats();

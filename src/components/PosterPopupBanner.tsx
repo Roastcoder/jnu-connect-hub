@@ -71,7 +71,7 @@ export function PosterPopupBanner() {
             onClick={() => setIsZoomed(!isZoomed)}
           >
             <img
-              src="/image.png"
+              src="/Technorazz-2026%20Poster.png"
               alt="Technorazz 2026 Official Poster - Jaipur National University"
               className="max-h-[62vh] w-auto object-contain rounded-2xl select-none"
             />
@@ -89,7 +89,7 @@ export function PosterPopupBanner() {
 
           <div className="flex items-center gap-2">
             <a
-              href="/image.png"
+              href="/Technorazz-2026%20Poster.png"
               download="Technorazz-2026-Official-Poster.png"
               className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-800 transition-all hover:bg-slate-100 active:scale-95"
             >
