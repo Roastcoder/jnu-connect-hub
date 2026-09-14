@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "mehar-advisory": {
+      "url": "https://app.meharadvisory.cloud/mcp"
+    }
+  }
+}

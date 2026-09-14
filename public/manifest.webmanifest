@@ -1,0 +1,22 @@
+{
+  "name": "JNU Connect — Campus Events",
+  "short_name": "JNU Connect",
+  "description": "Every Jaipur National University event in one app: register, get QR passes, vote live and download certificates.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b0713",
+  "theme_color": "#7c3aed",
+  "categories": ["education", "events", "social"],
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Events", "url": "/events", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Live", "url": "/live", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Vote", "url": "/voting", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "QR Pass", "url": "/qr-pass", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
