@@ -6,17 +6,6 @@ export function PosterPopupBanner() {
   const [isOpen, setIsOpen] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
 
-  useEffect(() => {
-    // Show banner after brief delay on initial page load if not closed in this session
-    const seen = sessionStorage.getItem("technorazz_poster_seen");
-    if (!seen) {
-      const timer = setTimeout(() => {
-        setIsOpen(true);
-      }, 1200);
-      return () => clearTimeout(timer);
-    }
-  }, []);
-
   // Listen for custom global event to open poster on demand
   useEffect(() => {
     const handleOpen = () => setIsOpen(true);

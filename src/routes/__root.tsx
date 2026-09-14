@@ -20,8 +20,6 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { PwaBootstrap } from "@/components/PwaBootstrap";
-import { WelcomeScreen } from "@/components/WelcomeScreen";
-import { SplashScreen } from "@/components/SplashScreen";
 
 
 function NotFoundComponent() {
@@ -140,9 +138,6 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <Outlet />
       <PwaBootstrap />
-      <WelcomeScreen />
-      <SplashScreen />
     </QueryClientProvider>
-
   );
 }
