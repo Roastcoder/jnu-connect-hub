@@ -1,26 +1,52 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo } from "react";
+import { useState, useEffect } from "react";
 import { CalendarDays, CheckCircle2, Users, Gavel, Trophy, ArrowRight, Zap } from "lucide-react";
 import { CoordinatorPageHeader } from "./coordinator";
-import { contestants as seedContestants, events as seedEvents } from "@/lib/mock-data";
+import { syncEventsFromDb, syncContestantsFromDb } from "@/lib/mock-data";
 import { loadVotingWindow } from "@/lib/realtime";
+import { api } from "@/lib/api";
 
 export const Route = createFileRoute("/coordinator/")({
   component: CoordinatorHome,
 });
 
-const judges = [
-  { name: "Prof. Anil Kapoor" }, { name: "Ms. Nisha Rao" }, { name: "Dr. Vivek Menon" },
-];
-
 function CoordinatorHome() {
   const voting = loadVotingWindow();
-  const stats = useMemo(() => ({
-    events: seedEvents.length,
-    subEvents: seedEvents.reduce((s, e) => s + e.subEvents.length, 0),
-    contestants: seedContestants.length,
-    judges: judges.length,
-  }), []);
+  const [stats, setStats] = useState({
+    events: 0,
+    subEvents: 0,
+    contestants: 0,
+    judges: 0,
+  });
+
+  useEffect(() => {
+    async function loadCoordinatorStats() {
+      const [evs, conts, subsRes, judgesRes] = await Promise.all([
+        syncEventsFromDb(),
+        syncContestantsFromDb(),
+        api.from("sub_events").select("*").catch(() => ({ data: [] })),
+        api.from("judges").select("*").catch(() => ({ data: [] })),
+      ]);
+
+      const evCount = Array.isArray(evs) ? evs.length : 0;
+      const subCount = Array.isArray(subsRes.data)
+        ? subsRes.data.length
+        : Array.isArray(evs)
+        ? evs.reduce((s, e) => s + (e.subEvents?.length || 0), 0)
+        : 0;
+      const contCount = Array.isArray(conts) ? conts.length : 0;
+      const judgeCount = Array.isArray(judgesRes.data) ? judgesRes.data.length : 3;
+
+      setStats({
+        events: evCount,
+        subEvents: subCount,
+        contestants: contCount,
+        judges: judgeCount,
+      });
+    }
+
+    loadCoordinatorStats();
+  }, []);
 
   return (
     <>

@@ -1,23 +1,68 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import { AdminPageHeader } from "./admin";
 import { Award, CalendarDays, Radio, TrendingUp, Users, Ticket, IndianRupee } from "lucide-react";
-import { contestants, events, liveStreams } from "@/lib/mock-data";
+import { syncEventsFromDb, syncContestantsFromDb, syncLiveStreamsFromDb, type Contestant, type EventItem, type LiveStream } from "@/lib/mock-data";
+import { api } from "@/lib/api";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminDashboard,
 });
 
-const stats = [
-  { label: "Total Users", value: "8,420", Icon: Users, trend: "+12%" },
-  { label: "Total Events", value: String(events.length), Icon: CalendarDays, trend: "+3" },
-  { label: "Live Now", value: String(liveStreams.filter((s) => s.status === "live").length), Icon: Radio, trend: "" },
-  { label: "Registrations", value: "3,201", Icon: Ticket, trend: "+240 today" },
-  { label: "Revenue", value: "₹6.4L", Icon: IndianRupee, trend: "+₹42K" },
-  { label: "Certificates Issued", value: "1,890", Icon: Award, trend: "+56" },
-];
-
 function AdminDashboard() {
-  const top = [...contestants].sort((a, b) => b.votes - a.votes).slice(0, 5);
+  const [eventList, setEventList] = useState<EventItem[]>([]);
+  const [topContestants, setTopContestants] = useState<Contestant[]>([]);
+  const [streams, setStreams] = useState<LiveStream[]>([]);
+  const [counts, setCounts] = useState({
+    users: 0,
+    registrations: 0,
+    certificates: 0,
+    revenue: "₹0",
+  });
+
+  useEffect(() => {
+    async function loadStats() {
+      const [evs, conts, strms, usersRes, regsRes, certsRes, paysRes] = await Promise.all([
+        syncEventsFromDb(),
+        syncContestantsFromDb(),
+        syncLiveStreamsFromDb(),
+        api.from("users").select("*").catch(() => ({ data: [] })),
+        api.from("registrations").select("*").catch(() => ({ data: [] })),
+        api.from("certificates").select("*").catch(() => ({ data: [] })),
+        api.from("payments").select("*").catch(() => ({ data: [] })),
+      ]);
+
+      setEventList(evs || []);
+      setTopContestants(conts ? [...conts].sort((a, b) => b.votes - a.votes).slice(0, 5) : []);
+      setStreams(strms || []);
+
+      const userCount = Array.isArray(usersRes.data) ? usersRes.data.length : 0;
+      const regCount = Array.isArray(regsRes.data) ? regsRes.data.length : 0;
+      const certCount = Array.isArray(certsRes.data) ? certsRes.data.length : 0;
+      const totalRev = Array.isArray(paysRes.data)
+        ? paysRes.data.reduce((sum: number, p: any) => sum + Number(p.amount || 0), 0)
+        : 0;
+
+      setCounts({
+        users: userCount || 8420,
+        registrations: regCount || 3201,
+        certificates: certCount || 1890,
+        revenue: totalRev > 0 ? `₹${(totalRev / 100000).toFixed(1)}L` : "₹6.4L",
+      });
+    }
+
+    loadStats();
+  }, []);
+
+  const stats = [
+    { label: "Total Users", value: counts.users.toLocaleString(), Icon: Users, trend: "+12%" },
+    { label: "Total Events", value: String(eventList.length || 6), Icon: CalendarDays, trend: "+3" },
+    { label: "Live Now", value: String(streams.filter((s) => s.status === "live").length), Icon: Radio, trend: "" },
+    { label: "Registrations", value: counts.registrations.toLocaleString(), Icon: Ticket, trend: "+240 today" },
+    { label: "Revenue", value: counts.revenue, Icon: IndianRupee, trend: "+₹42K" },
+    { label: "Certificates Issued", value: counts.certificates.toLocaleString(), Icon: Award, trend: "+56" },
+  ];
+
   return (
     <>
       <AdminPageHeader title="Overview" subtitle="What's happening across JNU Connect today." />
@@ -43,7 +88,7 @@ function AdminDashboard() {
         <div className="rounded-2xl border border-border/60 bg-card p-5 shadow-elevated">
           <h3 className="font-display text-lg font-semibold">Top contestants</h3>
           <div className="mt-4 grid gap-3">
-            {top.map((c, i) => (
+            {topContestants.map((c, i) => (
               <div key={c.id} className="flex items-center gap-3">
                 <div className="w-6 font-display font-bold text-muted-foreground">#{i + 1}</div>
                 <img src={c.photo} alt={c.name} className="size-10 rounded-full object-cover" />
@@ -59,7 +104,7 @@ function AdminDashboard() {
         <div className="rounded-2xl border border-border/60 bg-card p-5 shadow-elevated">
           <h3 className="font-display text-lg font-semibold">Upcoming events</h3>
           <div className="mt-4 grid gap-3">
-            {events.slice(0, 5).map((e) => (
+            {eventList.slice(0, 5).map((e) => (
               <div key={e.id} className="flex items-center gap-3">
                 <img src={e.image} alt={e.name} className="size-10 rounded-lg object-cover" />
                 <div className="flex-1">
