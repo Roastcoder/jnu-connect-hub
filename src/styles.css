@@ -158,19 +158,23 @@ h1, h2, h3, h4, h5 {
 }
 
 /* ==================== Universal Scrollbar Suppression ==================== */
-html, body, div, section, main, nav, ul, ol, div::-webkit-scrollbar, ::-webkit-scrollbar {
+* {
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
+}
+
+*::-webkit-scrollbar,
+::-webkit-scrollbar {
   display: none !important;
-  width: 0 !important;
-  height: 0 !important;
+  width: 0px !important;
+  height: 0px !important;
   background: transparent !important;
 }
 
 .no-scrollbar::-webkit-scrollbar {
   display: none !important;
-  width: 0 !important;
-  height: 0 !important;
+  width: 0px !important;
+  height: 0px !important;
 }
 
 .no-scrollbar {
