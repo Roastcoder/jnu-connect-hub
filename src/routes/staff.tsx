@@ -64,7 +64,7 @@ function StaffLayout() {
         groups={groups}
         pathname={pathname}
       />
-      <div className="grid md:grid-cols-[260px_1fr]">
+      <div className="grid md:grid-cols-[260px_1fr] pt-14 md:pt-0">
         <aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] overflow-y-auto border-r border-border/60 bg-card p-4 md:block">
 
           <Link to="/staff" className="mb-6 flex items-center gap-2">

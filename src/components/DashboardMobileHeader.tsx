@@ -33,7 +33,7 @@ export function DashboardMobileHeader({
 
   return (
     <header
-      className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-rose-100/90 bg-white/95 backdrop-blur-md px-3.5 shadow-xs md:px-5"
+      className="fixed top-0 inset-x-0 z-40 flex h-14 items-center justify-between border-b border-rose-100/90 bg-white/95 backdrop-blur-2xl px-3.5 shadow-[0_2px_12px_rgba(153,0,0,0.04)] md:px-5 transition-all"
       style={{ paddingTop: "max(env(safe-area-inset-top), 0.25rem)" }}
     >
       <Link to={rootPath} className="flex min-w-0 items-center gap-2">

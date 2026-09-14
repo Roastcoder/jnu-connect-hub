@@ -36,17 +36,17 @@ function dashboardLink(roles: AppRole[]): { to: string; label: string } | null {
 export function AppShell({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
   return (
-    <div className="relative min-h-screen bg-slate-50/50 text-foreground antialiased selection:bg-primary/20 selection:text-primary pb-24 overflow-x-hidden">
+    <div className="relative min-h-screen bg-slate-50/50 text-foreground antialiased selection:bg-primary/20 selection:text-primary pb-24">
       {/* Background Soft Warm Light Glows (JNU Theme) */}
       <div className="ambient-glow-orb -top-24 -left-24 size-80 bg-red-600/5 animate-float-slow" />
       <div className="ambient-glow-orb top-1/3 -right-24 size-96 bg-amber-500/5 animate-float-slow [animation-delay:3s]" />
       <div className="ambient-glow-orb bottom-10 left-1/4 size-80 bg-rose-500/5 animate-float-slow [animation-delay:5s]" />
 
-      <div className="relative z-10 max-w-lg mx-auto min-h-screen flex flex-col justify-between">
-        <div>
-          <TopBar />
-          <main className="px-3.5 sm:px-4 pt-3">{children}</main>
-        </div>
+      {/* Permanently Fixed TopBar */}
+      <TopBar />
+
+      <div className="relative z-10 max-w-lg mx-auto min-h-screen flex flex-col justify-between pt-[calc(max(env(safe-area-inset-top),0.65rem)+3.1rem)]">
+        <main className="px-3.5 sm:px-4 pt-1.5">{children}</main>
         <BottomNav pathname={pathname} />
       </div>
     </div>
@@ -60,10 +60,10 @@ export function TopBar() {
 
   return (
     <header
-      className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-xl border-b border-rose-100/90 shadow-xs px-3.5 sm:px-4 pb-2.5 transition-all"
+      className="fixed top-0 inset-x-0 z-40 w-full bg-white/95 backdrop-blur-2xl border-b border-rose-100/90 shadow-[0_2px_12px_rgba(153,0,0,0.04)] transition-all"
       style={{ paddingTop: "max(env(safe-area-inset-top), 0.65rem)" }}
     >
-      <div className="flex items-center justify-between">
+      <div className="max-w-lg mx-auto flex items-center justify-between px-3.5 sm:px-4 pb-2.5">
         <Link to="/" className="flex items-center gap-2.5 group active:scale-95 transition-transform">
           <div className="transition-transform duration-300 group-hover:scale-105">
             <JnuLogo />
