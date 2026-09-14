@@ -23,8 +23,8 @@ export function SplashScreen() {
     }
     if (!show) return;
     setVisible(true);
-    const fadeTimer = setTimeout(() => setFading(true), 1100);
-    const hideTimer = setTimeout(() => setVisible(false), 1600);
+    const fadeTimer = setTimeout(() => setFading(true), 600);
+    const hideTimer = setTimeout(() => setVisible(false), 900);
     return () => {
       clearTimeout(fadeTimer);
       clearTimeout(hideTimer);
@@ -36,7 +36,7 @@ export function SplashScreen() {
   return (
     <div
       className={
-        "fixed inset-0 z-[200] grid place-items-center bg-gradient-to-br from-[#0b0713] via-[#1a0a2e] to-[#2a0b47] text-white transition-opacity duration-500 " +
+        "fixed inset-0 z-[200] grid place-items-center bg-gradient-to-br from-[#800000] via-[#990000] to-[#b91c1c] text-white transition-opacity duration-300 pointer-events-none " +
         (fading ? "opacity-0" : "opacity-100")
       }
       style={{ paddingTop: "env(safe-area-inset-top)", paddingBottom: "env(safe-area-inset-bottom)" }}

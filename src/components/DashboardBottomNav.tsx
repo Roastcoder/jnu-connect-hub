@@ -40,7 +40,7 @@ export function DashboardBottomNav({
   return (
     <>
       <nav
-        className="fixed inset-x-0 bottom-0 z-50 border-t border-border/60 bg-background md:hidden"
+        className="fixed inset-x-0 bottom-0 z-50 border-t border-rose-100/90 bg-white/95 backdrop-blur-xl md:hidden"
         style={{ paddingBottom: "max(env(safe-area-inset-bottom), 0.5rem)" }}
       >
         <div className="mx-auto flex max-w-lg items-stretch justify-around px-2 pb-1 pt-1.5">
@@ -50,30 +50,30 @@ export function DashboardBottomNav({
               <Link
                 key={to}
                 to={to}
-                className="flex min-w-14 flex-1 flex-col items-center gap-0.5 rounded-2xl px-1 py-1.5 text-[10px] font-medium transition-colors"
+                className="flex min-w-14 flex-1 flex-col items-center gap-0.5 rounded-2xl px-1 py-1 text-[10px] font-bold transition-all active:scale-90"
               >
                 <span
                   className={
-                    "grid size-10 place-items-center rounded-2xl transition-all " +
+                    "grid size-9 place-items-center rounded-2xl transition-all " +
                     (active
-                      ? "bg-gradient-primary text-primary-foreground shadow-glow"
-                      : "text-muted-foreground")
+                      ? "bg-gradient-to-r from-red-700 to-red-800 text-white shadow-xs"
+                      : "text-slate-500 hover:text-slate-900")
                   }
                 >
-                  <Icon className="size-5" />
+                  <Icon className="size-4" />
                 </span>
-                <span className={active ? "text-primary" : "text-muted-foreground"}>{label}</span>
+                <span className={active ? "text-red-700 font-extrabold" : "text-slate-500"}>{label}</span>
               </Link>
             );
           })}
           {groups && groups.length > 0 && (
             <button
               onClick={() => setOpen(true)}
-              className="flex min-w-14 flex-1 flex-col items-center gap-0.5 rounded-2xl px-1 py-1.5 text-[10px] font-medium text-muted-foreground"
+              className="flex min-w-14 flex-1 flex-col items-center gap-0.5 rounded-2xl px-1 py-1 text-[10px] font-bold text-slate-500 active:scale-90"
               aria-label="Open menu"
             >
-              <span className="grid size-10 place-items-center rounded-2xl bg-secondary text-foreground">
-                <Menu className="size-5" />
+              <span className="grid size-9 place-items-center rounded-2xl bg-slate-100 text-slate-700">
+                <Menu className="size-4" />
               </span>
               <span>Menu</span>
             </button>
@@ -83,17 +83,17 @@ export function DashboardBottomNav({
 
       {groups && (
         <Sheet open={open} onOpenChange={setOpen}>
-          <SheetContent side="right" className="w-[86%] max-w-sm overflow-y-auto p-0">
+          <SheetContent side="right" className="w-[86%] max-w-sm overflow-y-auto p-0 bg-white border-l border-rose-100">
             <div
-              className="border-b border-border/60 bg-card/60 p-4"
+              className="border-b border-rose-100 bg-slate-50/70 p-4"
               style={{ paddingTop: "calc(env(safe-area-inset-top) + 1rem)" }}
             >
               <SheetTitle className="flex items-center gap-2">
                 <JnuLogo />
                 <div className="leading-tight">
-                  <div className="font-display text-base font-semibold">{title ?? "Menu"}</div>
+                  <div className="font-display text-base font-bold text-slate-900">{title ?? "Menu"}</div>
                   {subtitle && (
-                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                    <div className="text-[10px] uppercase font-bold tracking-wider text-red-700">
                       {subtitle}
                     </div>
                   )}
@@ -101,20 +101,11 @@ export function DashboardBottomNav({
               </SheetTitle>
               <SheetDescription className="sr-only">Dashboard navigation menu</SheetDescription>
               {profile && (
-                <div className="mt-3 rounded-xl bg-secondary/60 px-3 py-2 text-xs">
-                  <div className="truncate font-semibold">{profile.full_name ?? "Signed in"}</div>
-                  <div className="truncate text-[10px] text-muted-foreground">{profile.college ?? "JNU"}</div>
+                <div className="mt-3 rounded-xl bg-white border border-rose-100 px-3 py-2 text-xs shadow-xs">
+                  <div className="truncate font-bold text-slate-900">{profile.full_name ?? "Administrator"}</div>
+                  <div className="truncate text-[10px] text-slate-500">{profile.college ?? "Jaipur National University"}</div>
                 </div>
               )}
-              <div className="mt-3 flex gap-2">
-                <Link
-                  to="/notifications"
-                  onClick={() => setOpen(false)}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1.5 text-xs font-medium hover:bg-secondary/70"
-                >
-                  <Bell className="size-3.5" /> Notifications
-                </Link>
-              </div>
             </div>
             <nav className="grid gap-4 p-4">
               {groups.map((g) => (

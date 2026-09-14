@@ -18,6 +18,10 @@ import {
   Download,
   Share2,
   Eye,
+  Code2,
+  Gamepad2,
+  Mic2,
+  Ticket,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { AppShell } from "@/components/AppShell";
@@ -43,11 +47,7 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
-  return (
-    <AuthGuard>
-      <Home />
-    </AuthGuard>
-  );
+  return <Home />;
 }
 
 // Target: Sept 29, 2026 09:00 AM IST (Official Technorazz 2026 Kickoff)
@@ -157,28 +157,83 @@ function Home() {
   return (
     <AppShell>
       {/* Official Poster Popup Banner Component */}
-      <PosterPopupBanner />      {/* Mobile Story Category Bubbles */}
-      <div className="mb-4 flex items-center gap-3 overflow-x-auto no-scrollbar py-1">
+      {/* Mobile Story / Quick Discovery Row */}
+      <div className="mb-4 flex items-center gap-2.5 overflow-x-auto no-scrollbar py-1">
         {[
-          { label: "Hackathon", icon: "⚡", to: "/events" },
-          { label: "Cultural", icon: "🎭", to: "/events" },
-          { label: "Esports", icon: "🎮", to: "/events" },
-          { label: "Star Night", icon: "🎤", to: "/events" },
-          { label: "Live 4K", icon: "🔴", to: "/live" },
-          { label: "Vote", icon: "🗳️", to: "/voting" },
-          { label: "My Pass", icon: "🎟️", to: "/qr-pass" },
+          {
+            label: "Hackathon",
+            Icon: Code2,
+            to: "/events",
+            tone: "bg-red-50/80 border-red-200/80 text-red-700",
+            ring: "ring-1 ring-red-500/20",
+          },
+          {
+            label: "Cultural",
+            Icon: Sparkles,
+            to: "/events",
+            tone: "bg-amber-50/80 border-amber-200/80 text-amber-700",
+            ring: "ring-1 ring-amber-500/20",
+          },
+          {
+            label: "Esports",
+            Icon: Gamepad2,
+            to: "/events",
+            tone: "bg-indigo-50/80 border-indigo-200/80 text-indigo-700",
+            ring: "ring-1 ring-indigo-500/20",
+          },
+          {
+            label: "Star Night",
+            Icon: Mic2,
+            to: "/events",
+            tone: "bg-rose-50/80 border-rose-200/80 text-rose-700",
+            ring: "ring-1 ring-rose-500/20",
+          },
+          {
+            label: "Live 4K",
+            Icon: Radio,
+            to: "/live",
+            tone: "bg-emerald-50/80 border-emerald-200/80 text-emerald-700",
+            ring: "ring-1 ring-emerald-500/30",
+            isLive: true,
+          },
+          {
+            label: "Vote",
+            Icon: Trophy,
+            to: "/voting",
+            tone: "bg-amber-50/80 border-amber-200/80 text-amber-800",
+            ring: "ring-1 ring-amber-500/20",
+          },
+          {
+            label: "Entry Pass",
+            Icon: QrCode,
+            to: "/qr-pass",
+            tone: "bg-slate-100/90 border-slate-200 text-slate-800",
+            ring: "ring-1 ring-slate-400/20",
+          },
         ].map((item) => (
           <Link
             key={item.label}
             to={item.to}
-            className="flex flex-col items-center gap-1 shrink-0 active:scale-90 transition-transform"
+            className="flex flex-col items-center gap-1.5 shrink-0 group active:scale-92 transition-all"
           >
-            <div className="size-14 rounded-full p-0.5 bg-gradient-to-tr from-red-600 via-rose-500 to-amber-400 shadow-sm flex items-center justify-center">
-              <div className="size-full rounded-full bg-white flex items-center justify-center text-xl">
-                {item.icon}
+            <div
+              className={`relative size-13 rounded-2xl border p-0.5 bg-white shadow-xs flex items-center justify-center ${item.ring} group-hover:scale-105 transition-transform`}
+            >
+              <div
+                className={`size-full rounded-xl flex items-center justify-center ${item.tone}`}
+              >
+                <item.Icon className="size-5" />
               </div>
+              {item.isLive && (
+                <span className="absolute -top-1 -right-1 flex size-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full size-3 bg-emerald-500 ring-2 ring-white" />
+                </span>
+              )}
             </div>
-            <span className="text-[10px] font-bold text-slate-700 tracking-tight">{item.label}</span>
+            <span className="text-[10px] font-bold text-slate-700 tracking-tight">
+              {item.label}
+            </span>
           </Link>
         ))}
       </div>

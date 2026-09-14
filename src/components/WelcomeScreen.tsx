@@ -9,25 +9,25 @@ const slides = [
     Icon: Ticket,
     title: "Every campus event, one app",
     body: "Technorazz, Freshers, Sports Meet, Rang, workshops and more — browse and register in seconds.",
-    color: "from-primary to-accent",
+    color: "from-red-700 to-rose-900",
   },
   {
     Icon: QrCode,
     title: "QR passes on your phone",
     body: "Show your QR at the gate — staff scans it live to mark attendance. No printouts, no queues.",
-    color: "from-accent to-primary",
+    color: "from-amber-600 to-red-700",
   },
   {
     Icon: Radio,
     title: "Live streams & voting",
     body: "Watch every stage live in HD and vote for your favourite contestants in real time.",
-    color: "from-success to-primary",
+    color: "from-red-800 to-amber-700",
   },
   {
     Icon: Award,
     title: "Verified certificates",
     body: "Winner and participation certificates signed with Ed25519 — download as PNG or PDF, verify instantly.",
-    color: "from-primary to-accent",
+    color: "from-rose-700 to-red-900",
   },
 ];
 
