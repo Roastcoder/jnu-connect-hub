@@ -62,9 +62,9 @@ export function TopBar() {
   if (user) items.push({ to: "/profile", label: "Profile", Icon: User });
 
   return (
-    <header className="sticky top-0 z-50 w-full transition-all duration-300">
-      <div className="mx-auto max-w-6xl px-4 py-3">
-        <div className="liquid-glass-elevated flex items-center justify-between rounded-full px-4 py-2 transition-all">
+    <header className="relative z-30 w-full">
+      <div className="mx-auto max-w-6xl px-4 pt-3 pb-1">
+        <div className="flex items-center justify-between rounded-2xl sm:rounded-full bg-white/85 border border-rose-100/90 shadow-sm px-4 py-2.5 backdrop-blur-md transition-all">
           <Link to="/" className="flex items-center gap-2.5 group">
             <div className="transition-transform duration-300 group-hover:scale-105">
               <JnuLogo />
