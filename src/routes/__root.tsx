@@ -93,14 +93,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "The official event platform of Jaipur National University. Browse events, register for Technorazz, Freshers, Sports Meet and more, and collect your certificates.",
+          "The official event platform of Jaipur National University. Browse events, register for Technorazz 2026 competitions, workshops and more, and collect your certificates.",
       },
       { name: "author", content: "Jaipur National University" },
       { property: "og:title", content: "JNU Connect — One App For Every Campus Event" },
       {
         property: "og:description",
         content:
-          "Discover, register and celebrate every JNU event — Technorazz, Freshers, Sports Meet, Cultural Fests, workshops and more.",
+          "Discover, register and celebrate every JNU event — Technorazz 2026, Hackathons, Cultural Fests, Workshops and more.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

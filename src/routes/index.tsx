@@ -102,7 +102,7 @@ function Home() {
     });
   }, []);
 
-  const categories = ["All", "Tech", "Cultural", "Sports", "Workshop", "Freshers"];
+  const categories = ["All", "Tech", "Cultural", "Sports", "Workshop"];
 
   const filteredEvents =
     selectedCategory === "All"

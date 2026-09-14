@@ -8,7 +8,7 @@ const slides = [
   {
     Icon: Ticket,
     title: "Every campus event, one app",
-    body: "Technorazz, Freshers, Sports Meet, Rang, workshops and more — browse and register in seconds.",
+    body: "Technorazz 2026, Hackathons, Robotics, Cultural Battles, and workshops — browse and register in seconds.",
     color: "from-red-700 to-rose-900",
   },
   {

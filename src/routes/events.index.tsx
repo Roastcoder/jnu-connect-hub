@@ -21,9 +21,6 @@ const categories: (EventCategory | "All")[] = [
   "Cultural",
   "Sports",
   "Workshop",
-  "Freshers",
-  "Farewell",
-  "Alumni",
 ];
 
 function EventsPage() {

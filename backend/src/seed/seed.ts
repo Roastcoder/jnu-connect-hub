@@ -227,6 +227,7 @@ async function seed() {
   console.log('✅ Departments seeded');
 
   // 3. Create Technorazz 2026 & All Campus Events
+  // 3. Create Technorazz 2026 Official Events (Strictly matching official University document)
   const officialEvents = [
     {
       id: 'technorazz-2026',
@@ -264,104 +265,6 @@ async function seed() {
       ],
     },
     {
-      id: 'freshers-2026',
-      name: 'Freshers Party 2026',
-      tagline: 'Welcome the new stars of JNU.',
-      category: 'Freshers',
-      description: 'An unforgettable evening welcoming the freshers to the JNU family with performances, competitions and a live DJ.',
-      venue: 'JNU Main Auditorium',
-      start_date: new Date('2026-08-20T17:00:00Z'),
-      end_date: new Date('2026-08-20T23:00:00Z'),
-      price: 250,
-      seats_left: 85,
-      prize_pool: 'Titles & Sashes',
-      participants: '180+',
-      featured: true,
-      image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1200&auto=format&fit=crop&q=80',
-      rules: [
-        'Open to first-year students only.',
-        'Dress code: Formal / Ethnic.',
-        'Entry closes 30 minutes after start.',
-      ],
-      schedule: [
-        { time: '06:00 PM', title: 'Welcome & Introductions' },
-        { time: '07:00 PM', title: 'Mr & Ms Fresher Rounds' },
-        { time: '09:00 PM', title: 'Talent Hunt Finale' },
-        { time: '10:30 PM', title: 'DJ Night' },
-      ],
-    },
-    {
-      id: 'sports-2026',
-      name: 'Sports Meet 2026',
-      tagline: 'Fair play. Fierce spirit. One JNU.',
-      category: 'Sports',
-      description: 'Five days of adrenaline across cricket, football, basketball, volleyball, chess and badminton.',
-      venue: 'Sports Ground, JNU Main Campus',
-      start_date: new Date('2026-10-10T08:00:00Z'),
-      end_date: new Date('2026-10-14T18:00:00Z'),
-      price: 100,
-      seats_left: 450,
-      prize_pool: 'Trophies & Medals',
-      participants: '600+',
-      featured: true,
-      image: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1200&auto=format&fit=crop&q=80',
-      rules: [
-        'Team captains must submit rosters 48h before the event.',
-        'Sports kit and shoes are mandatory.',
-        'Referee decisions are final.',
-      ],
-      schedule: [
-        { time: 'Day 1', title: 'Cricket & Football Openers' },
-        { time: 'Day 2', title: 'Basketball & Volleyball' },
-        { time: 'Day 3', title: 'Chess & Badminton' },
-        { time: 'Day 5', title: 'Finals & Prize Distribution' },
-      ],
-    },
-    {
-      id: 'cultural-fest-2026',
-      name: 'Rang Cultural Fest 2026',
-      tagline: 'Colours, rhythms and stories of India.',
-      category: 'Cultural',
-      description: 'A three-day celebration of dance, drama, music and folk traditions from across India.',
-      venue: 'Open Air Theatre, JNU',
-      start_date: new Date('2026-11-05T15:00:00Z'),
-      end_date: new Date('2026-11-07T22:00:00Z'),
-      price: 200,
-      seats_left: 300,
-      prize_pool: '₹25,000',
-      participants: '400+',
-      featured: false,
-      image: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=1200&auto=format&fit=crop&q=80',
-      rules: ['Traditional attire encouraged.', 'Group performers must register together.'],
-      schedule: [
-        { time: 'Day 1', title: 'Classical Night' },
-        { time: 'Day 2', title: 'Drama & Poetry' },
-        { time: 'Day 3', title: 'Folk & Fusion Finale' },
-      ],
-    },
-    {
-      id: 'ai-workshop',
-      name: 'AI & LLM Workshop',
-      tagline: 'Build production-ready AI apps in a weekend.',
-      category: 'Workshop',
-      description: 'Hands-on 2-day workshop covering prompt engineering, RAG systems and deploying LLM apps.',
-      venue: 'SCSS Lab Block, JNU',
-      start_date: new Date('2026-09-05T09:00:00Z'),
-      end_date: new Date('2026-09-06T17:00:00Z'),
-      price: 350,
-      seats_left: 40,
-      prize_pool: 'Certificates of Mastery',
-      participants: '60 seats',
-      featured: false,
-      image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1200&auto=format&fit=crop&q=80',
-      rules: ['Bring your own laptop.', 'Basic Python knowledge required.'],
-      schedule: [
-        { time: 'Day 1 · 10:00 AM', title: 'Foundations & Prompting' },
-        { time: 'Day 1 · 02:00 PM', title: 'Retrieval Augmented Generation' },
-        { time: 'Day 2 · 10:00 AM', title: 'Fine-tuning & Deployment' },
-      ],
-    },
-    {
       id: 'cyclothon-2026',
       name: 'Cyclothon 2026',
       tagline: 'Ride the campus — Plus Gate to SADTM Main Gate.',
@@ -384,7 +287,183 @@ async function seed() {
       ],
       schedule: [{ time: '10:30 AM', title: 'Flag off from Plus Gate' }],
     },
+    {
+      id: 'walkathon-2026',
+      name: 'Walkathon 2026',
+      tagline: 'Walk for the campus — together, at your own pace.',
+      category: 'Sports',
+      description: 'An in-house walkathon along the Main Campus route from Plus Gate to the Medical Lawn and back.',
+      venue: 'Plus Gate near Residential Area → Medical Lawn → Back',
+      start_date: new Date('2026-09-29T10:30:00Z'),
+      end_date: new Date('2026-09-29T12:00:00Z'),
+      price: 0,
+      seats_left: 300,
+      prize_pool: 'Participation Medals',
+      participants: '300+',
+      featured: false,
+      image: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1200&auto=format&fit=crop&q=80',
+      rules: ['Carry valid JNU ID.', 'Follow marked route.'],
+      schedule: [{ time: '10:30 AM', title: 'Flag off' }],
+    },
+    {
+      id: 'devils-circuit-2026',
+      name: "Devil's Circuit — Hurdle Race",
+      tagline: 'Crawl, climb, balance and sprint through the circuit.',
+      category: 'Sports',
+      description: 'An obstacle race across hurdles, tyres, cones, crawl tunnels, low walls, and balance beams.',
+      venue: 'Medical Ground, Near Hostels, Main Campus',
+      start_date: new Date('2026-09-29T12:30:00Z'),
+      end_date: new Date('2026-09-29T14:00:00Z'),
+      price: 0,
+      seats_left: 150,
+      prize_pool: 'Winner Trophy & Cash Prize',
+      participants: '150+',
+      featured: false,
+      image: 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?w=1200&auto=format&fit=crop&q=80',
+      rules: ['Complete every obstacle in prescribed order.', 'False start penalty.'],
+      schedule: [{ time: '12:30 PM', title: 'Race Commences' }],
+    },
+    {
+      id: 'live-band-2026',
+      name: 'Live Performance — Band',
+      tagline: 'Campus bands take over the Main Campus stage.',
+      category: 'Cultural',
+      description: 'An in-house live band performance opening the cultural line-up of Technorazz 2026.',
+      venue: 'Main Campus',
+      start_date: new Date('2026-09-29T14:00:00Z'),
+      end_date: new Date('2026-09-29T15:15:00Z'),
+      price: 0,
+      seats_left: 500,
+      prize_pool: 'Best Band Trophy',
+      participants: '10 Bands',
+      featured: false,
+      image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80',
+      rules: ['15 mins performance per band.'],
+      schedule: [{ time: '02:00 PM', title: 'Bands Live' }],
+    },
+    {
+      id: 'gen-z-jnu-2026',
+      name: 'Gen Z JNU',
+      tagline: 'Talent, sport, costume and the ramp — all in one title.',
+      category: 'Cultural',
+      description: 'An in-house personality hunt for JNU students across talent, sports, costume, and ramp walk with Q&A.',
+      venue: 'Central Ground, SADTM Campus',
+      start_date: new Date('2026-09-29T15:15:00Z'),
+      end_date: new Date('2026-09-29T16:15:00Z'),
+      price: 0,
+      seats_left: 100,
+      prize_pool: 'Mr & Ms Gen Z Titles',
+      participants: '80 Contestants',
+      featured: true,
+      image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1200&auto=format&fit=crop&q=80',
+      rules: ['Open to JNU students only.', 'Portfolio submission mandatory.'],
+      schedule: [{ time: '03:15 PM', title: 'Rounds Begin' }],
+    },
+    {
+      id: 'dance-challenge-2026',
+      name: 'The Great Dance Challenge',
+      tagline: 'The biggest dance battle of Technorazz.',
+      category: 'Cultural',
+      description: 'Solo and group dance championship on the main Central Lawn stage.',
+      venue: 'Central Lawn, SADTM Campus',
+      start_date: new Date('2026-09-30T16:30:00Z'),
+      end_date: new Date('2026-09-30T18:20:00Z'),
+      price: 0,
+      seats_left: 500,
+      prize_pool: '₹50,000 Cash + Trophies',
+      participants: '200 Dancers',
+      featured: true,
+      image: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=1200&auto=format&fit=crop&q=80',
+      rules: ['Solo (3-4 mins), Group (5-8 mins).', 'Original tracks required.'],
+      schedule: [{ time: '04:30 PM', title: 'Dance Showdown' }],
+    },
+    {
+      id: 'stage-on-rage-2026',
+      name: 'Stage on Rage — Fashion Show',
+      tagline: 'The ramp showdown of Technorazz 2026.',
+      category: 'Cultural',
+      description: 'Theatrical fashion showcase judged on styling, theme, choreography and stage presence.',
+      venue: 'Central Lawn, SADTM Campus',
+      start_date: new Date('2026-09-30T18:20:00Z'),
+      end_date: new Date('2026-09-30T19:45:00Z'),
+      price: 0,
+      seats_left: 500,
+      prize_pool: 'Best Team & Best Model Trophies',
+      participants: '15 Teams',
+      featured: true,
+      image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1200&auto=format&fit=crop&q=80',
+      rules: ['Theme based rounds.', 'Maximum 10 mins per team.'],
+      schedule: [{ time: '06:20 PM', title: 'Ramp Walk' }],
+    },
+    {
+      id: 'hackathon-2026',
+      name: 'Hackathon & Media Hack 180°',
+      tagline: '24-hour innovation and coding marathon.',
+      category: 'Tech',
+      description: 'Flagship 24h development sprint across software, AI, and digital media challenges.',
+      venue: 'MCA Block & Filmtech Auditorium, Media Block, SADTM',
+      start_date: new Date('2026-09-30T09:30:00Z'),
+      end_date: new Date('2026-10-01T12:00:00Z'),
+      price: 0,
+      seats_left: 200,
+      prize_pool: '₹1,00,000 Cash Pool',
+      participants: '60 Teams',
+      featured: true,
+      image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200&auto=format&fit=crop&q=80',
+      rules: ['Teams of 2-4.', 'Original code only created during the sprint.'],
+      schedule: [{ time: '09:30 AM', title: 'Sprint Kickoff' }],
+    },
+    {
+      id: 'drone-race-2026',
+      name: 'Drone Race',
+      tagline: 'Fly the line, beat the clock.',
+      category: 'Tech',
+      description: 'High-speed obstacle navigation drone racing tournament on the Central Lawn.',
+      venue: 'Central Lawn, SADTM Campus',
+      start_date: new Date('2026-10-01T10:00:00Z'),
+      end_date: new Date('2026-10-01T12:00:00Z'),
+      price: 0,
+      seats_left: 50,
+      prize_pool: '₹30,000 Cash + Drone Kits',
+      participants: '30 Pilots',
+      featured: true,
+      image: 'https://images.unsplash.com/photo-1527977966376-1c8408f9f108?w=1200&auto=format&fit=crop&q=80',
+      rules: ['Standard FPV safety guidelines.', 'Time-attack format.'],
+      schedule: [{ time: '10:00 AM', title: 'Aerial Course Open' }],
+    },
+    {
+      id: 'iot-robotics-2026',
+      name: 'IoT Based Robotics Competition',
+      tagline: 'Design and operate smart autonomous robots.',
+      category: 'Tech',
+      description: 'Teams demonstrate IoT-driven connected robots and automated prototypes.',
+      venue: 'Ground Floor, Engineering Block, Main Campus',
+      start_date: new Date('2026-10-01T10:00:00Z'),
+      end_date: new Date('2026-10-01T12:30:00Z'),
+      price: 0,
+      seats_left: 80,
+      prize_pool: '₹40,000 Cash + Shield',
+      participants: '40 Teams',
+      featured: true,
+      image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1200&auto=format&fit=crop&q=80',
+      rules: ['Autonomous & manual rounds.', 'Live demonstration.'],
+      schedule: [{ time: '10:00 AM', title: 'Robo Arena' }],
+    },
   ];
+
+  // Purge any non-Technorazz events from previous tests
+  const validEventIds = officialEvents.map((e) => e.id);
+  const allExistingEvents = await eventRepo.find();
+  for (const existing of allExistingEvents) {
+    if (!validEventIds.includes(existing.id)) {
+      try {
+        await subEventRepo.delete({ event_id: existing.id });
+        await specialGuestRepo.delete({ event_id: existing.id });
+        await eventRepo.delete(existing.id);
+        console.log(`🗑️ Removed non-Technorazz event: ${existing.name}`);
+      } catch {}
+    }
+  }
 
   for (const ev of officialEvents) {
     const existing = await eventRepo.findOne({ where: { id: ev.id } });
@@ -396,35 +475,38 @@ async function seed() {
   }
   console.log('✅ Events seeded');
 
-  // 4. Create All 17 Official Sub-Events of Technorazz 2026
+  // 4. Create All 17 Official Sub-Events of Technorazz 2026 (From Official Document)
   const officialSubEvents = [
-    { event_id: 'technorazz-2026', name: 'IoT Based Robotic Competition', description: 'Design & operate smart autonomous robots', fee: 200 },
-    { event_id: 'technorazz-2026', name: 'Drone Race', description: 'High-speed obstacle navigation drone tournament', fee: 250 },
-    { event_id: 'technorazz-2026', name: 'Hackathon', description: '24-hour innovation and coding marathon', fee: 300 },
-    { event_id: 'technorazz-2026', name: 'Media Hack 180°', description: 'Creative digital media and reporting sprint', fee: 150 },
-    { event_id: 'technorazz-2026', name: 'Prompt Battle Royale', description: 'Generative AI and prompt engineering showdown', fee: 150 },
-    { event_id: 'technorazz-2026', name: 'Ad-War - Video Advertisement Challenge', description: 'Create the most viral commercial in 3 hours', fee: 200 },
-    { event_id: 'technorazz-2026', name: 'Mind Fest (General Quiz)', description: 'Ultimate test of intellect, trivia, and tech', fee: 100 },
-    { event_id: 'technorazz-2026', name: 'Start Up Spirit (Shark Tank)', description: 'Pitch your venture to angel investors and jury', fee: 250 },
-    { event_id: 'technorazz-2026', name: 'Game of Valor (Call of Duty Online Gaming)', description: 'Multiplayer esports battle royale', fee: 200 },
-    { event_id: 'technorazz-2026', name: 'Chef in Making', description: 'Live culinary arts and gastronomy competition', fee: 200 },
-    { event_id: 'technorazz-2026', name: 'Cryptic Hunt', description: 'Campus-wide code-breaking and riddle hunt', fee: 150 },
-    { event_id: 'technorazz-2026', name: 'The Great Dance Challenge', description: 'Solo and group dance championship', fee: 250 },
-    { event_id: 'technorazz-2026', name: 'Stage on Rage', description: 'Theatrical drama, street play, and mime', fee: 200 },
-    { event_id: 'technorazz-2026', name: 'The Influencer', description: 'Content creation and digital persona contest', fee: 150 },
-    { event_id: 'technorazz-2026', name: 'Crack the Crime', description: 'Forensic and forensic investigation simulation', fee: 150 },
-    { event_id: 'technorazz-2026', name: 'Crack the Biological Mystery', description: 'Biomedical puzzle-solving quest', fee: 150 },
-    { event_id: 'technorazz-2026', name: 'Reel Rush 2026 (Online)', description: 'Campus reel making & viral video contest', fee: 100 },
-    // Freshers sub-events
-    { event_id: 'freshers-2026', name: 'Mr Fresher', description: 'Personality contest', fee: 100 },
-    { event_id: 'freshers-2026', name: 'Ms Fresher', description: 'Personality contest', fee: 100 },
-    { event_id: 'freshers-2026', name: 'Dance Competition', description: 'Solo & group', fee: 150 },
-    { event_id: 'freshers-2026', name: 'Singing Competition', description: 'Solo performance', fee: 150 },
-    // Sports sub-events
-    { event_id: 'sports-2026', name: 'Cricket T10', description: 'Inter-department T10 cricket clash', fee: 500 },
-    { event_id: 'sports-2026', name: 'Football 7-a-side', description: '7v7 knock-out tournament', fee: 500 },
-    { event_id: 'sports-2026', name: 'Basketball 5v5', description: 'Inter-college cup', fee: 400 },
+    { event_id: 'technorazz-2026', name: 'IoT Based Robotic Competition', description: 'Design & operate smart autonomous robots', fee: 0 },
+    { event_id: 'technorazz-2026', name: 'Drone Race', description: 'High-speed obstacle navigation drone tournament', fee: 0 },
+    { event_id: 'technorazz-2026', name: 'Hackathon', description: '24-hour innovation and coding marathon', fee: 0 },
+    { event_id: 'technorazz-2026', name: 'Media Hack 180° — Edit Wars', description: 'Same footage, different story challenge', fee: 0 },
+    { event_id: 'technorazz-2026', name: 'Media Hack 180° — Silent Sell', description: 'Advertise without words creative sprint', fee: 0 },
+    { event_id: 'technorazz-2026', name: 'Prompt Battle Royale', description: 'Generative AI and prompt engineering showdown', fee: 0 },
+    { event_id: 'technorazz-2026', name: 'Ad-War - Video Advertisement Challenge', description: 'Create the most viral commercial in 3 hours', fee: 0 },
+    { event_id: 'technorazz-2026', name: 'Mind Fest (General Quiz)', description: 'Ultimate test of intellect, trivia, and tech', fee: 0 },
+    { event_id: 'technorazz-2026', name: 'Start Up Spirit (Shark Tank)', description: 'Pitch your venture to angel investors and jury', fee: 0 },
+    { event_id: 'technorazz-2026', name: 'Game of Valor (Call of Duty)', description: 'Multiplayer esports battle royale tournament', fee: 0 },
+    { event_id: 'technorazz-2026', name: 'Chef in Making', description: 'Live culinary arts and gastronomy competition', fee: 0 },
+    { event_id: 'technorazz-2026', name: 'Cryptic Hunt', description: 'Campus-wide code-breaking and riddle hunt', fee: 0 },
+    { event_id: 'technorazz-2026', name: 'The Great Dance Challenge', description: 'Solo and group dance championship', fee: 0 },
+    { event_id: 'technorazz-2026', name: 'Stage on Rage', description: 'Theatrical drama, street play, and fashion show', fee: 0 },
+    { event_id: 'technorazz-2026', name: 'The Influencer', description: 'Content creation and digital persona contest', fee: 0 },
+    { event_id: 'technorazz-2026', name: 'Crack the Crime — Escape Room', description: 'Forensic investigation and puzzle simulation', fee: 0 },
+    { event_id: 'technorazz-2026', name: 'Crack the Biological Mystery', description: 'Biomedical locked-room quest', fee: 0 },
+    { event_id: 'technorazz-2026', name: 'Reel Rush 2026 (Online)', description: 'Campus reel making & viral video contest', fee: 0 },
   ];
+
+  // Purge any obsolete sub-events
+  const validSubNames = officialSubEvents.map((s) => s.name);
+  const allExistingSubs = await subEventRepo.find();
+  for (const s of allExistingSubs) {
+    if (!validSubNames.includes(s.name) || s.event_id !== 'technorazz-2026') {
+      try {
+        await subEventRepo.delete(s.id);
+      } catch {}
+    }
+  }
 
   for (const sub of officialSubEvents) {
     const existing = await subEventRepo.findOne({ where: { name: sub.name, event_id: sub.event_id } });
@@ -434,7 +516,7 @@ async function seed() {
   }
   console.log('✅ Sub-events seeded');
 
-  // 5. Create Star-Vibes Celebrity Special Guests from Poster
+  // 5. Create Star-Vibes Celebrity Special Guests (From Official Document)
   const specialGuests = [
     {
       event_id: 'technorazz-2026',
@@ -464,21 +546,18 @@ async function seed() {
       bio: 'Celebrated Bollywood vocalist performing romantic and energetic tracks on Day 3.',
       photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80',
     },
-    {
-      event_id: 'freshers-2026',
-      name: 'Shirley Setia',
-      title: 'Playback Singer & Actor',
-      bio: 'Chart-topping Bollywood artist joining as celebrity guest of honour.',
-      photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80',
-    },
-    {
-      event_id: 'sports-2026',
-      name: 'Kapil Dev',
-      title: 'Cricket Legend · 1983 World Cup Winning Captain',
-      bio: 'Chief guest for the opening ceremony and tournament flag-off.',
-      photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=80',
-    },
   ];
+
+  // Purge obsolete guests
+  const validGuestNames = specialGuests.map((g) => g.name);
+  const allExistingGuests = await specialGuestRepo.find();
+  for (const g of allExistingGuests) {
+    if (!validGuestNames.includes(g.name)) {
+      try {
+        await specialGuestRepo.delete(g.id);
+      } catch {}
+    }
+  }
 
   for (const sg of specialGuests) {
     const existing = await specialGuestRepo.findOne({ where: { name: sg.name } });

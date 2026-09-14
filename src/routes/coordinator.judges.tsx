@@ -12,7 +12,7 @@ type Judge = { id: string; name: string; expertise: string; event: string };
 const seedJudges: Judge[] = [
   { id: "j1", name: "Prof. Anil Kapoor", expertise: "Software Architecture", event: "Technorazz 2026" },
   { id: "j2", name: "Ms. Nisha Rao", expertise: "Design & UX", event: "Technorazz 2026" },
-  { id: "j3", name: "Dr. Vivek Menon", expertise: "Classical Music", event: "Freshers Party 2026" },
+  { id: "j3", name: "Dr. Vivek Menon", expertise: "Classical Music & Dance", event: "The Great Dance Challenge" },
 ];
 
 function JudgesPage() {
