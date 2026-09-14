@@ -56,21 +56,37 @@ export type VotingWindowState = {
 };
 
 const VOTING_KEY = "jnu:voting-window";
+const DEFAULT_VOTING_WINDOW: VotingWindowState = {
+  active: true,
+  eventId: null,
+  endsAt: null,
+};
+
 export function loadVotingWindow(): VotingWindowState {
-  if (typeof localStorage === "undefined") return { active: true, eventId: null, endsAt: null };
+  if (typeof window === "undefined" || typeof localStorage === "undefined") {
+    return DEFAULT_VOTING_WINDOW;
+  }
   try {
     const raw = localStorage.getItem(VOTING_KEY);
     if (raw) return JSON.parse(raw) as VotingWindowState;
   } catch {}
-  return { active: true, eventId: null, endsAt: Date.now() + 1000 * 60 * 60 * 6 };
+  return DEFAULT_VOTING_WINDOW;
 }
+
 export function saveVotingWindow(s: VotingWindowState) {
-  if (typeof localStorage !== "undefined") localStorage.setItem(VOTING_KEY, JSON.stringify(s));
+  if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+    localStorage.setItem(VOTING_KEY, JSON.stringify(s));
+  }
   getChannel<VotingWindowState>("jnu:voting-window").publish(s);
 }
 
 export function useVotingWindow() {
-  const [state, setState] = useState<VotingWindowState>(() => loadVotingWindow());
+  const [state, setState] = useState<VotingWindowState>(DEFAULT_VOTING_WINDOW);
+
+  useEffect(() => {
+    setState(loadVotingWindow());
+  }, []);
+
   useChannel<VotingWindowState>("jnu:voting-window", (s) => setState(s));
   return state;
 }

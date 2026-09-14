@@ -116,15 +116,17 @@ function StreamPage() {
   const [showQuality, setShowQuality] = useState(false);
   // Per-stream persisted audio prefs
   const audioStorageKey = `jnu:stream:${stream.id}:audio`;
-  const [muted, setMuted] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    try { const s = JSON.parse(localStorage.getItem(audioStorageKey) || "null"); return s?.muted ?? false; } catch { return false; }
-  });
-  const [volume, setVolume] = useState<number>(() => {
-    if (typeof window === "undefined") return 80;
-    try { const s = JSON.parse(localStorage.getItem(audioStorageKey) || "null"); return typeof s?.volume === "number" ? s.volume : 80; } catch { return 80; }
-  });
+  const [muted, setMuted] = useState<boolean>(false);
+  const [volume, setVolume] = useState<number>(80);
   const [showVolume, setShowVolume] = useState(false);
+
+  useEffect(() => {
+    try {
+      const s = JSON.parse(localStorage.getItem(audioStorageKey) || "null");
+      if (s?.muted !== undefined) setMuted(s.muted);
+      if (typeof s?.volume === "number") setVolume(s.volume);
+    } catch {}
+  }, [audioStorageKey]);
   // True until the browser confirms audio is actually playing unmuted
   const [needsSoundGesture, setNeedsSoundGesture] = useState<boolean>(false);
   const [hasStarted, setHasStarted] = useState<boolean>(false);

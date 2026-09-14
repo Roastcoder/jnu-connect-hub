@@ -1,5 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { createFileRoute } from '@tanstack/react-router'
+import React, { useEffect, useMemo, useState } from "react";
 import { Clock, Flame, Heart, History, TrendingUp, Trophy } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { syncContestantsFromDb, contestants, type Contestant } from "@/lib/mock-data";
@@ -19,13 +19,16 @@ export const Route = createFileRoute("/voting")({
 type VoteEvent = { contestantId: string; at: number };
 
 function useCountdown(target: number | null) {
-  const [now, setNow] = useState(Date.now());
+  const [now, setNow] = useState<number | null>(null);
+
   useEffect(() => {
+    setNow(Date.now());
     if (!target) return;
     const id = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(id);
   }, [target]);
-  if (!target) return "";
+
+  if (!target || now === null) return "";
   const diff = Math.max(0, target - now);
   const h = Math.floor(diff / 3.6e6);
   const m = Math.floor((diff % 3.6e6) / 6e4);
@@ -35,19 +38,27 @@ function useCountdown(target: number | null) {
 
 function VotingPage() {
   const win = useVotingWindow();
-  const active = win.active && (win.endsAt === null || win.endsAt > Date.now());
+  const [now, setNow] = useState<number | null>(null);
   const countdown = useCountdown(win.endsAt);
   const [cat, setCat] = useState("All");
   const [contestantList, setContestantList] = useState<Contestant[]>(contestants);
-  const [voted, setVoted] = useState<Record<string, boolean>>(() => {
-    if (typeof localStorage === "undefined") return {};
-    try { return JSON.parse(localStorage.getItem("jnu:voted") ?? "{}"); } catch { return {}; }
-  });
-  const [history, setHistory] = useState<VoteEvent[]>(() => {
-    if (typeof localStorage === "undefined") return [];
-    try { return JSON.parse(localStorage.getItem("jnu:vote-history") ?? "[]"); } catch { return []; }
-  });
+  const [voted, setVoted] = useState<Record<string, boolean>>({});
+  const [history, setHistory] = useState<VoteEvent[]>([]);
   const [bumps, setBumps] = useState<Record<string, number>>({});
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    setNow(Date.now());
+    try {
+      const v = localStorage.getItem("jnu:voted");
+      if (v) setVoted(JSON.parse(v));
+      const h = localStorage.getItem("jnu:vote-history");
+      if (h) setHistory(JSON.parse(h));
+    } catch {}
+  }, []);
+
+  const active = win.active && (win.endsAt === null || now === null || win.endsAt > now);
 
   useEffect(() => {
     syncContestantsFromDb().then((data) => {
@@ -61,8 +72,19 @@ function VotingPage() {
   });
   const emitVote = useChannel<{ contestantId: string; delta: number }>("jnu:votes", () => {});
 
-  useEffect(() => { localStorage.setItem("jnu:voted", JSON.stringify(voted)); }, [voted]);
-  useEffect(() => { localStorage.setItem("jnu:vote-history", JSON.stringify(history)); }, [history]);
+  useEffect(() => {
+    if (!mounted) return;
+    try {
+      localStorage.setItem("jnu:voted", JSON.stringify(voted));
+    } catch {}
+  }, [voted, mounted]);
+
+  useEffect(() => {
+    if (!mounted) return;
+    try {
+      localStorage.setItem("jnu:vote-history", JSON.stringify(history));
+    } catch {}
+  }, [history, mounted]);
 
   const categories = useMemo(() => {
     return ["All", ...Array.from(new Set(contestantList.map((c) => c.eventCategory)))];
