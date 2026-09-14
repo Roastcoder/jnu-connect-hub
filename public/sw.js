@@ -1,6 +1,6 @@
 // JNU Connect — basic offline-first service worker
-const CACHE = "jnu-connect-v1";
-const CORE = ["/", "/manifest.webmanifest", "/icon-192.png", "/icon-512.png"];
+const CACHE = "jnu-connect-v2";
+const CORE = ["/manifest.webmanifest", "/icon-192.png", "/icon-512.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE)).catch(() => {}));
