@@ -126,133 +126,91 @@ function Home() {
   const scheduleDays = [
     {
       day: 1,
-      date: "Mon, Sept 28",
-      title: "Inauguration & Tech Summit",
+      date: "Tue, 29 Sept 2026",
+      title: "Inauguration & In-House Tournaments",
       items: [
-        { time: "09:30 AM", title: "Grand Opening & Lighting of Lamp", venue: "Main Auditorium", badge: "Ceremony" },
-        { time: "11:00 AM", title: "24-Hour Hackathon Kickoff", venue: "SILAS Tech Hub", badge: "Technical" },
-        { time: "02:00 PM", title: "Robo-Wars & Drone Racing Arena", venue: "Open Ground B", badge: "Robotics" },
-        { time: "06:00 PM", title: "Band Symphony & Unplugged Eve", venue: "Central Amphitheatre", badge: "Cultural" },
+        { time: "10:30 AM", title: "Cyclothon & Walkathon", venue: "Plus Gate → SADTM Campus", badge: "In-House" },
+        { time: "12:30 PM", title: "Devil's Circuit (Hurdle Race)", venue: "Medical Ground, IMSRC", badge: "Sports" },
+        { time: "02:00 PM", title: "Live Band Performance", venue: "Main Campus", badge: "Cultural" },
+        { time: "03:15 PM", title: "Gen Z JNU Talent Round", venue: "Central Ground, SADTM", badge: "Cultural" },
+        { time: "04:15 PM", title: "Grand Inauguration Ceremony", venue: "Central Lawn, SADTM", badge: "Ceremony" },
+        { time: "04:30 PM", title: "The Great Dance Challenge (In-House)", venue: "Central Lawn, SADTM", badge: "Dance" },
+        { time: "06:30 PM", title: "Stage on Rage (In-House)", venue: "Central Lawn, SADTM", badge: "Fashion" },
       ],
     },
     {
       day: 2,
-      date: "Tue, Sept 29",
-      title: "Cultural & Creative Fest",
+      date: "Wed, 30 Sept 2026",
+      title: "Flagship Competitions & Musical Evening",
       items: [
-        { time: "10:00 AM", title: "National Debate & Shark Tank Pitch", venue: "Conference Hall 1", badge: "Management" },
-        { time: "11:30 AM", title: "Esports Arena (Valorant & BGMI)", venue: "Gaming Lab 3", badge: "Gaming" },
-        { time: "03:00 PM", title: "Fashion Extravaganza 'Vogue JNU'", venue: "Main Stage", badge: "Cultural" },
-        { time: "07:00 PM", title: "EDM Fusion & DJ Night", venue: "Fest Ground", badge: "Star Event" },
+        { time: "09:30 AM", title: "Hackathon 2026 (All Tracks)", venue: "MCA Block & Media Block, SADTM", badge: "Tech" },
+        { time: "10:00 AM", title: "Chef in Making Culinary Challenge", venue: "HMCT Block, SADTM", badge: "Hospitality" },
+        { time: "10:00 AM", title: "The Start-up Spirit (Shark Tank)", venue: "Auditorium, Engg Block", badge: "Management" },
+        { time: "10:00 AM", title: "Game of Valor (Call of Duty)", venue: "Smart Classrooms, Engg Block", badge: "Esports" },
+        { time: "01:00 PM", title: "Prompt Battle Royale & Cryptic Hunt", venue: "Computer Labs & MCA Block", badge: "AI & Tech" },
+        { time: "02:30 PM", title: "The Influencer & Reel Rush Judgement", venue: "Filmtech Auditorium, Media Block", badge: "Media" },
+        { time: "03:30 PM", title: "Tug of War (Faculty Tournament)", venue: "Central Lawn, SADTM", badge: "Faculty" },
+        { time: "04:30 PM", title: "The Great Dance Challenge (Inter-Univ)", venue: "Central Lawn, SADTM", badge: "Dance" },
+        { time: "06:20 PM", title: "Stage on Rage — Fashion Show (Inter-Univ)", venue: "Central Lawn, SADTM", badge: "Fashion" },
+        { time: "07:45 PM", title: "Musical Evening — Ms. Snehi & Tej Gill", venue: "Central Lawn, SADTM", badge: "Concert" },
       ],
     },
     {
       day: 3,
-      date: "Wed, Sept 30",
-      title: "Grand Finale & Star Celebrity Night",
+      date: "Thu, 1 Oct 2026",
+      title: "Grand Finale, Valedictory & Celebrity DJ Night",
       items: [
-        { time: "10:00 AM", title: "Hackathon Demos & Jury Grand Defense", venue: "SILAS Auditorium", badge: "Finale" },
-        { time: "02:00 PM", title: "Annual Prize Distribution & Trophies", venue: "Main Auditorium", badge: "Valedictory" },
-        { time: "06:30 PM", title: "Celebrity Artist Musical Concert", venue: "Main Stadium Ground", badge: "Celebrity Night" },
+        { time: "10:00 AM", title: "Drone Race Championship", venue: "Central Lawn, SADTM", badge: "Aviation" },
+        { time: "10:00 AM", title: "IoT Based Robotics Competition", venue: "Ground Floor, Engg Block", badge: "Robotics" },
+        { time: "10:00 AM", title: "Mind Fest (General Quiz) & Ad-War", venue: "SIILAS Auditorium & Filmtech", badge: "Quiz & Media" },
+        { time: "10:00 AM", title: "Escape Room (Forensic & Non-forensic)", venue: "Basement, Engg Block", badge: "Forensic" },
+        { time: "01:00 PM", title: "Faculty Musical Chair & Student Tug of War", venue: "Central Lawn, SADTM", badge: "In-House" },
+        { time: "03:00 PM", title: "Best Campus Fashion Icons (Faculty)", venue: "Central Lawn, SADTM", badge: "Fashion" },
+        { time: "04:15 PM", title: "Valedictory Ceremony & Prize Distribution", venue: "Central Lawn, SADTM", badge: "Valedictory" },
+        { time: "05:00 PM", title: "Celebrity Performance — Rishabh Chaturvedi & DJ Tan", venue: "Central Lawn, SADTM", badge: "Star Concert" },
+        { time: "08:00 PM", title: "Mega DJ Night Finale", venue: "Central Lawn, SADTM", badge: "DJ Night" },
       ],
     },
   ];
 
   return (
     <AppShell>
-      {/* Official Poster Popup Banner Component */}
-      {/* Mobile Story / Quick Discovery Row (With Real Photos & Dynamic Rings) */}
+      {/* Quick Navigation Stories */}
       <div className="mb-4 flex items-center gap-3 overflow-x-auto no-scrollbar py-1">
         {[
-          {
-            label: "Hackathon",
-            image: hackathonImg,
-            Icon: Code2,
-            to: "/events",
-            ring: "from-amber-500 via-red-600 to-rose-600",
-            iconBg: "bg-red-600 text-white",
-          },
-          {
-            label: "Cultural",
-            image: culturalImg,
-            Icon: Sparkles,
-            to: "/events",
-            ring: "from-rose-500 via-pink-600 to-amber-500",
-            iconBg: "bg-amber-600 text-white",
-          },
-          {
-            label: "Esports",
-            image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300&h=300&fit=crop&q=80",
-            Icon: Gamepad2,
-            to: "/events",
-            ring: "from-indigo-500 via-purple-600 to-rose-500",
-            iconBg: "bg-indigo-600 text-white",
-          },
-          {
-            label: "Star Night",
-            image: heroFest,
-            Icon: Mic2,
-            to: "/events",
-            ring: "from-red-600 via-amber-500 to-red-700",
-            iconBg: "bg-rose-600 text-white",
-          },
-          {
-            label: "Live 4K",
-            image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=300&h=300&fit=crop&q=80",
-            Icon: Radio,
-            to: "/live",
-            ring: "from-emerald-400 via-teal-500 to-emerald-600",
-            iconBg: "bg-emerald-600 text-white",
-            isLive: true,
-          },
-          {
-            label: "Vote",
-            image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=300&fit=crop&q=80",
-            Icon: Trophy,
-            to: "/voting",
-            ring: "from-amber-400 via-yellow-500 to-amber-600",
-            iconBg: "bg-amber-600 text-white",
-          },
-          {
-            label: "Entry Pass",
-            image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=300&h=300&fit=crop&q=80",
-            Icon: QrCode,
-            to: "/qr-pass",
-            ring: "from-slate-400 via-slate-600 to-slate-800",
-            iconBg: "bg-slate-900 text-white",
-          },
+          { label: "Hackathon", image: hackathonImg, to: "/events", tag: "Tech" },
+          { label: "Robotics", image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=300&h=300&fit=crop&q=80", to: "/events", tag: "IoT" },
+          { label: "Drone Race", image: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=300&h=300&fit=crop&q=80", to: "/events", tag: "Race" },
+          { label: "Dance", image: culturalImg, to: "/events", tag: "Stage" },
+          { label: "Fashion", image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=300&h=300&fit=crop&q=80", to: "/events", tag: "Ramp" },
+          { label: "Star Night", image: heroFest, to: "/events", tag: "Concert" },
+          { label: "Live Stage", image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=300&h=300&fit=crop&q=80", to: "/live", isLive: true, tag: "Live" },
+          { label: "QR Pass", image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=300&h=300&fit=crop&q=80", to: "/qr-pass", tag: "Entry" },
         ].map((item) => (
           <Link
             key={item.label}
             to={item.to}
-            className="flex flex-col items-center gap-1.5 shrink-0 group active:scale-92 transition-all"
+            className="flex flex-col items-center gap-1.5 shrink-0 group active:scale-95 transition-all"
           >
-            {/* Story Ring Avatar with Photo */}
-            <div className={`relative size-14 rounded-full p-[2px] bg-gradient-to-tr ${item.ring} shadow-xs group-hover:scale-105 transition-transform duration-200`}>
-              <div className="size-full rounded-full overflow-hidden bg-white p-[1.5px]">
+            <div className="relative size-14 rounded-full p-0.5 ring-2 ring-slate-200 group-hover:ring-red-700 transition-all duration-200">
+              <div className="size-full rounded-full overflow-hidden bg-slate-100">
                 <img
                   src={item.image}
                   alt={item.label}
-                  className="size-full rounded-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  className="size-full object-cover group-hover:scale-105 transition-transform duration-300"
                   loading="lazy"
                 />
               </div>
 
-              {/* Floating Mini Icon Badge */}
-              <span className={`absolute -bottom-0.5 -right-0.5 grid size-4.5 place-items-center rounded-full ${item.iconBg} ring-2 ring-white shadow-xs`}>
-                <item.Icon className="size-2.5" />
-              </span>
-
-              {/* Live Blinking Pill */}
               {item.isLive && (
-                <span className="absolute -top-1 -right-0.5 flex size-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full size-3 bg-emerald-500 ring-2 ring-white" />
+                <span className="absolute -top-0.5 -right-0.5 flex size-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full size-3 bg-red-600 ring-2 ring-white" />
                 </span>
               )}
             </div>
 
-            <span className="text-[10px] font-bold text-slate-700 tracking-tight group-hover:text-red-700 transition-colors">
+            <span className="text-[11px] font-medium text-slate-800 group-hover:text-red-700 transition-colors">
               {item.label}
             </span>
           </Link>
@@ -292,53 +250,53 @@ function Home() {
               </span>
             </div>
             
-            <h1 className="font-display text-base font-extrabold tracking-tight text-slate-900">
-              Jaipur National University Mega Fest
+            <h1 className="font-display text-base font-bold tracking-tight text-slate-900">
+              Technorazz 2026 • Jaipur National University
             </h1>
-            <p className="text-[11.5px] text-slate-500 mt-0.5 leading-tight">
-              29th Sept – 01st Oct 2026 • Main Campus, Jaipur
+            <p className="text-[12px] text-slate-500 mt-0.5 leading-tight">
+              29 September – 1 October 2026 • Main, SADTM & SIILAS Campuses
             </p>
 
             {/* Action Buttons */}
             <div className="mt-3 flex items-center gap-2">
               <Link
                 to="/events"
-                className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-red-700 to-red-800 text-white py-2 text-xs font-bold shadow-sm active:scale-95 transition-all"
+                className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-red-700 hover:bg-red-800 text-white py-2 text-xs font-semibold shadow-xs active:scale-95 transition-all"
               >
-                Register Now <ArrowRight className="size-3.5" />
+                Browse All Competitions <ArrowRight className="size-3.5" />
               </Link>
               <button
                 onClick={openPosterBanner}
-                className="inline-flex items-center justify-center gap-1 rounded-full border border-rose-200 bg-rose-50 px-3.5 py-2 text-xs font-bold text-rose-900 hover:bg-rose-100 active:scale-95 transition-all"
+                className="inline-flex items-center justify-center gap-1 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-100 active:scale-95 transition-all"
               >
-                <Eye className="size-3.5 text-primary" /> Poster
+                <Eye className="size-3.5 text-slate-500" /> Poster
               </button>
               <Link
                 to="/qr-pass"
-                className="inline-flex items-center justify-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs font-semibold text-slate-800 hover:bg-slate-100 active:scale-95 transition-all"
+                className="inline-flex items-center justify-center gap-1 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-100 active:scale-95 transition-all"
               >
-                <QrCode className="size-3.5 text-primary" /> Pass
+                <QrCode className="size-3.5 text-slate-500" /> Pass
               </Link>
             </div>
           </div>
         </div>
 
         {/* Live Countdown Grid Underneath Banner */}
-        <div className="mt-2.5 grid grid-cols-4 gap-1.5">
+        <div className="mt-2.5 grid grid-cols-4 gap-2">
           {[
             { label: "Days", val: countdown.days },
             { label: "Hours", val: countdown.hours },
-            { label: "Mins", val: countdown.minutes },
-            { label: "Secs", val: countdown.seconds },
+            { label: "Minutes", val: countdown.minutes },
+            { label: "Seconds", val: countdown.seconds },
           ].map((item) => (
             <div
               key={item.label}
-              className="flex flex-col items-center justify-center rounded-xl border border-rose-100/90 bg-white py-1.5 px-1 shadow-sm"
+              className="flex flex-col items-center justify-center rounded-xl border border-slate-200/80 bg-white py-2 px-1 shadow-2xs"
             >
-              <span className="font-display text-base font-bold tracking-tight text-red-700 tabular-nums">
+              <span className="font-display text-base font-bold tracking-tight text-slate-900 tabular-nums">
                 {String(item.val).padStart(2, "0")}
               </span>
-              <span className="text-[8.5px] uppercase tracking-wider text-slate-400 font-bold">
+              <span className="text-[9px] uppercase tracking-wider text-slate-400 font-semibold">
                 {item.label}
               </span>
             </div>
@@ -346,180 +304,164 @@ function Home() {
         </div>
       </section>
 
-      {/* Student Quick Hub (2x2 Touch Bento Grid) */}
+      {/* Campus Shortcuts */}
       <section className="mb-6">
         <div className="mb-2.5 flex items-center justify-between">
-          <h2 className="font-display text-sm font-bold tracking-tight text-slate-900">Student Quick Hub</h2>
-          <span className="text-[10px] font-semibold text-red-700">Explore All</span>
+          <h2 className="font-display text-xs font-bold uppercase tracking-wider text-slate-500">Quick Access</h2>
         </div>
 
-        <div className="grid grid-cols-2 gap-2.5">
-          {/* Bento 1: QR Ticket */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          {/* Quick Access 1: QR Ticket */}
           <Link
             to="/qr-pass"
-            className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-rose-100 bg-white p-3.5 shadow-sm transition-all active:scale-[0.97]"
+            className="group flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-3 shadow-2xs hover:border-slate-300 transition-all active:scale-98"
           >
             <div className="flex items-center justify-between">
-              <div className="grid size-9 place-items-center rounded-xl bg-indigo-50 text-indigo-600">
-                <QrCode className="size-4.5" />
+              <div className="grid size-8 place-items-center rounded-lg bg-slate-100 text-slate-700">
+                <QrCode className="size-4" />
               </div>
-              <span className="flex size-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded-md border border-emerald-200/60">Active</span>
             </div>
-            <div className="mt-3">
-              <div className="font-display text-xs font-bold text-slate-900 group-hover:text-primary transition-colors">
-                My QR Pass
+            <div className="mt-2.5">
+              <div className="font-display text-xs font-bold text-slate-900 group-hover:text-red-700 transition-colors">
+                Digital Pass
               </div>
-              <div className="text-[10px] text-slate-400 mt-0.5">Fast campus entry</div>
+              <div className="text-[11px] text-slate-500">Scannable QR badge</div>
             </div>
           </Link>
 
-          {/* Bento 2: Live Stream */}
+          {/* Quick Access 2: Live Stream */}
           <Link
             to="/live"
-            className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-rose-100 bg-white p-3.5 shadow-sm transition-all active:scale-[0.97]"
+            className="group flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-3 shadow-2xs hover:border-slate-300 transition-all active:scale-98"
           >
             <div className="flex items-center justify-between">
-              <div className="grid size-9 place-items-center rounded-xl bg-rose-50 text-rose-600">
-                <Radio className="size-4.5" />
+              <div className="grid size-8 place-items-center rounded-lg bg-slate-100 text-slate-700">
+                <Radio className="size-4" />
               </div>
-              <span className="inline-flex items-center gap-1 rounded-full bg-rose-100 text-rose-700 px-1.5 py-0.2 text-[8px] font-bold">
-                REC
-              </span>
+              <span className="text-[10px] font-semibold text-red-700 bg-red-50 px-1.5 py-0.5 rounded-md border border-red-200/60">Live</span>
             </div>
-            <div className="mt-3">
-              <div className="font-display text-xs font-bold text-slate-900 group-hover:text-primary transition-colors">
-                Live Stream
+            <div className="mt-2.5">
+              <div className="font-display text-xs font-bold text-slate-900 group-hover:text-red-700 transition-colors">
+                Live Broadcast
               </div>
-              <div className="text-[10px] text-slate-400 mt-0.5">Main stage 4K</div>
+              <div className="text-[11px] text-slate-500">Central Lawn Stage</div>
             </div>
           </Link>
 
-          {/* Bento 3: Voting & Ranks */}
+          {/* Quick Access 3: Voting & Ranks */}
           <Link
             to="/voting"
-            className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-rose-100 bg-white p-3.5 shadow-sm transition-all active:scale-[0.97]"
+            className="group flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-3 shadow-2xs hover:border-slate-300 transition-all active:scale-98"
           >
             <div className="flex items-center justify-between">
-              <div className="grid size-9 place-items-center rounded-xl bg-amber-50 text-amber-600">
-                <Trophy className="size-4.5" />
+              <div className="grid size-8 place-items-center rounded-lg bg-slate-100 text-slate-700">
+                <Trophy className="size-4" />
               </div>
-              <span className="text-[9px] font-extrabold text-amber-600">LIVE</span>
+              <span className="text-[10px] font-semibold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded-md border border-amber-200/60">Polls</span>
             </div>
-            <div className="mt-3">
-              <div className="font-display text-xs font-bold text-slate-900 group-hover:text-primary transition-colors">
-                Vote & Rank
+            <div className="mt-2.5">
+              <div className="font-display text-xs font-bold text-slate-900 group-hover:text-red-700 transition-colors">
+                Live Voting
               </div>
-              <div className="text-[10px] text-slate-400 mt-0.5">Live tally</div>
+              <div className="text-[11px] text-slate-500">Vote for contestants</div>
             </div>
           </Link>
 
-          {/* Bento 4: Certificates */}
+          {/* Quick Access 4: Certificates */}
           <Link
             to="/certificates"
-            className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-rose-100 bg-white p-3.5 shadow-sm transition-all active:scale-[0.97]"
+            className="group flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-3 shadow-2xs hover:border-slate-300 transition-all active:scale-98"
           >
             <div className="flex items-center justify-between">
-              <div className="grid size-9 place-items-center rounded-xl bg-emerald-50 text-emerald-600">
-                <Award className="size-4.5" />
+              <div className="grid size-8 place-items-center rounded-lg bg-slate-100 text-slate-700">
+                <Award className="size-4" />
               </div>
-              <ShieldCheck className="size-3.5 text-emerald-500" />
+              <ShieldCheck className="size-3.5 text-slate-400" />
             </div>
-            <div className="mt-3">
-              <div className="font-display text-xs font-bold text-slate-900 group-hover:text-primary transition-colors">
+            <div className="mt-2.5">
+              <div className="font-display text-xs font-bold text-slate-900 group-hover:text-red-700 transition-colors">
                 Certificates
               </div>
-              <div className="text-[10px] text-slate-400 mt-0.5">Signed & verified</div>
+              <div className="text-[11px] text-slate-500">Verified e-certificates</div>
             </div>
           </Link>
         </div>
       </section>
 
-      {/* STAR-VIBES FOR YOU (Swipeable Mobile Celebrity Carousel) */}
-      <section className="mb-6 rounded-2xl bg-white p-3.5 border border-rose-100 shadow-sm relative overflow-hidden">
+      {/* Celebrity Artists & Star Performances */}
+      <section className="mb-8 rounded-xl bg-white p-4 border border-slate-200/90 shadow-2xs">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <div className="inline-flex items-center gap-1 rounded-full bg-rose-50 border border-rose-200 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-rose-900">
-              ★ STAR-VIBES
-            </div>
-            <h2 className="font-display text-sm font-bold tracking-tight text-slate-900 mt-1">
-              Headline Artists
+            <h2 className="font-display text-sm font-bold tracking-tight text-slate-900">
+              Star Performers & Musical Evenings
             </h2>
+            <p className="text-[11px] text-slate-500">Evenings at Central Lawn, SADTM Campus</p>
           </div>
-          <span className="text-[10px] font-semibold text-slate-500">
-            📍 Fest Arena
-          </span>
         </div>
 
         <div className="flex items-center gap-3 overflow-x-auto no-scrollbar pb-1">
           {[
             {
-              name: "Tej Gill",
-              role: "Singer & Performer",
-              tag: "Star Night",
+              name: "Ms. Snehi & Tej Gill",
+              role: "Musical Concert & Acoustic Set",
+              date: "30 Sept • 7:45 PM",
               image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=400&fit=crop",
             },
             {
-              name: "DJ Tan",
-              role: "Celebrity DJ",
-              tag: "EDM Fusion",
-              image: "https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=400&h=400&fit=crop",
-            },
-            {
-              name: "Snehi Live",
-              role: "Acoustic Guitarist",
-              tag: "Unplugged",
-              image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop",
-            },
-            {
-              name: "Rishabh C.",
-              role: "Playback Singer",
-              tag: "Finale",
+              name: "Rishabh Chaturvedi",
+              role: "Playback Singer & Celebrity Live",
+              date: "1 Oct • 5:00 PM",
               image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+            },
+            {
+              name: "DJ Tan",
+              role: "Grand Valedictory EDM Set",
+              date: "1 Oct • 6:30 PM",
+              image: "https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=400&h=400&fit=crop",
             },
           ].map((star) => (
             <div
               key={star.name}
-              className="w-32 shrink-0 rounded-xl border border-slate-200/80 bg-slate-50/70 p-2 text-center active:scale-95 transition-all"
+              className="w-44 shrink-0 rounded-xl border border-slate-200 bg-slate-50/50 p-3 text-left transition-all"
             >
-              <div className="relative size-24 mx-auto rounded-xl overflow-hidden mb-2">
+              <div className="relative aspect-square w-full rounded-lg overflow-hidden mb-2.5 bg-slate-200">
                 <img
                   src={star.image}
                   alt={star.name}
                   className="size-full object-cover"
                 />
-                <span className="absolute bottom-1 left-1 right-1 rounded-full bg-primary text-white text-[8px] font-bold uppercase tracking-wider py-0.2">
-                  {star.tag}
-                </span>
               </div>
               <div className="font-display text-xs font-bold text-slate-900 truncate">
                 {star.name}
               </div>
-              <div className="text-[10px] text-slate-500 truncate">{star.role}</div>
+              <div className="text-[11px] text-slate-600 truncate mt-0.5">{star.role}</div>
+              <div className="text-[10px] font-medium text-red-700 mt-1">{star.date}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* Competitions & Events Filter Grid */}
-      <section className="mb-14">
-        <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <section className="mb-10">
+        <div className="mb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
           <div>
-            <div className="text-[11px] font-bold uppercase tracking-wider text-primary">Discover</div>
-            <h2 className="font-display text-2xl font-bold tracking-tight text-foreground">
-              Official Competitions & Summits
+            <h2 className="font-display text-lg font-bold tracking-tight text-slate-900">
+              Technorazz 2026 Competitions
             </h2>
+            <p className="text-xs text-slate-500">Official university technical, cultural & sports events</p>
           </div>
 
-          {/* Apple-style Filter Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar rounded-full bg-slate-100 dark:bg-zinc-900 p-1 border border-black/[0.04] dark:border-white/[0.05]">
+          {/* Clean Segmented Category Tabs */}
+          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar rounded-xl bg-slate-100 p-1 border border-slate-200/60">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`rounded-full px-3.5 py-1 text-xs font-semibold transition-all duration-200 ${
+                className={`rounded-lg px-3 py-1 text-xs font-semibold transition-all ${
                   selectedCategory === cat
-                    ? "bg-white dark:bg-zinc-800 text-foreground shadow-sm"
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "bg-white text-slate-900 shadow-xs"
+                    : "text-slate-600 hover:text-slate-900"
                 }`}
               >
                 {cat}
@@ -528,7 +470,7 @@ function Home() {
           </div>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filteredEvents.map((e) => (
             <EventCard key={e.id} event={e} />
           ))}
@@ -536,55 +478,55 @@ function Home() {
       </section>
 
       {/* 3-Day Fest Timeline Roadmap */}
-      <section className="mb-14 rounded-3xl border border-black/[0.06] dark:border-white/[0.08] bg-card p-6 sm:p-8 shadow-apple">
-        <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <section className="mb-10 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-2xs">
+        <div className="mb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <div className="text-[11px] font-bold uppercase tracking-wider text-primary">Schedule Roadmap</div>
-            <h2 className="font-display text-xl sm:text-2xl font-bold tracking-tight text-foreground">
-              3-Day Festival Highlights
+            <h2 className="font-display text-base sm:text-lg font-bold tracking-tight text-slate-900">
+              Day-Wise Programme Schedule
             </h2>
+            <p className="text-xs text-slate-500">29 September – 1 October 2026</p>
           </div>
 
           {/* Day Selector Tabs */}
-          <div className="flex items-center gap-1 rounded-full bg-slate-100 dark:bg-zinc-900 p-1 border border-black/[0.04]">
+          <div className="flex items-center gap-1 rounded-xl bg-slate-100 p-1 border border-slate-200/60">
             {scheduleDays.map((s) => (
               <button
                 key={s.day}
                 onClick={() => setSelectedDay(s.day)}
-                className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${
+                className={`rounded-lg px-3.5 py-1 text-xs font-semibold transition-all ${
                   selectedDay === s.day
-                    ? "bg-primary text-white shadow-sm"
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "bg-red-700 text-white shadow-xs"
+                    : "text-slate-600 hover:text-slate-900"
                 }`}
               >
-                Day {s.day}
+                Day {s.day} ({s.date.split(" ")[1]} {s.date.split(" ")[2]})
               </button>
             ))}
           </div>
         </div>
 
         {/* Selected Day Timeline List */}
-        <div className="space-y-3">
+        <div className="space-y-2.5">
           {scheduleDays
             .find((s) => s.day === selectedDay)
             ?.items.map((item, idx) => (
               <div
                 key={idx}
-                className="flex items-center justify-between rounded-xl border border-black/[0.04] dark:border-white/[0.04] bg-slate-50/70 dark:bg-zinc-900/50 p-3.5 sm:p-4 hover:bg-slate-100/80 transition-colors"
+                className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50/70 p-3 sm:p-3.5 hover:bg-slate-100/80 transition-colors"
               >
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-1.5 text-xs font-semibold text-primary min-w-[70px]">
-                    <Clock className="size-3.5" />
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1 text-xs font-bold text-red-700 min-w-[75px]">
+                    <Clock className="size-3 text-red-600" />
                     {item.time}
                   </div>
                   <div>
-                    <div className="font-display text-sm font-bold text-foreground">{item.title}</div>
-                    <div className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
-                      <MapPin className="size-3" /> {item.venue}
+                    <div className="font-display text-xs sm:text-sm font-semibold text-slate-900">{item.title}</div>
+                    <div className="text-[11px] text-slate-500 flex items-center gap-1 mt-0.5">
+                      <MapPin className="size-3 text-slate-400" /> {item.venue}
                     </div>
                   </div>
                 </div>
-                <span className="rounded-full bg-primary/10 text-primary px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider">
+                <span className="rounded-md bg-slate-200/70 text-slate-700 px-2 py-0.5 text-[10px] font-semibold">
                   {item.badge}
                 </span>
               </div>
@@ -592,81 +534,68 @@ function Home() {
         </div>
       </section>
 
-      {/* Official Coordinators & Contact Grid */}
-      <section className="mb-14 rounded-3xl border border-black/[0.06] dark:border-white/[0.08] bg-card p-6 sm:p-8 shadow-apple">
-        <div className="mb-6">
-          <div className="text-[11px] font-bold uppercase tracking-wider text-primary">Need Help?</div>
-          <h2 className="font-display text-xl sm:text-2xl font-bold tracking-tight text-foreground">
-            Official Festival Coordinators
+      {/* Official Conveners & Committee Contacts */}
+      <section className="mb-10 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-2xs">
+        <div className="mb-4">
+          <h2 className="font-display text-base font-bold tracking-tight text-slate-900">
+            Key Event Conveners
           </h2>
-          <p className="text-xs text-muted-foreground mt-1">Reach out to our event & student conveners for queries or guidelines</p>
+          <p className="text-xs text-slate-500">Official faculty conveners appointed for Technorazz 2026</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Faculty Coordinators */}
-          <div className="rounded-2xl border border-black/[0.04] dark:border-white/[0.04] bg-slate-50/80 dark:bg-zinc-900/50 p-4 sm:p-5">
-            <div className="text-xs font-bold uppercase tracking-wider text-primary mb-3">Event Faculty Coordinators</div>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-display text-sm font-bold text-foreground">Prof. Sudhir Sharma</div>
-                  <div className="text-xs text-muted-foreground">Event Convener</div>
-                </div>
-                <a
-                  href="tel:8875020636"
-                  className="rounded-full bg-white dark:bg-zinc-800 border border-black/[0.06] px-3 py-1 text-xs font-semibold text-primary hover:bg-primary hover:text-white transition-colors"
-                >
-                  📞 8875 020 636
-                </a>
-              </div>
-              <div className="flex items-center justify-between border-t border-black/[0.04] pt-2">
-                <div>
-                  <div className="font-display text-sm font-bold text-foreground">Ms. Shanu Bhatia</div>
-                  <div className="text-xs text-muted-foreground">Co-Convener</div>
-                </div>
-                <a
-                  href="tel:8823999219"
-                  className="rounded-full bg-white dark:bg-zinc-800 border border-black/[0.06] px-3 py-1 text-xs font-semibold text-primary hover:bg-primary hover:text-white transition-colors"
-                >
-                  📞 8823 999 219
-                </a>
-              </div>
-            </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="rounded-xl border border-slate-200/80 bg-slate-50/60 p-3">
+            <div className="font-display text-xs font-bold text-slate-900">Prof. Sudhir Kumar Sharma</div>
+            <div className="text-[11px] text-slate-500 mt-0.5">IoT Robotics & Cryptic Hunt</div>
+            <div className="text-[10px] font-medium text-red-700 mt-1">Convener</div>
           </div>
+          <div className="rounded-xl border border-slate-200/80 bg-slate-50/60 p-3">
+            <div className="font-display text-xs font-bold text-slate-900">Dr. (Mrs.) Preeti Bakshi</div>
+            <div className="text-[11px] text-slate-500 mt-0.5">Dance Challenge & Stage on Rage</div>
+            <div className="text-[10px] font-medium text-red-700 mt-1">Convener</div>
+          </div>
+          <div className="rounded-xl border border-slate-200/80 bg-slate-50/60 p-3">
+            <div className="font-display text-xs font-bold text-slate-900">Prof. Rohit Singhal</div>
+            <div className="text-[11px] text-slate-500 mt-0.5">Hackathon 2026</div>
+            <div className="text-[10px] font-medium text-red-700 mt-1">Convener</div>
+          </div>
+          <div className="rounded-xl border border-slate-200/80 bg-slate-50/60 p-3">
+            <div className="font-display text-xs font-bold text-slate-900">Mr. Hitesh Kakkar</div>
+            <div className="text-[11px] text-slate-500 mt-0.5">Drone Race & Reel Rush</div>
+            <div className="text-[10px] font-medium text-red-700 mt-1">Convener</div>
+          </div>
+        </div>
+      </section>
 
-          {/* Student Coordinators */}
-          <div className="rounded-2xl border border-black/[0.04] dark:border-white/[0.04] bg-slate-50/80 dark:bg-zinc-900/50 p-4 sm:p-5">
-            <div className="text-xs font-bold uppercase tracking-wider text-primary mb-3">Student Coordinators</div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="flex items-center justify-between sm:flex-col sm:items-start p-2 rounded-xl bg-white dark:bg-zinc-800 border border-black/[0.04]">
-                <div>
-                  <div className="font-display text-xs font-bold text-foreground">Mr. Durgesh Kumar</div>
-                  <div className="text-[10px] text-muted-foreground">Lead Coordinator</div>
-                </div>
-                <a href="tel:8603933369" className="text-[11px] font-semibold text-primary mt-1">8603 933 369</a>
-              </div>
-              <div className="flex items-center justify-between sm:flex-col sm:items-start p-2 rounded-xl bg-white dark:bg-zinc-800 border border-black/[0.04]">
-                <div>
-                  <div className="font-display text-xs font-bold text-foreground">Mr. Chandra Kant Mani</div>
-                  <div className="text-[10px] text-muted-foreground">Coordinator</div>
-                </div>
-                <a href="tel:9155256952" className="text-[11px] font-semibold text-primary mt-1">9155 256 952</a>
-              </div>
-              <div className="flex items-center justify-between sm:flex-col sm:items-start p-2 rounded-xl bg-white dark:bg-zinc-800 border border-black/[0.04]">
-                <div>
-                  <div className="font-display text-xs font-bold text-foreground">Mr. Aryan Yadav</div>
-                  <div className="text-[10px] text-muted-foreground">Coordinator</div>
-                </div>
-                <a href="tel:9950414483" className="text-[11px] font-semibold text-primary mt-1">9950 414 483</a>
-              </div>
-              <div className="flex items-center justify-between sm:flex-col sm:items-start p-2 rounded-xl bg-white dark:bg-zinc-800 border border-black/[0.04]">
-                <div>
-                  <div className="font-display text-xs font-bold text-foreground">Mr. Aatman Pareek</div>
-                  <div className="text-[10px] text-muted-foreground">Coordinator</div>
-                </div>
-                <a href="tel:9929390806" className="text-[11px] font-semibold text-primary mt-1">9929 390 806</a>
-              </div>
-            </div>
+      {/* Student Coordinators */}
+      <section className="mb-10 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-2xs">
+        <div className="mb-4">
+          <h2 className="font-display text-base font-bold tracking-tight text-slate-900">
+            Student Coordinators
+          </h2>
+          <p className="text-xs text-slate-500">Official student lead committee for attendee support</p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="rounded-xl border border-slate-200/80 bg-slate-50/60 p-3">
+            <div className="font-display text-xs font-bold text-slate-900">Mr. Durgesh Kumar</div>
+            <div className="text-[11px] text-slate-500 mt-0.5">Lead Student Coordinator</div>
+            <a href="tel:8603933369" className="text-[10px] font-semibold text-red-700 mt-1 inline-block">8603 933 369</a>
+          </div>
+          <div className="rounded-xl border border-slate-200/80 bg-slate-50/60 p-3">
+            <div className="font-display text-xs font-bold text-slate-900">Mr. Chandra Kant Mani</div>
+            <div className="text-[11px] text-slate-500 mt-0.5">Technical Operations</div>
+            <a href="tel:9155256952" className="text-[10px] font-semibold text-red-700 mt-1 inline-block">9155 256 952</a>
+          </div>
+          <div className="rounded-xl border border-slate-200/80 bg-slate-50/60 p-3">
+            <div className="font-display text-xs font-bold text-slate-900">Mr. Aryan Yadav</div>
+            <div className="text-[11px] text-slate-500 mt-0.5">Event Management</div>
+            <a href="tel:9950414483" className="text-[10px] font-semibold text-red-700 mt-1 inline-block">9950 414 483</a>
+          </div>
+          <div className="rounded-xl border border-slate-200/80 bg-slate-50/60 p-3">
+            <div className="font-display text-xs font-bold text-slate-900">Mr. Aatman Pareek</div>
+            <div className="text-[11px] text-slate-500 mt-0.5">Student Registrations</div>
+            <a href="tel:9929390806" className="text-[10px] font-semibold text-red-700 mt-1 inline-block">9929 390 806</a>
           </div>
         </div>
       </section>
