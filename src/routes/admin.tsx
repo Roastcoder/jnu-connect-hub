@@ -16,8 +16,16 @@ export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [{ title: "Admin · JNU Connect" }, { name: "description", content: "JNU Connect Super Admin dashboard." }],
   }),
-  component: () => <AuthGuard role="admin"><AdminLayout /></AuthGuard>,
+  component: AdminRoute,
 });
+
+function AdminRoute() {
+  return (
+    <AuthGuard role="admin">
+      <AdminLayout />
+    </AuthGuard>
+  );
+}
 
 type NavItem = { to: string; label: string; Icon: ComponentType<{ className?: string }> };
 type NavGroup = { label: string; items: NavItem[] };

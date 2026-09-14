@@ -1,5 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { createFileRoute } from '@tanstack/react-router'
+import React, { useState, useEffect } from "react";
 import { Download, ShieldCheck, ScanLine, FileImage, FileText } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { AuthGuard } from "@/components/AuthGuard";
@@ -12,8 +12,16 @@ export const Route = createFileRoute("/certificates")({
       { name: "description", content: "Download participation, winner and appreciation certificates from JNU events." },
     ],
   }),
-  component: () => <AuthGuard><CertificatesPage /></AuthGuard>,
+  component: CertificatesRoute,
 });
+
+function CertificatesRoute() {
+  return (
+    <AuthGuard>
+      <CertificatesPage />
+    </AuthGuard>
+  );
+}
 
 function renderCertificate(c: CertificateRecord): HTMLCanvasElement | null {
   const canvas = document.createElement("canvas");

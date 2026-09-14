@@ -11,7 +11,11 @@ const stats = [
 ];
 
 export const Route = createFileRoute("/dept-admin/")({
-  component: () => (
+  component: DeptAdminHome,
+});
+
+function DeptAdminHome() {
+  return (
     <>
       <DeptPageHeader title="Good morning, BCA" subtitle="Snapshot of your department this week." />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
@@ -33,5 +37,5 @@ export const Route = createFileRoute("/dept-admin/")({
         Attendance charts, upcoming events and student activity feeds appear here.
       </div>
     </>
-  ),
-});
+  );
+}

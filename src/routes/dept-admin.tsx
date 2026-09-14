@@ -17,8 +17,16 @@ export const Route = createFileRoute("/dept-admin")({
       { name: "description", content: "Department admin dashboard for JNU Connect." },
     ],
   }),
-  component: () => <AuthGuard role={["dept_admin","admin"]}><DeptAdminLayout /></AuthGuard>,
+  component: DeptAdminRoute,
 });
+
+function DeptAdminRoute() {
+  return (
+    <AuthGuard role={["dept_admin", "admin"]}>
+      <DeptAdminLayout />
+    </AuthGuard>
+  );
+}
 
 const groups: DashboardNavGroup[] = [
   {

@@ -18,12 +18,16 @@ export const Route = createFileRoute("/coordinator")({
       { name: "description", content: "Create and manage events, sub-events, contestants and judges. Start and stop voting live." },
     ],
   }),
-  component: () => (
+  component: CoordinatorRoute,
+});
+
+function CoordinatorRoute() {
+  return (
     <AuthGuard role={["coordinator", "admin"]}>
       <CoordinatorLayout />
     </AuthGuard>
-  ),
-});
+  );
+}
 
 type NavItem = { to: string; label: string; Icon: ComponentType<{ className?: string }> };
 type NavGroup = { label: string; items: NavItem[] };

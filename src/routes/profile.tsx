@@ -22,7 +22,7 @@ import {
   Copy,
   Check,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { AuthGuard } from "@/components/AuthGuard";
 import { getEvent } from "@/lib/mock-data";
@@ -100,12 +100,16 @@ export const Route = createFileRoute("/profile")({
       { name: "description", content: "Your official JNU student & attendee profile, registrations and QR passes." },
     ],
   }),
-  component: () => (
+  component: ProfileRoute,
+});
+
+function ProfileRoute() {
+  return (
     <AuthGuard>
       <ProfilePage />
     </AuthGuard>
-  ),
-});
+  );
+}
 
 interface Registration {
   id: string;

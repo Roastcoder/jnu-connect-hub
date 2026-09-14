@@ -18,12 +18,16 @@ export const Route = createFileRoute("/staff")({
       { name: "description", content: "Scan attendee QR passes and track registrations across events." },
     ],
   }),
-  component: () => (
+  component: StaffRoute,
+});
+
+function StaffRoute() {
+  return (
     <AuthGuard role={["staff", "admin", "coordinator"]}>
       <StaffLayout />
     </AuthGuard>
-  ),
-});
+  );
+}
 
 type NavItem = { to: string; label: string; Icon: ComponentType<{ className?: string }> };
 type NavGroup = { label: string; items: NavItem[] };

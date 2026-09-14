@@ -5,7 +5,11 @@ export const Route = createFileRoute("/help")({
   head: () => ({
     meta: [{ title: "Help & Support · JNU Connect" }, { name: "description", content: "Get help with JNU Connect." }],
   }),
-  component: () => (
+  component: HelpPage,
+});
+
+function HelpPage() {
+  return (
     <AppShell>
       <PageHeader eyebrow="Support" title="We're here to help" />
       <div className="grid gap-3">
@@ -21,5 +25,5 @@ export const Route = createFileRoute("/help")({
         ))}
       </div>
     </AppShell>
-  ),
-});
+  );
+}
