@@ -48,8 +48,10 @@ function HomePage() {
   );
 }
 
-// Live Countdown to Technorazz 2026 (Sept 28, 2026)
-function useCountdown(targetDate: Date) {
+// Target: Sept 28, 2026 09:00 AM IST
+const FEST_TARGET_TIMESTAMP = new Date("2026-09-28T09:00:00+05:30").getTime();
+
+function useCountdown(targetTimestamp: number = FEST_TARGET_TIMESTAMP) {
   const [timeLeft, setTimeLeft] = useState<{
     days: number;
     hours: number;
@@ -59,7 +61,7 @@ function useCountdown(targetDate: Date) {
 
   useEffect(() => {
     const calculate = () => {
-      const diff = targetDate.getTime() - new Date().getTime();
+      const diff = targetTimestamp - Date.now();
       if (diff <= 0) {
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         return;
@@ -74,7 +76,7 @@ function useCountdown(targetDate: Date) {
     calculate();
     const interval = setInterval(calculate, 1000);
     return () => clearInterval(interval);
-  }, [targetDate]);
+  }, [targetTimestamp]);
 
   return timeLeft;
 }
@@ -85,9 +87,7 @@ function Home() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedDay, setSelectedDay] = useState<number>(1);
 
-  // Target: Sept 28, 2026 09:00 AM IST
-  const festDate = new Date("2026-09-28T09:00:00+05:30");
-  const countdown = useCountdown(festDate);
+  const countdown = useCountdown(FEST_TARGET_TIMESTAMP);
 
   const categories = ["All", "Technical", "Cultural", "Gaming", "Management"];
 
@@ -103,8 +103,7 @@ function Home() {
   const displayName = (() => {
     const raw =
       profile?.full_name?.trim() ||
-      (user?.user_metadata as any)?.full_name?.trim() ||
-      (user?.user_metadata as any)?.name?.trim() ||
+      user?.full_name?.trim() ||
       (user?.email ? user.email.split("@")[0] : "");
     if (!raw) return "Student";
     return raw.split(/\s+/)[0];

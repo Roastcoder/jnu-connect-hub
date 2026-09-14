@@ -486,7 +486,7 @@ function StreamPage() {
       >
 
         <div className={landscape ? "relative size-full" : "relative aspect-[16/10] w-full"}>
-          {stream.youtubeId ? (
+          {stream.youtubeId && iframeSrc ? (
             <>
               <iframe
                 ref={iframeRef}
@@ -496,7 +496,6 @@ function StreamPage() {
                 title={stream.title}
                 onLoad={ytStartListening}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-                allowFullScreen
               />
               {/* Mask residual YouTube chrome — only in the main player */}
               {!mini && !landscape && (
