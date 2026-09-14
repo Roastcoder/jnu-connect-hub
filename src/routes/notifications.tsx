@@ -25,27 +25,33 @@ function NotificationsPage() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow="Inbox" title="Notifications" />
-      <div className="grid gap-3">
+      <PageHeader
+        eyebrow="Activity"
+        title="Notifications"
+        subtitle="Live announcements, entry pass scans, voting milestones, and schedule updates."
+      />
+      <div className="grid gap-2.5">
         {notifList.map((n) => (
           <div
             key={n.id}
             className={
-              "flex items-start gap-4 rounded-2xl border border-border/60 p-4 shadow-elevated " +
-              (n.unread ? "bg-card" : "bg-muted/50")
+              "flex items-start gap-3 rounded-2xl border p-3.5 shadow-xs transition-all " +
+              (n.unread
+                ? "bg-white border-rose-100 shadow-sm"
+                : "bg-slate-50/70 border-slate-100")
             }
           >
-            <div className="grid size-10 place-items-center rounded-xl bg-gradient-primary text-primary-foreground">
+            <div className="grid size-9 place-items-center rounded-xl bg-rose-50 border border-rose-200 text-rose-800 shrink-0 mt-0.5">
               <Bell className="size-4" />
             </div>
-            <div className="flex-1">
-              <div className="flex items-center justify-between gap-3">
-                <h3 className="font-display font-semibold">{n.title}</h3>
-                <span className="text-xs text-muted-foreground">{n.time}</span>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-2">
+                <h3 className="font-display text-xs font-bold text-slate-900 truncate">{n.title}</h3>
+                <span className="text-[10px] font-semibold text-slate-400 shrink-0">{n.time}</span>
               </div>
-              <p className="mt-0.5 text-sm text-muted-foreground">{n.message}</p>
+              <p className="mt-0.5 text-xs text-slate-600 leading-relaxed">{n.message}</p>
             </div>
-            {n.unread && <span className="mt-2 size-2 rounded-full bg-accent" />}
+            {n.unread && <span className="mt-1.5 size-2 rounded-full bg-red-600 shrink-0" />}
           </div>
         ))}
       </div>

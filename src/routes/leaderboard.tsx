@@ -72,26 +72,27 @@ function LeaderboardPage() {
   return (
     <AppShell>
       <PageHeader
-        eyebrow="Leaderboard"
-        title="Live ranks across JNU"
-        subtitle="Ranks update in real time via WebSocket as votes stream in."
+        eyebrow="Live Ranks"
+        title="Contestant Leaderboard"
+        subtitle="Live rankings synchronized in real time as students vote across campus."
         action={
-          <div className="inline-flex items-center gap-2 rounded-full bg-destructive/10 px-3 py-1.5 text-xs font-semibold text-destructive">
-            <Radio className="size-3.5 animate-pulse" /> LIVE
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 text-[11px] font-bold text-emerald-800">
+            <Radio className="size-3 animate-pulse text-emerald-600" /> LIVE
           </div>
         }
       />
 
-      <div className="mb-8 flex flex-wrap gap-2">
+      {/* Category Pills */}
+      <div className="mb-5 flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
         {scopes.map((s) => (
           <button
             key={s}
             onClick={() => setScope(s)}
             className={
-              "rounded-full px-4 py-1.5 text-xs font-semibold transition-all " +
+              "shrink-0 rounded-full px-3.5 py-1 text-xs font-bold transition-all " +
               (scope === s
-                ? "bg-gradient-primary text-primary-foreground shadow-glow"
-                : "bg-secondary text-secondary-foreground hover:bg-secondary/70")
+                ? "bg-gradient-to-r from-red-700 to-red-800 text-white shadow-sm scale-105"
+                : "bg-white border border-rose-100 text-slate-600 hover:text-slate-900")
             }
           >
             {s}
@@ -99,65 +100,75 @@ function LeaderboardPage() {
         ))}
       </div>
 
+      {/* Top 3 Mobile Podium */}
       {podium.length === 3 && (
-        <div className="mb-10 grid grid-cols-3 gap-3 md:gap-6">
+        <div className="mb-6 grid grid-cols-3 gap-2 items-end">
           <PodiumCard rank={2} contestant={podium[1]} />
           <PodiumCard rank={1} contestant={podium[0]} big />
           <PodiumCard rank={3} contestant={podium[2]} />
         </div>
       )}
 
-      <Reorder.Group axis="y" values={rest} onReorder={() => {}} className="overflow-hidden rounded-3xl border border-border/60 bg-card shadow-elevated">
-        <AnimatePresence initial={false}>
-          {rest.map((c, i) => {
-            const rank = i + 4;
-            const prev = prevRanks[c.id];
-            const delta = prev !== undefined ? prev - i - 3 : 0;
-            return (
-              <Reorder.Item
-                key={c.id}
-                value={c}
-                drag={false}
-                layout
-                transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                className="flex items-center gap-4 border-b border-border/60 p-4 last:border-b-0"
-              >
-                <div className="w-10 font-display text-lg font-bold text-muted-foreground">#{rank}</div>
-                <img src={c.photo} alt={c.name} className="size-12 rounded-full object-cover" />
-                <div className="flex-1">
-                  <div className="font-display font-semibold">{c.name}</div>
-                  <div className="text-xs text-muted-foreground">{c.eventCategory} · {c.college}</div>
+      {/* Remaining Ranks List */}
+      <div className="rounded-2xl border border-rose-100 bg-white shadow-sm overflow-hidden divide-y divide-rose-50">
+        <div className="p-3 bg-slate-50/60 border-b border-rose-100/60">
+          <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500">
+            Current Rankings ({rest.length + 3} Contestants)
+          </div>
+        </div>
+
+        {rest.map((c, i) => {
+          const rank = i + 4;
+          const prev = prevRanks[c.id];
+          const delta = prev !== undefined ? prev - i - 3 : 0;
+          return (
+            <div
+              key={c.id}
+              className="flex items-center gap-3 p-3 hover:bg-slate-50 transition-colors"
+            >
+              <div className="w-6 text-center font-display text-xs font-bold text-slate-400">
+                #{rank}
+              </div>
+              <img
+                src={c.photo}
+                alt={c.name}
+                className="size-10 rounded-full object-cover border border-rose-100 shadow-xs shrink-0"
+              />
+              <div className="min-w-0 flex-1">
+                <div className="font-display text-xs font-bold text-slate-900 truncate">
+                  {c.name}
                 </div>
-                {delta !== 0 && (
-                  <motion.span
-                    initial={{ opacity: 0, y: delta > 0 ? -6 : 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={
-                      "inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-[10px] font-bold " +
-                      (delta > 0 ? "bg-success/15 text-success" : "bg-destructive/15 text-destructive")
-                    }
-                  >
-                    {delta > 0 ? <ArrowUp className="size-3" /> : <ArrowDown className="size-3" />}
-                    {Math.abs(delta)}
-                  </motion.span>
-                )}
-                <div className="text-right">
-                  <motion.div
-                    key={c.votes}
-                    initial={{ scale: 1.15, color: "hsl(var(--accent))" }}
-                    animate={{ scale: 1, color: "hsl(var(--primary))" }}
-                    transition={{ duration: 0.4 }}
-                    className="font-display text-lg font-bold"
-                  >
-                    {c.votes.toLocaleString()}
-                  </motion.div>
-                  <div className="text-[10px] uppercase tracking-widest text-muted-foreground">votes</div>
+                <div className="text-[10px] text-slate-500 truncate">
+                  {c.eventCategory} · {c.department}
                 </div>
-              </Reorder.Item>
-            );
-          })}
-        </AnimatePresence>
-      </Reorder.Group>
+              </div>
+
+              {delta !== 0 && (
+                <span
+                  className={
+                    "inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.2 text-[9px] font-bold " +
+                    (delta > 0
+                      ? "bg-emerald-500/15 text-emerald-800"
+                      : "bg-rose-50 text-rose-800")
+                  }
+                >
+                  {delta > 0 ? <ArrowUp className="size-2.5" /> : <ArrowDown className="size-2.5" />}
+                  {Math.abs(delta)}
+                </span>
+              )}
+
+              <div className="text-right shrink-0">
+                <div className="font-display text-xs font-black text-red-700">
+                  {c.votes.toLocaleString()}
+                </div>
+                <div className="text-[8px] uppercase tracking-wider text-slate-400">
+                  votes
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </AppShell>
   );
 }
@@ -172,36 +183,57 @@ function PodiumCard({
   big?: boolean;
 }) {
   const Icon = rank === 1 ? Crown : rank === 2 ? Trophy : Medal;
+  const rankBg =
+    rank === 1
+      ? "bg-gradient-to-b from-amber-50 to-white border-amber-300 ring-2 ring-amber-400/20"
+      : rank === 2
+      ? "bg-gradient-to-b from-slate-100 to-white border-slate-200"
+      : "bg-gradient-to-b from-orange-50 to-white border-orange-200";
+
   return (
-    <motion.div
-      layout
-      transition={{ type: "spring", stiffness: 300, damping: 28 }}
+    <div
       className={
-        "flex flex-col items-center rounded-3xl border border-border/60 bg-gradient-card p-4 text-center shadow-elevated " +
-        (big ? "-mt-4 pb-6 pt-6" : "")
+        `flex flex-col items-center rounded-2xl border p-2.5 text-center shadow-xs transition-all ${rankBg} ` +
+        (big ? "-mt-2 pb-4 pt-4 shadow-md" : "")
       }
     >
-      <Icon className={"mb-2 " + (rank === 1 ? "size-8 text-accent" : "size-6 text-primary")} />
+      <Icon
+        className={
+          "mb-1 " +
+          (rank === 1
+            ? "size-6 text-amber-500"
+            : rank === 2
+            ? "size-5 text-slate-600"
+            : "size-5 text-amber-700")
+        }
+      />
       <img
         src={contestant.photo}
         alt={contestant.name}
         className={
-          "rounded-full object-cover ring-4 " +
-          (rank === 1 ? "size-24 ring-accent/50 shadow-glow" : "size-16 ring-primary/30")
+          "rounded-full object-cover shadow-sm " +
+          (rank === 1
+            ? "size-16 ring-3 ring-amber-400"
+            : "size-12 ring-2 ring-slate-300")
         }
       />
-      <div className="mt-3 font-display font-semibold">{contestant.name}</div>
-      <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+      <div className="mt-1.5 font-display text-[11px] font-bold text-slate-900 truncate max-w-full">
+        {contestant.name}
+      </div>
+      <div className="text-[8px] font-semibold uppercase tracking-wider text-slate-500 truncate max-w-full">
         {contestant.eventCategory}
       </div>
-      <motion.div
-        key={contestant.votes}
-        initial={{ scale: 1.2 }}
-        animate={{ scale: 1 }}
-        className={"mt-2 font-display font-bold text-primary " + (big ? "text-2xl" : "text-lg")}
+      <div
+        className={
+          "mt-1 font-display font-black text-red-700 " +
+          (big ? "text-sm" : "text-xs")
+        }
       >
         {contestant.votes.toLocaleString()}
-      </motion.div>
-    </motion.div>
+      </div>
+      <div className="text-[7.5px] uppercase tracking-wider text-slate-400 font-bold">
+        votes
+      </div>
+    </div>
   );
 }

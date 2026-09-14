@@ -31,25 +31,51 @@ function GalleryPage() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow="JNU Gallery" title="Every event, remembered" subtitle="Photos, videos and reels from across campus." />
+      <PageHeader
+        eyebrow="Media Archives"
+        title="Campus Gallery"
+        subtitle="Explore high-resolution event photography, festival reels, and stage performances."
+      />
 
-      <div className="mb-8 flex gap-1 rounded-full border border-border bg-card p-1 w-fit">
+      {/* Segmented Filter Pills */}
+      <div className="mb-4 flex items-center gap-1.5 rounded-2xl bg-white p-1 border border-rose-100 shadow-sm w-fit">
         {tabs.map((t) => (
-          <button key={t} onClick={() => setTab(t)} className={"rounded-full px-5 py-2 text-xs font-semibold transition-all " + (tab === t ? "bg-gradient-primary text-primary-foreground shadow-glow" : "text-muted-foreground hover:text-foreground")}>
+          <button
+            key={t}
+            onClick={() => setTab(t)}
+            className={
+              "rounded-xl px-4 py-1.5 text-xs font-bold transition-all " +
+              (tab === t
+                ? "bg-gradient-to-r from-red-700 to-red-800 text-white shadow-xs"
+                : "text-slate-600 hover:text-slate-900")
+            }
+          >
             {t}
           </button>
         ))}
       </div>
 
       {tab === "Photos" && (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-2 gap-3">
           {albums.map((a) => (
-            <div key={a.id} className="group relative overflow-hidden rounded-3xl shadow-elevated">
-              <img src={a.cover} alt={a.title} loading="lazy" className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <h3 className="font-display text-lg font-semibold">{a.title}</h3>
-                <p className="text-xs text-muted-foreground">{a.count} photos</p>
+            <div
+              key={a.id}
+              className="group relative overflow-hidden rounded-2xl border border-rose-100/90 bg-white shadow-sm active:scale-98 transition-all"
+            >
+              <div className="aspect-[4/3] w-full overflow-hidden">
+                <img
+                  src={a.cover}
+                  alt={a.title}
+                  loading="lazy"
+                  className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 inset-x-0 p-2.5 text-white">
+                <h3 className="font-display text-xs font-bold leading-tight truncate drop-shadow-sm">
+                  {a.title}
+                </h3>
+                <p className="text-[9px] text-white/80 font-medium">{a.count} photos</p>
               </div>
             </div>
           ))}
@@ -57,10 +83,13 @@ function GalleryPage() {
       )}
 
       {(tab === "Videos" || tab === "Reels") && (
-        <div className={"grid gap-5 " + (tab === "Reels" ? "sm:grid-cols-3 md:grid-cols-4" : "sm:grid-cols-2 lg:grid-cols-3")}>
+        <div className={"grid gap-3 " + (tab === "Reels" ? "grid-cols-2" : "grid-cols-1")}>
           {videos.map((v) => (
-            <div key={v.id} className="group overflow-hidden rounded-3xl border border-border/60 bg-card shadow-elevated">
-              <div className={"relative " + (tab === "Reels" ? "aspect-[9/16]" : "aspect-video")}>
+            <div
+              key={v.id}
+              className="group overflow-hidden rounded-2xl border border-rose-100/90 bg-white shadow-sm"
+            >
+              <div className={"relative " + (tab === "Reels" ? "aspect-[9/14]" : "aspect-video")}>
                 {playing === v.id ? (
                   <iframe
                     className="size-full"
@@ -73,16 +102,18 @@ function GalleryPage() {
                   <button onClick={() => setPlaying(v.id)} className="group relative block size-full">
                     <img src={v.cover} alt={v.title} className="size-full object-cover" />
                     <div className="absolute inset-0 grid place-items-center bg-black/30 transition-colors group-hover:bg-black/45">
-                      <div className="grid size-14 place-items-center rounded-full bg-white/90 text-primary shadow-glow transition-transform group-hover:scale-110">
-                        <Play className="ml-0.5 size-6" fill="currentColor" />
+                      <div className="grid size-11 place-items-center rounded-full bg-white/95 text-red-700 shadow-md transition-transform group-hover:scale-110 active:scale-95">
+                        <Play className="ml-0.5 size-5" fill="currentColor" />
                       </div>
                     </div>
-                    <div className="absolute bottom-2 right-2 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-semibold text-white">{v.duration}</div>
+                    <div className="absolute bottom-2 right-2 rounded-full bg-black/70 px-2 py-0.5 text-[9px] font-bold text-white backdrop-blur">
+                      {v.duration}
+                    </div>
                   </button>
                 )}
               </div>
-              <div className="p-3">
-                <div className="font-display text-sm font-semibold">{v.title}</div>
+              <div className="p-2.5 bg-white">
+                <div className="font-display text-xs font-bold text-slate-900 truncate">{v.title}</div>
               </div>
             </div>
           ))}

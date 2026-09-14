@@ -37,17 +37,19 @@ export function AppShell({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
   return (
     <div
-      className="relative min-h-screen bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary pb-[calc(6.5rem+env(safe-area-inset-bottom))] md:pb-16 overflow-hidden"
-      style={{ paddingTop: "env(safe-area-inset-top)" }}
+      className="relative min-h-screen bg-slate-50/50 text-foreground antialiased selection:bg-primary/20 selection:text-primary pb-24 overflow-x-hidden"
+      style={{ paddingTop: "max(env(safe-area-inset-top), 0.5rem)" }}
     >
-      {/* Background Ambient Warm Light Glows (JNU Theme) */}
-      <div className="ambient-glow-orb -top-24 -left-24 size-96 bg-red-600/5 animate-float-slow" />
-      <div className="ambient-glow-orb top-1/3 -right-24 size-[32rem] bg-amber-500/5 animate-float-slow [animation-delay:3s]" />
-      <div className="ambient-glow-orb bottom-10 left-1/4 size-[28rem] bg-rose-500/5 animate-float-slow [animation-delay:5s]" />
+      {/* Background Soft Warm Light Glows (JNU Theme) */}
+      <div className="ambient-glow-orb -top-24 -left-24 size-80 bg-red-600/5 animate-float-slow" />
+      <div className="ambient-glow-orb top-1/3 -right-24 size-96 bg-amber-500/5 animate-float-slow [animation-delay:3s]" />
+      <div className="ambient-glow-orb bottom-10 left-1/4 size-80 bg-rose-500/5 animate-float-slow [animation-delay:5s]" />
 
-      <div className="relative z-10">
-        <TopBar />
-        <main className="mx-auto max-w-6xl px-4 pt-4 md:pt-6">{children}</main>
+      <div className="relative z-10 max-w-lg mx-auto min-h-screen flex flex-col justify-between">
+        <div>
+          <TopBar />
+          <main className="px-3.5 sm:px-4 pt-2">{children}</main>
+        </div>
         <BottomNav pathname={pathname} />
       </div>
     </div>
@@ -58,67 +60,48 @@ export function TopBar() {
   const { user } = useAuth();
   const { roles } = useRoles();
   const dash = user ? dashboardLink(roles) : null;
-  const items: NavItem[] = [...nav];
-  if (user) items.push({ to: "/profile", label: "Profile", Icon: User });
 
   return (
-    <header className="relative z-30 w-full">
-      <div className="mx-auto max-w-6xl px-4 pt-3 pb-1">
-        <div className="flex items-center justify-between rounded-2xl sm:rounded-full bg-white/85 border border-rose-100/90 shadow-sm px-4 py-2.5 backdrop-blur-md transition-all">
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="transition-transform duration-300 group-hover:scale-105">
-              <JnuLogo />
-            </div>
-            <div className="leading-tight">
-              <div className="font-display text-sm font-bold tracking-tight text-foreground flex items-center gap-1.5">
-                JNU <span className="text-primary font-extrabold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">Connect</span>
-                <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 text-[9px] font-semibold text-emerald-600 dark:text-emerald-400">
-                  <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live
-                </span>
-              </div>
-              <div className="text-[9px] tracking-wider text-muted-foreground uppercase font-medium">Jaipur National University</div>
-            </div>
-          </Link>
-
-          <nav className="hidden items-center gap-1 lg:flex bg-black/[0.03] dark:bg-white/[0.04] p-1 rounded-full border border-black/[0.04] dark:border-white/[0.05]">
-            {items.map((n) => (
-              <Link
-                key={n.to}
-                to={n.to}
-                className="rounded-full px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-all duration-200 hover:text-foreground hover:bg-white/80 dark:hover:bg-zinc-800/80 data-[active]:bg-white dark:data-[active]:bg-zinc-800 data-[active]:text-foreground data-[active]:shadow-sm"
-                activeProps={{ "data-active": "true" } as any}
-                activeOptions={{ exact: n.to === "/" }}
-              >
-                {n.label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-2">
-            {dash && (
-              <Link
-                to={dash.to}
-                className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 border border-primary/20 px-3.5 py-1.5 text-xs font-semibold text-primary transition-all duration-200 hover:bg-primary/20 hover:scale-[1.02] active:scale-[0.98]"
-                activeProps={{ "data-active": "true" } as any}
-              >
-                <LayoutDashboard className="size-3.5" />
-                <span className="hidden sm:inline">{dash.label}</span> Console
-              </Link>
-            )}
-
-            {user && (
-              <Link
-                to="/notifications"
-                className="relative grid size-8 place-items-center rounded-full bg-black/[0.04] dark:bg-white/[0.06] text-foreground transition-all duration-200 hover:bg-black/[0.08] dark:hover:bg-white/[0.1]"
-                aria-label="Notifications"
-              >
-                <Bell className="size-3.5" />
-                <span className="absolute right-1.5 top-1.5 size-1.5 rounded-full bg-primary ring-2 ring-background" />
-              </Link>
-            )}
-
-            <AuthButton />
+    <header className="relative z-30 w-full px-3.5 sm:px-4 pt-2 pb-2">
+      <div className="flex items-center justify-between rounded-2xl bg-white/95 border border-rose-100/90 shadow-sm px-3.5 py-2 backdrop-blur-md">
+        <Link to="/" className="flex items-center gap-2.5 group active:scale-95 transition-transform">
+          <div className="transition-transform duration-300 group-hover:scale-105">
+            <JnuLogo />
           </div>
+          <div className="leading-tight">
+            <div className="font-display text-sm font-bold tracking-tight text-foreground flex items-center gap-1.5">
+              JNU <span className="text-primary font-extrabold bg-gradient-to-r from-red-700 to-rose-600 bg-clip-text text-transparent">Connect</span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.2 text-[8px] font-bold text-emerald-700">
+                <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" /> LIVE
+              </span>
+            </div>
+            <div className="text-[8.5px] tracking-wider text-muted-foreground uppercase font-semibold">Technorazz 2026</div>
+          </div>
+        </Link>
+
+        <div className="flex items-center gap-2">
+          {dash && (
+            <Link
+              to={dash.to}
+              className="inline-flex items-center gap-1 rounded-full bg-primary/10 border border-primary/20 px-2.5 py-1 text-[11px] font-bold text-primary active:scale-95 transition-all"
+            >
+              <LayoutDashboard className="size-3" />
+              <span>{dash.label}</span>
+            </Link>
+          )}
+
+          {user && (
+            <Link
+              to="/notifications"
+              className="relative grid size-8 place-items-center rounded-full bg-slate-100 text-foreground active:scale-90 transition-all"
+              aria-label="Notifications"
+            >
+              <Bell className="size-3.5 text-slate-700" />
+              <span className="absolute right-1 top-1 size-2 rounded-full bg-primary ring-2 ring-white" />
+            </Link>
+          )}
+
+          <AuthButton />
         </div>
       </div>
     </header>
@@ -133,61 +116,62 @@ function AuthButton() {
       <Link
         to="/auth/login"
         search={{ next: "/profile" }}
-        className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-1.5 text-xs font-semibold text-background transition-all duration-200 hover:opacity-90 active:scale-[0.98] shadow-sm"
+        className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-red-700 to-red-800 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm hover:brightness-105 active:scale-95 transition-all"
       >
         Sign in
       </Link>
     );
   }
   return (
-    <button
-      onClick={() => void signOut()}
-      className="inline-flex items-center gap-1.5 rounded-full border border-black/[0.08] dark:border-white/[0.1] bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground hover:text-destructive hover:border-destructive/30 transition-all duration-200 active:scale-[0.98]"
+    <Link
+      to="/profile"
+      className="grid size-8 place-items-center rounded-full bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold active:scale-95 transition-all shadow-sm"
       title={user.email ?? ""}
     >
-      <LogOut className="size-3.5" />
-      <span className="hidden sm:inline">Logout</span>
-    </button>
+      {(user.full_name || user.email || "U").slice(0, 1).toUpperCase()}
+    </Link>
   );
 }
 
 export function BottomNav({ pathname }: { pathname: string }) {
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-black/[0.06] dark:border-white/[0.08] bg-white/90 dark:bg-zinc-950/90 backdrop-blur-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.08)] md:hidden"
-      style={{ paddingBottom: "max(env(safe-area-inset-bottom), 0.75rem)" }}
+      className="fixed inset-x-0 bottom-0 z-50 pointer-events-none"
+      style={{ paddingBottom: "max(env(safe-area-inset-bottom), 0.5rem)" }}
     >
-      <div className="mx-auto flex max-w-md items-center justify-around px-3 pt-2">
-        {bottomNav.map(({ to, label, Icon }) => {
-          const active = to === "/" ? pathname === "/" : pathname.startsWith(to);
-          return (
-            <Link
-              key={to}
-              to={to}
-              className="flex min-w-14 flex-col items-center gap-1 py-1 text-[10px] font-semibold transition-all active:scale-95"
-            >
-              <span
-                className={
-                  "grid size-9 place-items-center rounded-2xl transition-all duration-200 " +
-                  (active
-                    ? "bg-gradient-primary text-white shadow-glow scale-105"
-                    : "text-muted-foreground hover:text-foreground hover:bg-black/[0.04] dark:hover:bg-white/[0.06]")
-                }
+      <div className="mx-auto max-w-md px-3.5 py-1.5">
+        <div className="pointer-events-auto flex items-center justify-around rounded-3xl border border-rose-100/80 bg-white/95 backdrop-blur-2xl px-2 py-1.5 shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+          {bottomNav.map(({ to, label, Icon }) => {
+            const active = to === "/" ? pathname === "/" : pathname.startsWith(to);
+            return (
+              <Link
+                key={to}
+                to={to}
+                className="flex flex-1 flex-col items-center gap-0.5 py-0.5 text-[10px] font-semibold transition-all active:scale-90"
               >
-                <Icon className="size-4" />
-              </span>
-              <span
-                className={
-                  active
-                    ? "font-bold text-primary"
-                    : "text-muted-foreground"
-                }
-              >
-                {label}
-              </span>
-            </Link>
-          );
-        })}
+                <span
+                  className={
+                    "grid size-9 place-items-center rounded-2xl transition-all duration-200 " +
+                    (active
+                      ? "bg-gradient-to-r from-red-700 to-red-800 text-white shadow-glow scale-105"
+                      : "text-slate-500 hover:text-slate-900")
+                  }
+                >
+                  <Icon className="size-4" />
+                </span>
+                <span
+                  className={
+                    active
+                      ? "font-extrabold text-red-700"
+                      : "text-slate-500"
+                  }
+                >
+                  {label}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </nav>
   );

@@ -157,94 +157,112 @@ function Home() {
   return (
     <AppShell>
       {/* Official Poster Popup Banner Component */}
-      <PosterPopupBanner />
+      <PosterPopupBanner />      {/* Mobile Story Category Bubbles */}
+      <div className="mb-4 flex items-center gap-3 overflow-x-auto no-scrollbar py-1">
+        {[
+          { label: "Hackathon", icon: "⚡", to: "/events" },
+          { label: "Cultural", icon: "🎭", to: "/events" },
+          { label: "Esports", icon: "🎮", to: "/events" },
+          { label: "Star Night", icon: "🎤", to: "/events" },
+          { label: "Live 4K", icon: "🔴", to: "/live" },
+          { label: "Vote", icon: "🗳️", to: "/voting" },
+          { label: "My Pass", icon: "🎟️", to: "/qr-pass" },
+        ].map((item) => (
+          <Link
+            key={item.label}
+            to={item.to}
+            className="flex flex-col items-center gap-1 shrink-0 active:scale-90 transition-transform"
+          >
+            <div className="size-14 rounded-full p-0.5 bg-gradient-to-tr from-red-600 via-rose-500 to-amber-400 shadow-sm flex items-center justify-center">
+              <div className="size-full rounded-full bg-white flex items-center justify-center text-xl">
+                {item.icon}
+              </div>
+            </div>
+            <span className="text-[10px] font-bold text-slate-700 tracking-tight">{item.label}</span>
+          </Link>
+        ))}
+      </div>
 
-      {/* Official Image-Based Festival Banner (Image Upper Side & Light Theme) */}
-      <section className="relative mb-8 sm:mb-10">
-        <div className="overflow-hidden rounded-3xl border border-rose-100/90 bg-white shadow-elevated transition-all">
+      {/* Official Image-Based Festival Banner (Mobile Optimized) */}
+      <section className="relative mb-4">
+        <div className="overflow-hidden rounded-2xl border border-rose-100/90 bg-white shadow-sm transition-all">
           {/* Upper Side: High-Res Image Banner */}
           <div
             onClick={openPosterBanner}
-            className="group relative w-full cursor-pointer overflow-hidden bg-slate-50"
+            className="group relative w-full cursor-pointer overflow-hidden bg-slate-100 aspect-[16/10]"
           >
             <img
               src="/Technorazz-2026%20Poster.png"
               alt="Jaipur National University Technorazz 2026 Official Festival Poster"
-              className="w-full max-h-[360px] sm:max-h-[440px] md:max-h-[500px] object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.01]"
+              className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.01]"
             />
             
             {/* Top Expand Pill */}
-            <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 border border-slate-200/90 px-3 py-1 text-xs font-bold text-slate-800 shadow-md backdrop-blur-md hover:bg-white transition-all">
-                <Sparkles className="size-3.5 text-amber-600" /> Tap to Expand 🔍
+            <div className="absolute top-2.5 right-2.5">
+              <span className="inline-flex items-center gap-1 rounded-full bg-white/95 border border-slate-200/90 px-2.5 py-0.5 text-[10px] font-bold text-slate-800 shadow-sm backdrop-blur-md">
+                <Sparkles className="size-3 text-amber-600" /> Expand 🔍
               </span>
             </div>
           </div>
 
-          {/* Lower Side: Clean Light Information & Action Bar */}
-          <div className="border-t border-rose-100/80 bg-white p-4 sm:p-6">
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-              <div>
-                <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 border border-rose-200/80 px-2.5 py-0.5 text-xs font-bold text-rose-900">
-                    <span className="size-2 rounded-full bg-emerald-500 animate-pulse" /> Technorazz 2026
-                  </span>
-                  <span className="rounded-full bg-amber-50 text-amber-800 border border-amber-200 px-2.5 py-0.5 text-xs font-bold">
-                    🏆 ₹5 Lakhs+ Prize Pool
-                  </span>
-                  <span className="text-xs text-slate-500 font-medium">
-                    📅 29th Sept – 01st Oct 2026
-                  </span>
-                </div>
-                <h1 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">
-                  Jaipur National University Mega Festival
-                </h1>
-                <p className="text-xs sm:text-sm text-slate-600 mt-1">
-                  Experience high-octane technical hackathons, cultural showcases, star celebrity concerts, and verified digital certifications.
-                </p>
-              </div>
+          {/* Lower Side: Clean Light Information & Quick Action Bar */}
+          <div className="border-t border-rose-100/80 bg-white p-3.5">
+            <div className="flex flex-wrap items-center gap-1.5 mb-1">
+              <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 border border-rose-200/80 px-2 py-0.5 text-[10px] font-bold text-rose-900">
+                <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" /> Technorazz 2026
+              </span>
+              <span className="rounded-full bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 text-[10px] font-bold">
+                🏆 ₹5 Lakhs+ Prizes
+              </span>
+            </div>
+            
+            <h1 className="font-display text-base font-extrabold tracking-tight text-slate-900">
+              Jaipur National University Mega Fest
+            </h1>
+            <p className="text-[11.5px] text-slate-500 mt-0.5 leading-tight">
+              29th Sept – 01st Oct 2026 • Main Campus, Jaipur
+            </p>
 
-              {/* Action Buttons */}
-              <div className="flex items-center gap-2.5 flex-wrap shrink-0">
-                <Link
-                  to="/events"
-                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-red-700 to-red-800 text-white px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm font-bold shadow-glow hover:brightness-105 active:scale-95 transition-all"
-                >
-                  Register for Events <ArrowRight className="size-4" />
-                </Link>
-                <button
-                  onClick={openPosterBanner}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-4 py-2.5 sm:px-5 sm:py-3 text-xs sm:text-sm font-bold text-rose-900 hover:bg-rose-100 active:scale-95 transition-all"
-                >
-                  <Eye className="size-4 text-primary" /> Full Poster
-                </button>
-                <Link
-                  to="/qr-pass"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-4 py-2.5 sm:px-5 sm:py-3 text-xs sm:text-sm font-semibold text-slate-800 hover:bg-slate-100 active:scale-95 transition-all"
-                >
-                  <QrCode className="size-4 text-primary" /> My Pass
-                </Link>
-              </div>
+            {/* Action Buttons */}
+            <div className="mt-3 flex items-center gap-2">
+              <Link
+                to="/events"
+                className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-red-700 to-red-800 text-white py-2 text-xs font-bold shadow-sm active:scale-95 transition-all"
+              >
+                Register Now <ArrowRight className="size-3.5" />
+              </Link>
+              <button
+                onClick={openPosterBanner}
+                className="inline-flex items-center justify-center gap-1 rounded-full border border-rose-200 bg-rose-50 px-3.5 py-2 text-xs font-bold text-rose-900 hover:bg-rose-100 active:scale-95 transition-all"
+              >
+                <Eye className="size-3.5 text-primary" /> Poster
+              </button>
+              <Link
+                to="/qr-pass"
+                className="inline-flex items-center justify-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs font-semibold text-slate-800 hover:bg-slate-100 active:scale-95 transition-all"
+              >
+                <QrCode className="size-3.5 text-primary" /> Pass
+              </Link>
             </div>
           </div>
         </div>
 
         {/* Live Countdown Grid Underneath Banner */}
-        <div className="mt-3 grid grid-cols-4 gap-2 sm:gap-3">
+        <div className="mt-2.5 grid grid-cols-4 gap-1.5">
           {[
-            { label: "Days Left", val: countdown.days },
+            { label: "Days", val: countdown.days },
             { label: "Hours", val: countdown.hours },
-            { label: "Minutes", val: countdown.minutes },
-            { label: "Seconds", val: countdown.seconds },
+            { label: "Mins", val: countdown.minutes },
+            { label: "Secs", val: countdown.seconds },
           ].map((item) => (
             <div
               key={item.label}
-              className="flex flex-col items-center justify-center rounded-2xl border border-rose-100 bg-white py-2 sm:py-2.5 px-2 shadow-sm"
+              className="flex flex-col items-center justify-center rounded-xl border border-rose-100/90 bg-white py-1.5 px-1 shadow-sm"
             >
-              <span className="font-display text-lg sm:text-2xl font-bold tracking-tight text-red-700 tabular-nums">
+              <span className="font-display text-base font-bold tracking-tight text-red-700 tabular-nums">
                 {String(item.val).padStart(2, "0")}
               </span>
-              <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-semibold">
+              <span className="text-[8.5px] uppercase tracking-wider text-slate-400 font-bold">
                 {item.label}
               </span>
             </div>
@@ -252,205 +270,157 @@ function Home() {
         </div>
       </section>
 
-
-      {/* Student Quick Hub (Apple Bento Grid) */}
-      <section className="mb-12">
-        <div className="mb-4 flex items-center justify-between">
-          <div>
-            <h2 className="font-display text-xl font-bold tracking-tight text-foreground">Student Hub</h2>
-            <p className="text-xs text-muted-foreground">Instant access to your festival pass, voting, and broadcasts</p>
-          </div>
+      {/* Student Quick Hub (2x2 Touch Bento Grid) */}
+      <section className="mb-6">
+        <div className="mb-2.5 flex items-center justify-between">
+          <h2 className="font-display text-sm font-bold tracking-tight text-slate-900">Student Quick Hub</h2>
+          <span className="text-[10px] font-semibold text-red-700">Explore All</span>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 gap-2.5">
           {/* Bento 1: QR Ticket */}
           <Link
             to="/qr-pass"
-            className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-black/[0.06] dark:border-white/[0.08] bg-card p-4 sm:p-5 shadow-apple transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:scale-[0.98]"
+            className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-rose-100 bg-white p-3.5 shadow-sm transition-all active:scale-[0.97]"
           >
             <div className="flex items-center justify-between">
-              <div className="grid size-11 place-items-center rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform">
-                <QrCode className="size-5" />
+              <div className="grid size-9 place-items-center rounded-xl bg-indigo-50 text-indigo-600">
+                <QrCode className="size-4.5" />
               </div>
-              <span className="flex size-2 rounded-full bg-emerald-500" />
+              <span className="flex size-2 rounded-full bg-emerald-500 animate-pulse" />
             </div>
-            <div className="mt-4">
-              <div className="font-display text-sm font-bold text-foreground group-hover:text-primary transition-colors">
+            <div className="mt-3">
+              <div className="font-display text-xs font-bold text-slate-900 group-hover:text-primary transition-colors">
                 My QR Pass
               </div>
-              <div className="text-[11px] text-muted-foreground mt-0.5">Ready for fast campus entry</div>
+              <div className="text-[10px] text-slate-400 mt-0.5">Fast campus entry</div>
             </div>
           </Link>
 
           {/* Bento 2: Live Stream */}
           <Link
             to="/live"
-            className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-black/[0.06] dark:border-white/[0.08] bg-card p-4 sm:p-5 shadow-apple transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:scale-[0.98]"
+            className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-rose-100 bg-white p-3.5 shadow-sm transition-all active:scale-[0.97]"
           >
             <div className="flex items-center justify-between">
-              <div className="grid size-11 place-items-center rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 group-hover:scale-110 transition-transform">
-                <Radio className="size-5" />
+              <div className="grid size-9 place-items-center rounded-xl bg-rose-50 text-rose-600">
+                <Radio className="size-4.5" />
               </div>
-              <span className="inline-flex items-center gap-1 rounded-full bg-rose-500/15 text-rose-600 px-1.5 py-0.5 text-[9px] font-bold">
+              <span className="inline-flex items-center gap-1 rounded-full bg-rose-100 text-rose-700 px-1.5 py-0.2 text-[8px] font-bold">
                 REC
               </span>
             </div>
-            <div className="mt-4">
-              <div className="font-display text-sm font-bold text-foreground group-hover:text-primary transition-colors">
-                Live Broadcast
+            <div className="mt-3">
+              <div className="font-display text-xs font-bold text-slate-900 group-hover:text-primary transition-colors">
+                Live Stream
               </div>
-              <div className="text-[11px] text-muted-foreground mt-0.5">Main stage 4K streaming</div>
+              <div className="text-[10px] text-slate-400 mt-0.5">Main stage 4K</div>
             </div>
           </Link>
 
           {/* Bento 3: Voting & Ranks */}
           <Link
             to="/voting"
-            className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-black/[0.06] dark:border-white/[0.08] bg-card p-4 sm:p-5 shadow-apple transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:scale-[0.98]"
+            className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-rose-100 bg-white p-3.5 shadow-sm transition-all active:scale-[0.97]"
           >
             <div className="flex items-center justify-between">
-              <div className="grid size-11 place-items-center rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform">
-                <Trophy className="size-5" />
+              <div className="grid size-9 place-items-center rounded-xl bg-amber-50 text-amber-600">
+                <Trophy className="size-4.5" />
               </div>
-              <span className="text-[10px] font-bold text-amber-600">LIVE</span>
+              <span className="text-[9px] font-extrabold text-amber-600">LIVE</span>
             </div>
-            <div className="mt-4">
-              <div className="font-display text-sm font-bold text-foreground group-hover:text-primary transition-colors">
+            <div className="mt-3">
+              <div className="font-display text-xs font-bold text-slate-900 group-hover:text-primary transition-colors">
                 Vote & Rank
               </div>
-              <div className="text-[11px] text-muted-foreground mt-0.5">Live audience score tally</div>
+              <div className="text-[10px] text-slate-400 mt-0.5">Live tally</div>
             </div>
           </Link>
 
           {/* Bento 4: Certificates */}
           <Link
             to="/certificates"
-            className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-black/[0.06] dark:border-white/[0.08] bg-card p-4 sm:p-5 shadow-apple transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:scale-[0.98]"
+            className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-rose-100 bg-white p-3.5 shadow-sm transition-all active:scale-[0.97]"
           >
             <div className="flex items-center justify-between">
-              <div className="grid size-11 place-items-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform">
-                <Award className="size-5" />
+              <div className="grid size-9 place-items-center rounded-xl bg-emerald-50 text-emerald-600">
+                <Award className="size-4.5" />
               </div>
-              <ShieldCheck className="size-4 text-emerald-500" />
+              <ShieldCheck className="size-3.5 text-emerald-500" />
             </div>
-            <div className="mt-4">
-              <div className="font-display text-sm font-bold text-foreground group-hover:text-primary transition-colors">
+            <div className="mt-3">
+              <div className="font-display text-xs font-bold text-slate-900 group-hover:text-primary transition-colors">
                 Certificates
               </div>
-              <div className="text-[11px] text-muted-foreground mt-0.5">Digitally signed & verified</div>
+              <div className="text-[10px] text-slate-400 mt-0.5">Signed & verified</div>
             </div>
           </Link>
         </div>
       </section>
 
-      {/* Flagship Fest Banner Card */}
-      {featured[0] && (
-        <section className="mb-14">
-          <Link
-            to="/events/$eventId"
-            params={{ eventId: featured[0].id }}
-            className="group relative block overflow-hidden rounded-3xl border border-rose-100 bg-white shadow-elevated transition-transform hover:-translate-y-1"
-          >
-            <div className="relative aspect-[21/9] min-h-[220px] w-full overflow-hidden">
-              <img
-                src={featured[0].image}
-                alt={featured[0].name}
-                className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/40 to-transparent" />
-              <div className="absolute inset-0 flex flex-col justify-center p-6 sm:p-10 max-w-xl">
-                <div className="inline-flex items-center gap-1.5 rounded-full bg-amber-400 text-slate-900 px-3 py-1 text-[10px] font-bold uppercase tracking-wider w-fit mb-2 shadow-sm">
-                  ★ FEATURED SUMMIT
-                </div>
-                <h3 className="font-display text-2xl sm:text-4xl font-extrabold tracking-tight text-white drop-shadow-sm">
-                  {featured[0].name}
-                </h3>
-                <p className="mt-2 text-xs sm:text-sm text-slate-100 line-clamp-2">
-                  {featured[0].tagline}
-                </p>
-                <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-slate-200">
-                  <span className="flex items-center gap-1"><Calendar className="size-3.5 text-amber-300" /> 28–30 Sept 2026</span>
-                  <span className="flex items-center gap-1"><MapPin className="size-3.5 text-amber-300" /> {featured[0].venue}</span>
-                  <span className="flex items-center gap-1"><Users className="size-3.5 text-amber-300" /> {featured[0].participants}</span>
-                </div>
-              </div>
+      {/* STAR-VIBES FOR YOU (Swipeable Mobile Celebrity Carousel) */}
+      <section className="mb-6 rounded-2xl bg-white p-3.5 border border-rose-100 shadow-sm relative overflow-hidden">
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <div className="inline-flex items-center gap-1 rounded-full bg-rose-50 border border-rose-200 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-rose-900">
+              ★ STAR-VIBES
             </div>
-          </Link>
-        </section>
-      )}
+            <h2 className="font-display text-sm font-bold tracking-tight text-slate-900 mt-1">
+              Headline Artists
+            </h2>
+          </div>
+          <span className="text-[10px] font-semibold text-slate-500">
+            📍 Fest Arena
+          </span>
+        </div>
 
-      {/* STAR-VIBES FOR YOU (Celebrity Lineup) */}
-      <section className="mb-14 rounded-3xl bg-white p-6 sm:p-8 border border-rose-100 shadow-apple relative overflow-hidden">
-        <div className="pointer-events-none absolute -right-20 -top-20 size-80 rounded-full bg-red-600/5 blur-3xl" />
-        <div className="pointer-events-none absolute -left-20 -bottom-20 size-80 rounded-full bg-amber-500/5 blur-3xl" />
-        
-        <div className="relative">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
-            <div>
-              <div className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 border border-rose-200 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-rose-900 mb-2">
-                ★ STAR-VIBES FOR YOU
+        <div className="flex items-center gap-3 overflow-x-auto no-scrollbar pb-1">
+          {[
+            {
+              name: "Tej Gill",
+              role: "Singer & Performer",
+              tag: "Star Night",
+              image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=400&fit=crop",
+            },
+            {
+              name: "DJ Tan",
+              role: "Celebrity DJ",
+              tag: "EDM Fusion",
+              image: "https://images.unsplash.com/photo-1571266028243-3716f02d2d2e?w=400&h=400&fit=crop",
+            },
+            {
+              name: "Snehi Live",
+              role: "Acoustic Guitarist",
+              tag: "Unplugged",
+              image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop",
+            },
+            {
+              name: "Rishabh C.",
+              role: "Playback Singer",
+              tag: "Finale",
+              image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+            },
+          ].map((star) => (
+            <div
+              key={star.name}
+              className="w-32 shrink-0 rounded-xl border border-slate-200/80 bg-slate-50/70 p-2 text-center active:scale-95 transition-all"
+            >
+              <div className="relative size-24 mx-auto rounded-xl overflow-hidden mb-2">
+                <img
+                  src={star.image}
+                  alt={star.name}
+                  className="size-full object-cover"
+                />
+                <span className="absolute bottom-1 left-1 right-1 rounded-full bg-primary text-white text-[8px] font-bold uppercase tracking-wider py-0.2">
+                  {star.tag}
+                </span>
               </div>
-              <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
-                Headline Artists & Performers
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-600 mt-1">
-                Experience high-energy live concerts, acoustic sets, and star DJ nights across 3 days
-              </p>
+              <div className="font-display text-xs font-bold text-slate-900 truncate">
+                {star.name}
+              </div>
+              <div className="text-[10px] text-slate-500 truncate">{star.role}</div>
             </div>
-            <span className="text-xs font-semibold text-rose-800 bg-rose-50 border border-rose-200/80 rounded-full px-3.5 py-1.5 w-fit">
-              📍 Main Stage & Fest Arena
-            </span>
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {[
-              {
-                name: "Tej Gill",
-                role: "Celebrity Singer & Performer",
-                tag: "Star Night",
-                image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=400&fit=crop",
-              },
-              {
-                name: "DJ Tan",
-                role: "Celebrity DJ & Producer",
-                tag: "EDM Fusion",
-                image: "https://images.unsplash.com/photo-1571266028243-3716f02d2d2e?w=400&h=400&fit=crop",
-              },
-              {
-                name: "Snehi Live",
-                role: "Acoustic Singer & Guitarist",
-                tag: "Unplugged Eve",
-                image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop",
-              },
-              {
-                name: "Rishabh Chaturvedi",
-                role: "Bollywood Playback Singer",
-                tag: "Grand Finale",
-                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-              },
-            ].map((star) => (
-              <div
-                key={star.name}
-                className="group relative overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-50/70 p-3 transition-all duration-300 hover:-translate-y-1 hover:border-rose-300 hover:bg-white hover:shadow-md"
-              >
-                <div className="relative aspect-square rounded-xl overflow-hidden mb-3">
-                  <img
-                    src={star.image}
-                    alt={star.name}
-                    className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
-                  <span className="absolute bottom-2 left-2 rounded-full bg-primary text-white px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">
-                    {star.tag}
-                  </span>
-                </div>
-                <div className="font-display text-sm font-bold text-slate-900 group-hover:text-primary transition-colors">
-                  {star.name}
-                </div>
-                <div className="text-[11px] text-slate-500 mt-0.5">{star.role}</div>
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
       </section>
 

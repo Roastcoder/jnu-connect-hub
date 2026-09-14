@@ -53,94 +53,107 @@ function EventDetail() {
 
   return (
     <AppShell>
-      <Link to="/events" className="mb-4 inline-block text-sm text-muted-foreground hover:text-foreground">
-        ← All events
+      {/* Mobile Back Button */}
+      <Link
+        to="/events"
+        className="inline-flex items-center gap-1.5 rounded-full bg-white border border-rose-100 px-3 py-1 text-xs font-bold text-slate-700 shadow-sm mb-3 active:scale-95 transition-all"
+      >
+        ← Back to Events
       </Link>
 
-      {/* Hero */}
-      <div className="relative overflow-hidden rounded-3xl shadow-elevated">
-        <img src={event.image} alt={event.name} loading="lazy" className="h-72 w-full object-cover md:h-96" />
-        <div className="absolute inset-0 bg-gradient-hero opacity-70 mix-blend-multiply" />
-        <div className="absolute inset-0 flex flex-col justify-end p-6 text-primary-foreground md:p-10">
-          <div className="text-[11px] font-semibold uppercase tracking-widest text-primary-glow">
-            {event.category}
+      {/* Hero Banner */}
+      <div className="relative overflow-hidden rounded-3xl border border-rose-100/80 bg-white shadow-sm">
+        <div className="relative aspect-[16/10] w-full overflow-hidden">
+          <img
+            src={event.image}
+            alt={event.name}
+            loading="lazy"
+            className="size-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+          <div className="absolute inset-x-3.5 bottom-3.5 text-white">
+            <span className="inline-block rounded-full bg-gradient-to-r from-red-600 to-rose-600 px-2.5 py-0.5 text-[9px] font-extrabold uppercase tracking-widest text-white shadow-sm mb-1.5">
+              {event.category}
+            </span>
+            <h1 className="font-display text-xl font-black leading-tight text-white drop-shadow-sm">
+              {event.name}
+            </h1>
+            <p className="mt-1 text-xs text-white/90 line-clamp-2 leading-relaxed">
+              {event.tagline}
+            </p>
           </div>
-          <h1 className="font-display text-3xl font-bold md:text-5xl">{event.name}</h1>
-          <p className="mt-2 max-w-xl text-sm text-white/85 md:text-base">{event.tagline}</p>
         </div>
       </div>
 
-      {/* Meta cards */}
-      <div className="mt-6 grid gap-3 md:grid-cols-4">
+      {/* Meta cards 2x2 grid */}
+      <div className="mt-3 grid grid-cols-2 gap-2">
         <MetaCard Icon={CalendarDays} label="Date" value={formatRange(event.startDate, event.endDate)} />
         <MetaCard Icon={MapPin} label="Venue" value={event.venue} />
-        {event.prizePool && <MetaCard Icon={Trophy} label="Prize Pool" value={event.prizePool} />}
-        {event.participants && <MetaCard Icon={Users} label="Participants" value={event.participants} />}
+        {event.prizePool && <MetaCard Icon={Trophy} label="Prize Pool" value={event.prizePool} highlight />}
+        {event.participants && <MetaCard Icon={Users} label="Expected" value={event.participants} />}
       </div>
 
-      {/* Tabs */}
-      <div className="mt-8 -mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
-        <div className="inline-flex min-w-full gap-1 rounded-full border border-border bg-card p-1">
-          {tabs.map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={
-                "shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-xs font-semibold transition-all md:flex-1 md:text-sm " +
-                (tab === t
-                  ? "bg-gradient-primary text-primary-foreground shadow-glow"
-                  : "text-muted-foreground hover:text-foreground")
-              }
-            >
-              {t}
-            </button>
-          ))}
-        </div>
+      {/* Segmented Tab Controls */}
+      <div className="mt-4 flex items-center gap-1 overflow-x-auto no-scrollbar rounded-2xl bg-white p-1 border border-rose-100 shadow-sm">
+        {tabs.map((t) => (
+          <button
+            key={t}
+            onClick={() => setTab(t)}
+            className={
+              "shrink-0 rounded-xl px-3 py-1.5 text-xs font-bold transition-all " +
+              (tab === t
+                ? "bg-gradient-to-r from-red-700 to-red-800 text-white shadow-sm"
+                : "text-slate-600 hover:text-slate-900")
+            }
+          >
+            {t}
+          </button>
+        ))}
       </div>
 
-
-      <div className="mt-6 rounded-3xl border border-border/60 bg-card p-6 shadow-elevated md:p-8">
+      {/* Tab Content Box */}
+      <div className="mt-3 rounded-2xl border border-rose-100 bg-white p-4 shadow-sm min-h-[140px]">
         {tab === "About" && (
-          <p className="text-sm leading-relaxed text-muted-foreground md:text-base">{event.description}</p>
+          <p className="text-xs leading-relaxed text-slate-700">{event.description}</p>
         )}
         {tab === "Schedule" && (
-          <ol className="space-y-4">
+          <ol className="space-y-3">
             {event.schedule.map((s, i) => (
-              <li key={i} className="flex gap-4">
-                <div className="mt-1 grid size-8 shrink-0 place-items-center rounded-full bg-gradient-primary text-xs font-bold text-primary-foreground shadow-glow">
+              <li key={i} className="flex gap-3 items-start">
+                <div className="grid size-6 shrink-0 place-items-center rounded-full bg-rose-50 border border-rose-200 text-[10px] font-black text-rose-800">
                   {i + 1}
                 </div>
                 <div>
-                  <div className="text-xs font-semibold uppercase tracking-widest text-primary">{s.time}</div>
-                  <div className="font-medium">{s.title}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-red-700">{s.time}</div>
+                  <div className="text-xs font-bold text-slate-900">{s.title}</div>
                 </div>
               </li>
             ))}
           </ol>
         )}
         {tab === "Rules" && (
-          <ul className="space-y-3 text-sm text-muted-foreground">
+          <ul className="space-y-2.5 text-xs text-slate-700">
             {event.rules.map((r, i) => (
-              <li key={i} className="flex gap-3">
-                <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-primary" />
-                <span>{r}</span>
+              <li key={i} className="flex gap-2.5 items-start">
+                <CheckCircle2 className="mt-0.5 size-3.5 shrink-0 text-emerald-600" />
+                <span className="leading-snug">{r}</span>
               </li>
             ))}
           </ul>
         )}
         {tab === "Sub Events" && (
-          <div className="grid gap-3 md:grid-cols-2">
+          <div className="space-y-2">
             {event.subEvents.length === 0 ? (
-              <div className="text-sm text-muted-foreground">No sub-events for this event.</div>
+              <div className="text-xs text-slate-500 text-center py-4">No sub-events listed for this competition.</div>
             ) : (
               event.subEvents.map((s) => (
-                <div key={s.id} className="rounded-2xl border border-border/60 bg-background p-4">
-                  <div className="flex items-start justify-between gap-3">
+                <div key={s.id} className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                  <div className="flex items-start justify-between gap-2">
                     <div>
-                      <h4 className="font-display font-semibold">{s.name}</h4>
-                      <p className="mt-0.5 text-xs text-muted-foreground">{s.description}</p>
+                      <h4 className="font-display text-xs font-bold text-slate-900">{s.name}</h4>
+                      <p className="mt-0.5 text-[11px] text-slate-500">{s.description}</p>
                     </div>
-                    <div className="rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold text-primary">
+                    <div className="shrink-0 rounded-full bg-rose-50 border border-rose-200 px-2 py-0.5 text-[10px] font-bold text-rose-800">
                       {s.fee > 0 ? `₹${s.fee}` : "Free"}
                     </div>
                   </div>
@@ -150,19 +163,20 @@ function EventDetail() {
           </div>
         )}
         {tab === "Special Guests" && (
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-2.5">
             {!event.specialGuests || event.specialGuests.length === 0 ? (
-              <div className="text-sm text-muted-foreground">Special guests will be announced soon.</div>
+              <div className="text-xs text-slate-500 text-center py-4">Special guests will be announced soon.</div>
             ) : (
               event.specialGuests.map((g) => (
-                <div key={g.id} className="flex gap-4 rounded-2xl border border-border/60 bg-background p-4">
-                  <img src={g.photo} alt={g.name} className="size-20 shrink-0 rounded-2xl object-cover shadow-glow" />
-                  <div className="min-w-0">
-                    <div className="inline-flex items-center gap-1.5 rounded-full bg-accent/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-accent">✦ Guest of Honour</div>
-                    <h4 className="mt-1 font-display text-base font-semibold">{g.name}</h4>
-                    <div className="text-xs text-primary">{g.title}</div>
-                    <div className="text-xs text-muted-foreground">{g.org}</div>
-                    {g.bio && <p className="mt-1 line-clamp-3 text-xs text-muted-foreground">{g.bio}</p>}
+                <div key={g.id} className="flex gap-3 rounded-xl border border-slate-100 bg-slate-50/70 p-2.5">
+                  <img src={g.photo} alt={g.name} className="size-14 shrink-0 rounded-xl object-cover shadow-sm" />
+                  <div className="min-w-0 flex-1">
+                    <div className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.2 text-[8px] font-bold uppercase tracking-wider text-amber-800">
+                      ✦ Guest of Honour
+                    </div>
+                    <h4 className="mt-0.5 font-display text-xs font-bold text-slate-900 truncate">{g.name}</h4>
+                    <div className="text-[10px] font-semibold text-red-700 truncate">{g.title}</div>
+                    <div className="text-[10px] text-slate-500 truncate">{g.org}</div>
                   </div>
                 </div>
               ))
@@ -171,20 +185,20 @@ function EventDetail() {
         )}
       </div>
 
-      {/* Register CTA */}
-      <div className="sticky bottom-24 mt-8 flex items-center justify-between rounded-3xl border border-border/60 bg-card p-4 shadow-elevated md:bottom-6 md:p-5">
+      {/* Floating Bottom Sticky Action Bar */}
+      <div className="sticky bottom-20 mt-6 flex items-center justify-between rounded-2xl border border-rose-100 bg-white/95 backdrop-blur-md p-3.5 shadow-lg">
         <div>
-          <div className="text-xs text-muted-foreground">Registration Fee</div>
-          <div className="font-display text-2xl font-bold text-primary">
-            {event.price > 0 ? `₹${event.price}` : "Free"}
+          <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Entry Fee</div>
+          <div className="font-display text-lg font-black text-red-700">
+            {event.price > 0 ? `₹${event.price}` : "FREE"}
           </div>
         </div>
         <Link
           to="/events/$eventId/register"
           params={{ eventId: event.id }}
-          className="inline-flex items-center gap-2 rounded-full bg-gradient-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-transform hover:-translate-y-0.5"
+          className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-red-700 to-red-800 px-5 py-2.5 text-xs font-bold text-white shadow-md active:scale-95 transition-all"
         >
-          <Ticket className="size-4" />
+          <Ticket className="size-3.5" />
           Register Now
         </Link>
       </div>
@@ -196,18 +210,22 @@ function MetaCard({
   Icon,
   label,
   value,
+  highlight,
 }: {
   Icon: React.ComponentType<{ className?: string }>;
   label: string;
   value: string;
+  highlight?: boolean;
 }) {
   return (
-    <div className="rounded-2xl border border-border/60 bg-card p-4 shadow-elevated">
-      <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground">
-        <Icon className="size-3.5 text-primary" />
+    <div className={`rounded-xl border p-2.5 shadow-xs ${highlight ? "bg-amber-50/60 border-amber-200" : "bg-white border-rose-100"}`}>
+      <div className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-slate-500">
+        <Icon className={`size-3 ${highlight ? "text-amber-700" : "text-red-700"}`} />
         {label}
       </div>
-      <div className="mt-1 font-display text-sm font-semibold">{value}</div>
+      <div className={`mt-0.5 font-display text-xs font-bold truncate ${highlight ? "text-amber-900 font-extrabold" : "text-slate-900"}`}>
+        {value}
+      </div>
     </div>
   );
 }

@@ -16,10 +16,10 @@ export const Route = createFileRoute("/qr-pass")({
 });
 
 function QrPassPage() {
-  const [userName, setUserName] = useState("Yogendra Singh");
+  const [userName, setUserName] = useState("Student");
   const [enrollment, setEnrollment] = useState("23JNU1084");
   const [eventName, setEventName] = useState("TECHNORAZZ 2026");
-  const [subEventName, setSubEventName] = useState("Hackathon");
+  const [subEventName, setSubEventName] = useState("Main Stage & Competitions");
   const [regId, setRegId] = useState("JNU2026TR01");
 
   useEffect(() => {
@@ -38,6 +38,7 @@ function QrPassPage() {
         setRegId(first.ticket_code || "JNU2026TR01");
         const ev = getEvent(first.event_id);
         if (ev) setEventName(ev.name);
+        if (first.sub_event) setSubEventName(first.sub_event);
       }
     }
     load();
@@ -45,35 +46,102 @@ function QrPassPage() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow="QR Pass" title="Scan at the event gate" />
-      <div className="mx-auto max-w-md rounded-3xl border border-border/60 bg-card p-6 shadow-elevated">
-        <div className="mx-auto grid size-60 place-items-center rounded-3xl bg-gradient-primary text-primary-foreground shadow-glow">
-          <QrCode className="size-40" />
+      <PageHeader
+        eyebrow="Official Pass"
+        title="Student Entry Pass"
+        subtitle="Present this digital QR badge at the main campus entrance or event arena."
+      />
+
+      {/* Apple / Google Wallet Styled Pass */}
+      <div className="relative overflow-hidden rounded-3xl border border-rose-100/90 bg-white shadow-md">
+        {/* Pass Header */}
+        <div className="bg-gradient-to-r from-red-700 via-red-800 to-rose-900 p-5 text-white">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="grid size-7 place-items-center rounded-lg bg-white/20 text-xs font-black">
+                JNU
+              </span>
+              <div>
+                <div className="text-[9px] font-extrabold uppercase tracking-widest text-amber-300">Jaipur National University</div>
+                <div className="font-display text-sm font-black">TECHNORAZZ 2026</div>
+              </div>
+            </div>
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 px-2 py-0.5 text-[9px] font-bold uppercase text-emerald-200">
+              <span className="size-1.5 rounded-full bg-emerald-400 animate-ping" /> VALID PASS
+            </span>
+          </div>
+
+          <div className="mt-4 flex items-end justify-between border-t border-white/15 pt-3">
+            <div>
+              <div className="text-[9px] uppercase tracking-wider text-white/70 font-semibold">Attendee</div>
+              <div className="font-display text-base font-black text-white">{userName}</div>
+            </div>
+            <div className="text-right">
+              <div className="text-[9px] uppercase tracking-wider text-white/70 font-semibold">Enrollment</div>
+              <div className="font-mono text-xs font-bold text-amber-200">{enrollment}</div>
+            </div>
+          </div>
         </div>
-        <dl className="mt-6 grid grid-cols-2 gap-4 text-sm">
-          <Row label="Name" value={userName} />
-          <Row label="Enrollment" value={enrollment} />
-          <Row label="Event" value={eventName} />
-          <Row label="Sub Event" value={subEventName} />
-          <Row label="Reg. ID" value={regId} />
-          <Row label="Gate" value="Plus Gate" />
-        </dl>
+
+        {/* Ticket Perforated Cutout Divider */}
+        <div className="relative flex items-center justify-between bg-white py-1">
+          <div className="size-6 -ml-3 rounded-full bg-slate-50 border-r border-rose-100" />
+          <div className="w-full border-t-2 border-dashed border-slate-200 mx-2" />
+          <div className="size-6 -mr-3 rounded-full bg-slate-50 border-l border-rose-100" />
+        </div>
+
+        {/* Pass QR Body */}
+        <div className="p-5 text-center bg-white">
+          <div className="mx-auto inline-block rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 p-4 shadow-sm">
+            <QrCode className="size-44 text-white" />
+          </div>
+          <div className="mt-3 font-mono text-xs font-bold text-slate-800 tracking-wider">
+            {regId}
+          </div>
+          <div className="mt-0.5 text-[10px] text-slate-400 font-semibold">
+            One-Scan Entry Badge · Valid for all 3 Days
+          </div>
+
+          {/* Details Grid */}
+          <div className="mt-4 grid grid-cols-2 gap-2 rounded-xl bg-slate-50/80 p-3 text-left border border-slate-100">
+            <div>
+              <div className="text-[9px] uppercase font-bold text-slate-400 tracking-wider">Access Category</div>
+              <div className="text-xs font-bold text-slate-900 truncate">{subEventName}</div>
+            </div>
+            <div>
+              <div className="text-[9px] uppercase font-bold text-slate-400 tracking-wider">Gate Location</div>
+              <div className="text-xs font-bold text-slate-900">Main Campus Gate 1 & 2</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Action Buttons */}
+      <div className="mt-4 grid grid-cols-2 gap-2">
         <button
           onClick={() => window.print()}
-          className="mt-6 w-full rounded-full bg-gradient-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-glow"
+          className="flex items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-red-700 to-red-800 py-3 text-xs font-bold text-white shadow-sm active:scale-95 transition-all"
         >
-          Print / Download Pass
+          Print / Save PDF
+        </button>
+        <button
+          onClick={() => {
+            if (navigator.share) {
+              navigator.share({
+                title: "Technorazz 2026 QR Pass",
+                text: `My Official JNU Technorazz 2026 Pass (${regId})`,
+                url: window.location.href,
+              }).catch(() => {});
+            } else {
+              navigator.clipboard.writeText(window.location.href);
+              alert("Pass link copied to clipboard!");
+            }
+          }}
+          className="flex items-center justify-center gap-1.5 rounded-full bg-white border border-rose-100 py-3 text-xs font-bold text-slate-700 shadow-sm hover:bg-slate-50 active:scale-95 transition-all"
+        >
+          Share Pass
         </button>
       </div>
     </AppShell>
-  );
-}
-
-function Row({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <dt className="text-xs uppercase tracking-widest text-muted-foreground">{label}</dt>
-      <dd className="mt-0.5 font-medium">{value}</dd>
-    </div>
   );
 }

@@ -48,33 +48,41 @@ function EventsPage() {
   return (
     <AppShell>
       <PageHeader
-        eyebrow="All Events"
-        title="Every campus moment, in one place"
-        subtitle="Filter by category or search by name. Register once, save your QR pass, collect certificates."
+        eyebrow="Campus Competitions"
+        title="Explore All Events"
+        subtitle="Filter by category, register in seconds, and access your digital QR pass."
       />
 
-      <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Search events..."
-            className="w-full rounded-full border border-border bg-card py-2.5 pl-10 pr-4 text-sm outline-none transition-colors focus:border-primary"
-          />
-        </div>
+      {/* Mobile Search Bar */}
+      <div className="mb-4 relative">
+        <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="Search events, workshops, hackathons..."
+          className="w-full rounded-2xl border border-rose-100 bg-white py-2.5 pl-10 pr-4 text-xs sm:text-sm font-medium text-slate-900 outline-none shadow-sm placeholder:text-slate-400 focus:border-red-600 focus:ring-2 focus:ring-red-600/10 transition-all"
+        />
+        {q && (
+          <button
+            onClick={() => setQ("")}
+            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-slate-100 p-1 text-[10px] text-slate-500 hover:text-slate-900"
+          >
+            ✕
+          </button>
+        )}
       </div>
 
-      <div className="mb-8 flex flex-wrap gap-2">
+      {/* Horizontal Swipeable Category Pills */}
+      <div className="mb-5 flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
         {categories.map((c) => (
           <button
             key={c}
             onClick={() => setCat(c)}
             className={
-              "rounded-full px-4 py-1.5 text-xs font-semibold transition-all " +
+              "shrink-0 rounded-full px-4 py-1.5 text-xs font-bold transition-all " +
               (cat === c
-                ? "bg-gradient-primary text-primary-foreground shadow-glow"
-                : "bg-secondary text-secondary-foreground hover:bg-secondary/70")
+                ? "bg-gradient-to-r from-red-700 to-red-800 text-white shadow-sm scale-105"
+                : "bg-white border border-rose-100 text-slate-600 hover:text-slate-900 hover:bg-slate-50")
             }
           >
             {c}
@@ -82,12 +90,16 @@ function EventsPage() {
         ))}
       </div>
 
-      {filtered.length === 0 ? (
-        <div className="rounded-3xl border border-dashed border-border p-12 text-center text-muted-foreground">
-          No events match your search.
+      {loading ? (
+        <div className="py-16 text-center text-xs font-semibold text-slate-400 animate-pulse">
+          Loading campus events...
+        </div>
+      ) : filtered.length === 0 ? (
+        <div className="rounded-2xl border border-dashed border-rose-200 bg-white p-8 text-center text-xs text-slate-500">
+          No events found matching "{q}". Try a different search.
         </div>
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4">
           {filtered.map((e) => (
             <EventCard key={e.id} event={e} />
           ))}
