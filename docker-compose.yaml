@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - JWT_SECRET=jnu_connect_hub_super_secure_jwt_secret_2026
+      - JWT_EXPIRATION=7d
+      - DATABASE_URL=postgres://jnu:Jnu%40637811@187.77.187.120:6666/postgres
+      - CORS_ORIGIN=*
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      - VITE_API_URL=http://localhost:3000/api
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
