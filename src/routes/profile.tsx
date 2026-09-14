@@ -101,7 +101,12 @@ function ProfilePage() {
       });
   }, [user?.id]);
 
-  const displayName = profile?.full_name ?? user?.full_name ?? user?.email?.split("@")[0] ?? "Student";
+  const displayName =
+    profile?.full_name ??
+    user?.profile?.full_name ??
+    user?.full_name ??
+    user?.email?.split("@")[0] ??
+    "Student";
   const dashes = dashboardsFor(roles);
   const primaryRole = (roles.find((r) => r !== "student") ?? roles[0] ?? "student") as AppRole;
   const confirmed = regs.filter((r) => r.status === "Confirmed").length;

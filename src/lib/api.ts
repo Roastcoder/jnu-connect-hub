@@ -11,6 +11,7 @@ const USER_KEY = 'jnu_auth_user';
 export interface AuthUser {
   id: string;
   email: string;
+  full_name?: string | null;
   profile?: {
     id?: string;
     full_name?: string | null;

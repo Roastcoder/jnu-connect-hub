@@ -103,6 +103,7 @@ function Home() {
   const displayName = (() => {
     const raw =
       profile?.full_name?.trim() ||
+      user?.profile?.full_name?.trim() ||
       user?.full_name?.trim() ||
       (user?.email ? user.email.split("@")[0] : "");
     if (!raw) return "Student";
