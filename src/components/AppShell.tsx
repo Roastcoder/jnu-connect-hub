@@ -150,27 +150,37 @@ function AuthButton() {
 export function BottomNav({ pathname }: { pathname: string }) {
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-border/60 bg-background md:hidden"
-      style={{ paddingBottom: "max(env(safe-area-inset-bottom), 0.5rem)" }}
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-black/[0.08] dark:border-white/[0.1] bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.06)] md:hidden"
+      style={{ paddingBottom: "max(env(safe-area-inset-bottom), 0.75rem)" }}
     >
-      <div className="mx-auto flex max-w-lg items-stretch justify-around px-4 pb-1 pt-1.5 md:px-6">
+      <div className="mx-auto flex max-w-lg items-center justify-around px-3 pt-2">
         {bottomNav.map(({ to, label, Icon }) => {
           const active = to === "/" ? pathname === "/" : pathname.startsWith(to);
           return (
             <Link
               key={to}
               to={to}
-              className="flex min-w-14 flex-1 flex-col items-center gap-0.5 rounded-2xl px-2 py-1.5 text-[10px] font-medium transition-colors"
+              className="flex min-w-14 flex-col items-center gap-1 py-1 text-[10px] font-semibold transition-all active:scale-95"
             >
               <span
                 className={
-                  "grid size-10 place-items-center rounded-2xl transition-all " +
-                  (active ? "bg-gradient-primary text-primary-foreground shadow-glow" : "text-muted-foreground")
+                  "grid size-9 place-items-center rounded-full transition-all duration-200 " +
+                  (active
+                    ? "bg-primary text-white shadow-sm scale-105"
+                    : "text-muted-foreground hover:text-foreground hover:bg-slate-100 dark:hover:bg-zinc-800")
                 }
               >
-                <Icon className="size-5" />
+                <Icon className="size-4" />
               </span>
-              <span className={active ? "text-primary" : "text-muted-foreground"}>{label}</span>
+              <span
+                className={
+                  active
+                    ? "font-bold text-primary"
+                    : "text-muted-foreground"
+                }
+              >
+                {label}
+              </span>
             </Link>
           );
         })}
