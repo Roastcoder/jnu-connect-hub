@@ -16,7 +16,8 @@ import {
   ShieldCheck,
   FileText,
   Download,
-  Share2
+  Share2,
+  Eye,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { AppShell } from "@/components/AppShell";
@@ -158,111 +159,96 @@ function Home() {
       {/* Official Poster Popup Banner Component */}
       <PosterPopupBanner />
 
-      {/* Apple-style Keynote Hero */}
-      <section className="relative mb-10 overflow-hidden rounded-3xl bg-slate-950 text-white shadow-2xl border border-white/10">
-        {/* Ambient Backlight Glows */}
-        <div className="pointer-events-none absolute -left-20 -top-20 size-96 rounded-full bg-indigo-600/30 blur-3xl" />
-        <div className="pointer-events-none absolute -right-20 -bottom-20 size-96 rounded-full bg-purple-600/30 blur-3xl" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.15)_0%,transparent_70%)]" />
-
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 sm:p-8 md:p-12 items-center">
-          <div className="lg:col-span-7 flex flex-col justify-center">
-            {/* Live Campus Pill */}
-            <div className="mb-4 flex flex-wrap items-center gap-2">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold backdrop-blur-md w-fit">
-                <span className="flex size-2 rounded-full bg-emerald-400 animate-ping" />
-                <span className="size-2 rounded-full bg-emerald-400" />
-                <span className="text-white/90">Technorazz 2026 • Sept 29–Oct 01</span>
-              </div>
-
-              <button
-                onClick={openPosterBanner}
-                className="inline-flex items-center gap-1.5 rounded-full border border-pink-500/30 bg-pink-500/10 px-3 py-1 text-xs font-bold text-pink-300 backdrop-blur-md hover:bg-pink-500/20 transition-all cursor-pointer shadow-sm"
-              >
-                <Sparkles className="size-3 text-pink-400" /> Official Poster 📄
-              </button>
-            </div>
-
-            <h1 className="font-display text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08] text-white">
-              The Grand <br className="hidden sm:block" />
-              <span className="bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">
-                National Fest.
+      {/* Official Image-Based Festival Banner (Image Upper Side & Light Theme) */}
+      <section className="relative mb-8 sm:mb-10">
+        <div className="overflow-hidden rounded-3xl border border-rose-100/90 bg-white shadow-elevated transition-all">
+          {/* Upper Side: High-Res Image Banner */}
+          <div
+            onClick={openPosterBanner}
+            className="group relative w-full cursor-pointer overflow-hidden bg-slate-50"
+          >
+            <img
+              src="/image.png"
+              alt="Jaipur National University Technorazz 2026 Official Festival Poster"
+              className="w-full max-h-[360px] sm:max-h-[440px] md:max-h-[500px] object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.01]"
+            />
+            
+            {/* Top Expand Pill */}
+            <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 border border-slate-200/90 px-3 py-1 text-xs font-bold text-slate-800 shadow-md backdrop-blur-md hover:bg-white transition-all">
+                <Sparkles className="size-3.5 text-amber-600" /> Tap to Expand 🔍
               </span>
-            </h1>
-
-            <p className="mt-4 max-w-xl text-sm sm:text-base text-slate-300 leading-relaxed">
-              Welcome back, <span className="text-white font-semibold">{displayName}</span>! Experience 3 days of high-octane technical summits, cultural showcases, esports championships, star-vibes celebrity nights, and verified digital certifications.
-            </p>
-
-            {/* Live Countdown Grid */}
-            <div className="mt-6 flex items-center gap-2 sm:gap-3">
-              {[
-                { label: "Days", val: countdown.days },
-                { label: "Hours", val: countdown.hours },
-                { label: "Mins", val: countdown.minutes },
-                { label: "Secs", val: countdown.seconds },
-              ].map((item, i) => (
-                <div
-                  key={item.label}
-                  className="flex flex-col items-center justify-center rounded-xl border border-white/10 bg-white/5 px-3 py-2 sm:px-4 sm:py-2.5 backdrop-blur-md min-w-[62px] sm:min-w-[72px]"
-                >
-                  <span className="font-display text-lg sm:text-2xl font-bold tracking-tight text-white tabular-nums">
-                    {String(item.val).padStart(2, "0")}
-                  </span>
-                  <span className="text-[10px] uppercase tracking-wider text-slate-400 font-medium">
-                    {item.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA Actions */}
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link
-                to="/events"
-                className="inline-flex items-center gap-2 rounded-full bg-white text-slate-950 px-6 py-3 text-xs sm:text-sm font-bold shadow-lg transition-all duration-200 hover:bg-slate-100 hover:scale-[1.02] active:scale-[0.98]"
-              >
-                Register for Events <ArrowRight className="size-4" />
-              </Link>
-              <button
-                onClick={openPosterBanner}
-                className="inline-flex items-center gap-2 rounded-full border border-pink-400/30 bg-pink-500/20 px-5 py-3 text-xs sm:text-sm font-bold text-pink-200 backdrop-blur-md transition-all duration-200 hover:bg-pink-500/30 active:scale-[0.98]"
-              >
-                <Sparkles className="size-4 text-pink-400" /> View Poster
-              </button>
-              <Link
-                to="/qr-pass"
-                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-3 text-xs sm:text-sm font-semibold text-white backdrop-blur-md transition-all duration-200 hover:bg-white/20 active:scale-[0.98]"
-              >
-                <QrCode className="size-4" /> My Pass
-              </Link>
             </div>
           </div>
 
-          {/* Right Visual Card - Interactive Poster Card */}
-          <div className="lg:col-span-5 relative">
-            <div
-              onClick={openPosterBanner}
-              className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/15 shadow-2xl group cursor-pointer"
-            >
-              <img
-                src="/image.png"
-                alt="JNU Technorazz 2026 Official Poster"
-                className="size-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4">
-                <div className="inline-flex items-center gap-1 rounded-full bg-pink-500 text-white px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider mb-1.5 shadow-sm">
-                  <Sparkles className="size-3" /> Click to Expand Poster
+          {/* Lower Side: Clean Light Information & Action Bar */}
+          <div className="border-t border-rose-100/80 bg-white p-4 sm:p-6">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+              <div>
+                <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 border border-rose-200/80 px-2.5 py-0.5 text-xs font-bold text-rose-900">
+                    <span className="size-2 rounded-full bg-emerald-500 animate-pulse" /> Technorazz 2026
+                  </span>
+                  <span className="rounded-full bg-amber-50 text-amber-800 border border-amber-200 px-2.5 py-0.5 text-xs font-bold">
+                    🏆 ₹5 Lakhs+ Prize Pool
+                  </span>
+                  <span className="text-xs text-slate-500 font-medium">
+                    📅 29th Sept – 01st Oct 2026
+                  </span>
                 </div>
-                <div className="font-display text-base font-bold text-white">Technorazz 2026 Official Brochure</div>
-                <div className="flex items-center justify-between text-xs text-slate-300 mt-1">
-                  <span>📍 Main Campus, Jaipur</span>
-                  <span className="font-semibold text-emerald-400">₹5 Lakhs+ Prizes</span>
-                </div>
+                <h1 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">
+                  Jaipur National University Mega Festival
+                </h1>
+                <p className="text-xs sm:text-sm text-slate-600 mt-1">
+                  Experience high-octane technical hackathons, cultural showcases, star celebrity concerts, and verified digital certifications.
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex items-center gap-2.5 flex-wrap shrink-0">
+                <Link
+                  to="/events"
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-red-700 to-red-800 text-white px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm font-bold shadow-glow hover:brightness-105 active:scale-95 transition-all"
+                >
+                  Register for Events <ArrowRight className="size-4" />
+                </Link>
+                <button
+                  onClick={openPosterBanner}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-4 py-2.5 sm:px-5 sm:py-3 text-xs sm:text-sm font-bold text-rose-900 hover:bg-rose-100 active:scale-95 transition-all"
+                >
+                  <Eye className="size-4 text-primary" /> Full Poster
+                </button>
+                <Link
+                  to="/qr-pass"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-4 py-2.5 sm:px-5 sm:py-3 text-xs sm:text-sm font-semibold text-slate-800 hover:bg-slate-100 active:scale-95 transition-all"
+                >
+                  <QrCode className="size-4 text-primary" /> My Pass
+                </Link>
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Live Countdown Grid Underneath Banner */}
+        <div className="mt-3 grid grid-cols-4 gap-2 sm:gap-3">
+          {[
+            { label: "Days Left", val: countdown.days },
+            { label: "Hours", val: countdown.hours },
+            { label: "Minutes", val: countdown.minutes },
+            { label: "Seconds", val: countdown.seconds },
+          ].map((item) => (
+            <div
+              key={item.label}
+              className="flex flex-col items-center justify-center rounded-2xl border border-rose-100 bg-white py-2 sm:py-2.5 px-2 shadow-sm"
+            >
+              <span className="font-display text-lg sm:text-2xl font-bold tracking-tight text-red-700 tabular-nums">
+                {String(item.val).padStart(2, "0")}
+              </span>
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-semibold">
+                {item.label}
+              </span>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -388,7 +374,7 @@ function Home() {
           <Link
             to="/events/$eventId"
             params={{ eventId: featured[0].id }}
-            className="group relative block overflow-hidden rounded-3xl border border-black/[0.08] dark:border-white/[0.1] bg-slate-950 text-white shadow-2xl"
+            className="group relative block overflow-hidden rounded-3xl border border-rose-100 bg-white shadow-elevated transition-transform hover:-translate-y-1"
           >
             <div className="relative aspect-[21/9] min-h-[220px] w-full overflow-hidden">
               <img
@@ -396,21 +382,21 @@ function Home() {
                 alt={featured[0].name}
                 className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/70 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/40 to-transparent" />
               <div className="absolute inset-0 flex flex-col justify-center p-6 sm:p-10 max-w-xl">
-                <div className="inline-flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur-md px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-amber-300 w-fit mb-2">
+                <div className="inline-flex items-center gap-1.5 rounded-full bg-amber-400 text-slate-900 px-3 py-1 text-[10px] font-bold uppercase tracking-wider w-fit mb-2 shadow-sm">
                   ★ FEATURED SUMMIT
                 </div>
-                <h3 className="font-display text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
+                <h3 className="font-display text-2xl sm:text-4xl font-extrabold tracking-tight text-white drop-shadow-sm">
                   {featured[0].name}
                 </h3>
-                <p className="mt-2 text-xs sm:text-sm text-slate-300 line-clamp-2">
+                <p className="mt-2 text-xs sm:text-sm text-slate-100 line-clamp-2">
                   {featured[0].tagline}
                 </p>
-                <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-slate-300">
-                  <span className="flex items-center gap-1"><Calendar className="size-3.5 text-primary-glow" /> 28–30 Sept 2026</span>
-                  <span className="flex items-center gap-1"><MapPin className="size-3.5 text-primary-glow" /> {featured[0].venue}</span>
-                  <span className="flex items-center gap-1"><Users className="size-3.5 text-primary-glow" /> {featured[0].participants}</span>
+                <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-slate-200">
+                  <span className="flex items-center gap-1"><Calendar className="size-3.5 text-amber-300" /> 28–30 Sept 2026</span>
+                  <span className="flex items-center gap-1"><MapPin className="size-3.5 text-amber-300" /> {featured[0].venue}</span>
+                  <span className="flex items-center gap-1"><Users className="size-3.5 text-amber-300" /> {featured[0].participants}</span>
                 </div>
               </div>
             </div>
@@ -419,24 +405,24 @@ function Home() {
       )}
 
       {/* STAR-VIBES FOR YOU (Celebrity Lineup) */}
-      <section className="mb-14 rounded-3xl bg-gradient-to-br from-purple-950 via-slate-950 to-indigo-950 p-6 sm:p-8 text-white border border-purple-500/20 shadow-2xl relative overflow-hidden">
-        <div className="pointer-events-none absolute -right-20 -top-20 size-80 rounded-full bg-pink-500/20 blur-3xl" />
-        <div className="pointer-events-none absolute -left-20 -bottom-20 size-80 rounded-full bg-purple-500/20 blur-3xl" />
+      <section className="mb-14 rounded-3xl bg-white p-6 sm:p-8 border border-rose-100 shadow-apple relative overflow-hidden">
+        <div className="pointer-events-none absolute -right-20 -top-20 size-80 rounded-full bg-red-600/5 blur-3xl" />
+        <div className="pointer-events-none absolute -left-20 -bottom-20 size-80 rounded-full bg-amber-500/5 blur-3xl" />
         
         <div className="relative">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 rounded-full bg-pink-500/20 border border-pink-500/30 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-pink-300 mb-2">
+              <div className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 border border-rose-200 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-rose-900 mb-2">
                 ★ STAR-VIBES FOR YOU
               </div>
-              <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+              <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
                 Headline Artists & Performers
               </h2>
-              <p className="text-xs sm:text-sm text-purple-200/80 mt-1">
+              <p className="text-xs sm:text-sm text-slate-600 mt-1">
                 Experience high-energy live concerts, acoustic sets, and star DJ nights across 3 days
               </p>
             </div>
-            <span className="text-xs font-semibold text-pink-300 bg-white/10 rounded-full px-3 py-1.5 backdrop-blur-md w-fit">
+            <span className="text-xs font-semibold text-rose-800 bg-rose-50 border border-rose-200/80 rounded-full px-3.5 py-1.5 w-fit">
               📍 Main Stage & Fest Arena
             </span>
           </div>
@@ -470,7 +456,7 @@ function Home() {
             ].map((star) => (
               <div
                 key={star.name}
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-3 transition-all duration-300 hover:-translate-y-1 hover:border-pink-500/40 hover:bg-white/10"
+                className="group relative overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-50/70 p-3 transition-all duration-300 hover:-translate-y-1 hover:border-rose-300 hover:bg-white hover:shadow-md"
               >
                 <div className="relative aspect-square rounded-xl overflow-hidden mb-3">
                   <img
@@ -478,15 +464,15 @@ function Home() {
                     alt={star.name}
                     className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                  <span className="absolute bottom-2 left-2 rounded-full bg-pink-500 text-white px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+                  <span className="absolute bottom-2 left-2 rounded-full bg-primary text-white px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">
                     {star.tag}
                   </span>
                 </div>
-                <div className="font-display text-sm font-bold text-white group-hover:text-pink-300 transition-colors">
+                <div className="font-display text-sm font-bold text-slate-900 group-hover:text-primary transition-colors">
                   {star.name}
                 </div>
-                <div className="text-[11px] text-purple-200/70 mt-0.5">{star.role}</div>
+                <div className="text-[11px] text-slate-500 mt-0.5">{star.role}</div>
               </div>
             ))}
           </div>

@@ -40,10 +40,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       className="relative min-h-screen bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary pb-[calc(6.5rem+env(safe-area-inset-bottom))] md:pb-16 overflow-hidden"
       style={{ paddingTop: "env(safe-area-inset-top)" }}
     >
-      {/* Background Liquid Ambient Light Blobs */}
-      <div className="ambient-glow-orb -top-24 -left-24 size-96 bg-indigo-500/20 dark:bg-indigo-600/15 animate-float-slow" />
-      <div className="ambient-glow-orb top-1/3 -right-24 size-[32rem] bg-purple-500/15 dark:bg-purple-600/10 animate-float-slow [animation-delay:3s]" />
-      <div className="ambient-glow-orb bottom-10 left-1/4 size-[28rem] bg-cyan-500/15 dark:bg-cyan-600/10 animate-float-slow [animation-delay:5s]" />
+      {/* Background Ambient Warm Light Glows (JNU Theme) */}
+      <div className="ambient-glow-orb -top-24 -left-24 size-96 bg-red-600/5 animate-float-slow" />
+      <div className="ambient-glow-orb top-1/3 -right-24 size-[32rem] bg-amber-500/5 animate-float-slow [animation-delay:3s]" />
+      <div className="ambient-glow-orb bottom-10 left-1/4 size-[28rem] bg-rose-500/5 animate-float-slow [animation-delay:5s]" />
 
       <div className="relative z-10">
         <TopBar />

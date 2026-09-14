@@ -91,7 +91,7 @@ function StreamCard({ stream, big }: { stream: (typeof liveStreams)[number]; big
               <span className="flex items-center gap-1"><Heart className="size-3.5 text-accent" />{stream.likes.toLocaleString()}</span>
             </>
           ) : (
-            <span>{new Date(stream.startTime).toLocaleString("en-IN", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}</span>
+            <span>{stream.startTime ? new Date(stream.startTime).toLocaleString("en-IN", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "Scheduled Soon"}</span>
           )}
         </div>
       </div>

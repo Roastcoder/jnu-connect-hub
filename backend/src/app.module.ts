@@ -31,6 +31,8 @@ import {
   Staff,
   Payment,
   AppSetting,
+  Alumnus,
+  Job,
 } from './entities';
 
 const ALL_ENTITIES = [
@@ -56,6 +58,8 @@ const ALL_ENTITIES = [
   Staff,
   Payment,
   AppSetting,
+  Alumnus,
+  Job,
 ];
 
 @Module({
