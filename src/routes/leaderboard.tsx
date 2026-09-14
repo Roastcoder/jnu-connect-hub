@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, Reorder } from "framer-motion";
 import { ArrowDown, ArrowUp, Crown, Medal, Radio, Trophy } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/AppShell";
-import { contestants, type Contestant } from "@/lib/mock-data";
+import { syncContestantsFromDb, contestants, type Contestant } from "@/lib/mock-data";
 import { useChannel } from "@/lib/realtime";
 
 export const Route = createFileRoute("/leaderboard")({
@@ -16,47 +16,43 @@ export const Route = createFileRoute("/leaderboard")({
   component: LeaderboardPage,
 });
 
-const scopes = ["Global", ...Array.from(new Set(contestants.map((c) => c.eventCategory)))];
-
-// Real WebSocket-style broadcast: every client subscribes to the same channel,
-// and vote deltas fan out instantly to all connected leaderboards + voting pages.
 function useLiveVotes(initial: Contestant[]) {
   const [votes, setVotes] = useState<Record<string, number>>(
     () => Object.fromEntries(initial.map((c) => [c.id, c.votes])),
   );
+  useEffect(() => {
+    setVotes(Object.fromEntries(initial.map((c) => [c.id, c.votes])));
+  }, [initial]);
+
   useChannel<{ contestantId: string; delta: number }>("jnu:votes", (m) => {
     setVotes((prev) => ({ ...prev, [m.contestantId]: (prev[m.contestantId] ?? 0) + m.delta }));
   });
-  useEffect(() => {
-    // Simulated firehose from the "server": bumps random contestants each tick
-    // so every open tab shows the same live-updating leaderboard.
-    const id = setInterval(() => {
-      setVotes((prev) => {
-        const next = { ...prev };
-        for (let i = 0; i < 3; i++) {
-          const c = initial[Math.floor(Math.random() * initial.length)];
-          next[c.id] = (next[c.id] ?? 0) + Math.floor(Math.random() * 40) + 5;
-        }
-        return next;
-      });
-    }, 1500);
-    return () => clearInterval(id);
-  }, [initial]);
   return votes;
 }
 
 function LeaderboardPage() {
+  const [contestantList, setContestantList] = useState<Contestant[]>(contestants);
   const [scope, setScope] = useState("Global");
-  const liveVotes = useLiveVotes(contestants);
+  const liveVotes = useLiveVotes(contestantList);
   const [prevRanks, setPrevRanks] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    syncContestantsFromDb().then((data) => {
+      if (data && data.length > 0) setContestantList(data);
+    });
+  }, []);
+
+  const scopes = useMemo(() => {
+    return ["Global", ...Array.from(new Set(contestantList.map((c) => c.eventCategory)))];
+  }, [contestantList]);
 
   const ranked = useMemo(
     () =>
-      [...contestants]
+      [...contestantList]
         .map((c) => ({ ...c, votes: liveVotes[c.id] ?? c.votes }))
         .filter((c) => scope === "Global" || c.eventCategory === scope)
         .sort((a, b) => b.votes - a.votes),
-    [scope, liveVotes],
+    [scope, liveVotes, contestantList],
   );
 
   useEffect(() => {

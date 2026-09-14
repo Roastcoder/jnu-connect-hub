@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import { QrCode } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/AppShell";
-import { currentUser, getEvent } from "@/lib/mock-data";
+import { getEvent, syncEventsFromDb } from "@/lib/mock-data";
+import { api } from "@/lib/api";
 
 export const Route = createFileRoute("/qr-pass")({
   head: () => ({
@@ -14,8 +16,33 @@ export const Route = createFileRoute("/qr-pass")({
 });
 
 function QrPassPage() {
-  const reg = currentUser.registrations[0];
-  const event = getEvent(reg.eventId);
+  const [userName, setUserName] = useState("Yogendra Singh");
+  const [enrollment, setEnrollment] = useState("23JNU1084");
+  const [eventName, setEventName] = useState("TECHNORAZZ 2026");
+  const [subEventName, setSubEventName] = useState("Hackathon");
+  const [regId, setRegId] = useState("JNU2026TR01");
+
+  useEffect(() => {
+    async function load() {
+      await syncEventsFromDb();
+      const { data: userData } = await api.auth.getUser();
+      if (userData?.user) {
+        const u = userData.user;
+        setUserName(u.full_name || u.profile?.full_name || u.email.split("@")[0]);
+        setEnrollment(u.profile?.enrollment || "23JNU" + Math.floor(1000 + Math.random() * 9000));
+      }
+
+      const { data: myRegs } = await api.from("registrations").select("*");
+      if (Array.isArray(myRegs) && myRegs.length > 0) {
+        const first = myRegs[0];
+        setRegId(first.ticket_code || "JNU2026TR01");
+        const ev = getEvent(first.event_id);
+        if (ev) setEventName(ev.name);
+      }
+    }
+    load();
+  }, []);
+
   return (
     <AppShell>
       <PageHeader eyebrow="QR Pass" title="Scan at the event gate" />
@@ -24,15 +51,18 @@ function QrPassPage() {
           <QrCode className="size-40" />
         </div>
         <dl className="mt-6 grid grid-cols-2 gap-4 text-sm">
-          <Row label="Name" value={currentUser.name} />
-          <Row label="Enrollment" value={currentUser.enrollment} />
-          <Row label="Event" value={event?.name ?? "—"} />
-          <Row label="Sub Event" value={reg.subEvent} />
-          <Row label="Reg. ID" value={reg.regId} />
-          <Row label="Seat" value="TRZ-120" />
+          <Row label="Name" value={userName} />
+          <Row label="Enrollment" value={enrollment} />
+          <Row label="Event" value={eventName} />
+          <Row label="Sub Event" value={subEventName} />
+          <Row label="Reg. ID" value={regId} />
+          <Row label="Gate" value="Plus Gate" />
         </dl>
-        <button className="mt-6 w-full rounded-full bg-gradient-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-glow">
-          Download Pass
+        <button
+          onClick={() => window.print()}
+          className="mt-6 w-full rounded-full bg-gradient-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-glow"
+        >
+          Print / Download Pass
         </button>
       </div>
     </AppShell>

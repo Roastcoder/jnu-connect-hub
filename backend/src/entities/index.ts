@@ -20,3 +20,5 @@ export * from './faculty.entity';
 export * from './staff.entity';
 export * from './payment.entity';
 export * from './app-setting.entity';
+export * from './alumnus.entity';
+export * from './job.entity';

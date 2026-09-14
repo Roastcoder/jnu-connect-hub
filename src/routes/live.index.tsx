@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import { Radio, Users, Heart } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/AppShell";
-import { liveStreams } from "@/lib/mock-data";
+import { syncLiveStreamsFromDb, liveStreams, type LiveStream } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/live/")({
   head: () => ({
@@ -14,9 +15,17 @@ export const Route = createFileRoute("/live/")({
 });
 
 function LivePage() {
-  const live = liveStreams.filter((s) => s.status === "live");
-  const upcoming = liveStreams.filter((s) => s.status === "upcoming");
-  const ended = liveStreams.filter((s) => s.status === "ended");
+  const [streamList, setStreamList] = useState<LiveStream[]>(liveStreams);
+
+  useEffect(() => {
+    syncLiveStreamsFromDb().then((data) => {
+      if (data && data.length > 0) setStreamList(data);
+    });
+  }, []);
+
+  const live = streamList.filter((s) => s.status === "live");
+  const upcoming = streamList.filter((s) => s.status === "upcoming");
+  const ended = streamList.filter((s) => s.status === "ended");
 
   return (
     <AppShell>

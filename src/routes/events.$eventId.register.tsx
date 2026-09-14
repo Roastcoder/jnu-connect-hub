@@ -2,11 +2,16 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { CheckCircle2, QrCode } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/AppShell";
-import { getEvent, type EventItem } from "@/lib/mock-data";
+import { getEvent, syncEventsFromDb, type EventItem } from "@/lib/mock-data";
+import { api } from "@/lib/api";
 
 export const Route = createFileRoute("/events/$eventId/register")({
-  loader: ({ params }): { event: EventItem } => {
-    const event = getEvent(params.eventId);
+  loader: async ({ params }): Promise<{ event: EventItem }> => {
+    let event = getEvent(params.eventId);
+    if (!event) {
+      const all = await syncEventsFromDb();
+      event = all.find((e) => e.id === params.eventId);
+    }
     if (!event) throw notFound();
     return { event };
   },
@@ -22,9 +27,35 @@ function RegisterPage() {
   const { event } = Route.useLoaderData() as { event: EventItem };
   const [subEvent, setSubEvent] = useState<string>(event.subEvents[0]?.id ?? "");
   const [done, setDone] = useState(false);
+  const [regCode, setRegCode] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    const generatedId = "JNU2026" + Math.random().toString(36).slice(2, 8).toUpperCase();
+    setRegCode(generatedId);
+
+    try {
+      const { data: userRes } = await api.auth.getUser();
+      const userId = userRes?.user?.id;
+      await api.from("registrations").insert({
+        event_id: event.id,
+        user_id: userId,
+        status: "confirmed",
+        ticket_code: generatedId,
+        payment_status: event.price > 0 ? "completed" : "free",
+      });
+    } catch (err) {
+      console.error("DB registration error:", err);
+    }
+
+    setLoading(false);
+    setDone(true);
+  };
 
   if (done) {
-    const regId = "JNU2026" + Math.random().toString(36).slice(2, 8).toUpperCase();
+    const regId = regCode || "JNU2026" + Math.random().toString(36).slice(2, 8).toUpperCase();
     return (
       <AppShell>
         <div className="mx-auto max-w-md rounded-3xl border border-border/60 bg-card p-8 text-center shadow-elevated">
@@ -64,10 +95,7 @@ function RegisterPage() {
       <PageHeader eyebrow={event.name} title="Complete your registration" />
 
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          setDone(true);
-        }}
+        onSubmit={handleSubmit}
         className="mx-auto grid max-w-2xl gap-5 rounded-3xl border border-border/60 bg-card p-6 shadow-elevated md:p-8"
       >
         <Field label="Full Name" defaultValue="Yogendra Singh" />

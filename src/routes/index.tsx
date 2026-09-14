@@ -22,7 +22,7 @@ import { useState, useEffect } from "react";
 import { AppShell } from "@/components/AppShell";
 import { AuthGuard } from "@/components/AuthGuard";
 import { EventCard } from "@/components/EventCard";
-import { events } from "@/lib/mock-data";
+import { syncEventsFromDb, events, type EventItem } from "@/lib/mock-data";
 import { useAuth, useProfile } from "@/lib/auth";
 import heroFest from "@/assets/hero-fest.jpg";
 
@@ -48,8 +48,8 @@ function HomePage() {
   );
 }
 
-// Target: Sept 28, 2026 09:00 AM IST
-const FEST_TARGET_TIMESTAMP = new Date("2026-09-28T09:00:00+05:30").getTime();
+// Target: Sept 29, 2026 09:00 AM IST (Official Technorazz 2026 Kickoff)
+const FEST_TARGET_TIMESTAMP = new Date("2026-09-29T09:00:00+05:30").getTime();
 
 function useCountdown(targetTimestamp: number = FEST_TARGET_TIMESTAMP) {
   const [timeLeft, setTimeLeft] = useState<{
@@ -84,21 +84,28 @@ function useCountdown(targetTimestamp: number = FEST_TARGET_TIMESTAMP) {
 function Home() {
   const { user } = useAuth();
   const profile = useProfile();
+  const [eventList, setEventList] = useState<EventItem[]>(events);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedDay, setSelectedDay] = useState<number>(1);
 
   const countdown = useCountdown(FEST_TARGET_TIMESTAMP);
 
-  const categories = ["All", "Technical", "Cultural", "Gaming", "Management"];
+  useEffect(() => {
+    syncEventsFromDb().then((data) => {
+      if (data && data.length > 0) setEventList(data);
+    });
+  }, []);
+
+  const categories = ["All", "Tech", "Cultural", "Sports", "Workshop", "Freshers"];
 
   const filteredEvents =
     selectedCategory === "All"
-      ? events
-      : events.filter(
+      ? eventList
+      : eventList.filter(
           (e) => e.category.toLowerCase() === selectedCategory.toLowerCase()
         );
 
-  const featured = events.filter((e) => e.featured);
+  const featured = eventList.filter((e) => e.featured);
 
   const displayName = (() => {
     const raw =
@@ -395,6 +402,81 @@ function Home() {
         </section>
       )}
 
+      {/* STAR-VIBES FOR YOU (Celebrity Lineup) */}
+      <section className="mb-14 rounded-3xl bg-gradient-to-br from-purple-950 via-slate-950 to-indigo-950 p-6 sm:p-8 text-white border border-purple-500/20 shadow-2xl relative overflow-hidden">
+        <div className="pointer-events-none absolute -right-20 -top-20 size-80 rounded-full bg-pink-500/20 blur-3xl" />
+        <div className="pointer-events-none absolute -left-20 -bottom-20 size-80 rounded-full bg-purple-500/20 blur-3xl" />
+        
+        <div className="relative">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+            <div>
+              <div className="inline-flex items-center gap-1.5 rounded-full bg-pink-500/20 border border-pink-500/30 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-pink-300 mb-2">
+                ★ STAR-VIBES FOR YOU
+              </div>
+              <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+                Headline Artists & Performers
+              </h2>
+              <p className="text-xs sm:text-sm text-purple-200/80 mt-1">
+                Experience high-energy live concerts, acoustic sets, and star DJ nights across 3 days
+              </p>
+            </div>
+            <span className="text-xs font-semibold text-pink-300 bg-white/10 rounded-full px-3 py-1.5 backdrop-blur-md w-fit">
+              📍 Main Stage & Fest Arena
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              {
+                name: "Tej Gill",
+                role: "Celebrity Singer & Performer",
+                tag: "Star Night",
+                image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=400&fit=crop",
+              },
+              {
+                name: "DJ Tan",
+                role: "Celebrity DJ & Producer",
+                tag: "EDM Fusion",
+                image: "https://images.unsplash.com/photo-1571266028243-3716f02d2d2e?w=400&h=400&fit=crop",
+              },
+              {
+                name: "Snehi Live",
+                role: "Acoustic Singer & Guitarist",
+                tag: "Unplugged Eve",
+                image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop",
+              },
+              {
+                name: "Rishabh Chaturvedi",
+                role: "Bollywood Playback Singer",
+                tag: "Grand Finale",
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+              },
+            ].map((star) => (
+              <div
+                key={star.name}
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-3 transition-all duration-300 hover:-translate-y-1 hover:border-pink-500/40 hover:bg-white/10"
+              >
+                <div className="relative aspect-square rounded-xl overflow-hidden mb-3">
+                  <img
+                    src={star.image}
+                    alt={star.name}
+                    className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                  <span className="absolute bottom-2 left-2 rounded-full bg-pink-500 text-white px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">
+                    {star.tag}
+                  </span>
+                </div>
+                <div className="font-display text-sm font-bold text-white group-hover:text-pink-300 transition-colors">
+                  {star.name}
+                </div>
+                <div className="text-[11px] text-purple-200/70 mt-0.5">{star.role}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Competitions & Events Filter Grid */}
       <section className="mb-14">
         <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
@@ -487,6 +569,85 @@ function Home() {
         </div>
       </section>
 
+      {/* Official Coordinators & Contact Grid */}
+      <section className="mb-14 rounded-3xl border border-black/[0.06] dark:border-white/[0.08] bg-card p-6 sm:p-8 shadow-apple">
+        <div className="mb-6">
+          <div className="text-[11px] font-bold uppercase tracking-wider text-primary">Need Help?</div>
+          <h2 className="font-display text-xl sm:text-2xl font-bold tracking-tight text-foreground">
+            Official Festival Coordinators
+          </h2>
+          <p className="text-xs text-muted-foreground mt-1">Reach out to our event & student conveners for queries or guidelines</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Faculty Coordinators */}
+          <div className="rounded-2xl border border-black/[0.04] dark:border-white/[0.04] bg-slate-50/80 dark:bg-zinc-900/50 p-4 sm:p-5">
+            <div className="text-xs font-bold uppercase tracking-wider text-primary mb-3">Event Faculty Coordinators</div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="font-display text-sm font-bold text-foreground">Prof. Sudhir Sharma</div>
+                  <div className="text-xs text-muted-foreground">Event Convener</div>
+                </div>
+                <a
+                  href="tel:8875020636"
+                  className="rounded-full bg-white dark:bg-zinc-800 border border-black/[0.06] px-3 py-1 text-xs font-semibold text-primary hover:bg-primary hover:text-white transition-colors"
+                >
+                  📞 8875 020 636
+                </a>
+              </div>
+              <div className="flex items-center justify-between border-t border-black/[0.04] pt-2">
+                <div>
+                  <div className="font-display text-sm font-bold text-foreground">Ms. Shanu Bhatia</div>
+                  <div className="text-xs text-muted-foreground">Co-Convener</div>
+                </div>
+                <a
+                  href="tel:8823999219"
+                  className="rounded-full bg-white dark:bg-zinc-800 border border-black/[0.06] px-3 py-1 text-xs font-semibold text-primary hover:bg-primary hover:text-white transition-colors"
+                >
+                  📞 8823 999 219
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Student Coordinators */}
+          <div className="rounded-2xl border border-black/[0.04] dark:border-white/[0.04] bg-slate-50/80 dark:bg-zinc-900/50 p-4 sm:p-5">
+            <div className="text-xs font-bold uppercase tracking-wider text-primary mb-3">Student Coordinators</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="flex items-center justify-between sm:flex-col sm:items-start p-2 rounded-xl bg-white dark:bg-zinc-800 border border-black/[0.04]">
+                <div>
+                  <div className="font-display text-xs font-bold text-foreground">Mr. Durgesh Kumar</div>
+                  <div className="text-[10px] text-muted-foreground">Lead Coordinator</div>
+                </div>
+                <a href="tel:8603933369" className="text-[11px] font-semibold text-primary mt-1">8603 933 369</a>
+              </div>
+              <div className="flex items-center justify-between sm:flex-col sm:items-start p-2 rounded-xl bg-white dark:bg-zinc-800 border border-black/[0.04]">
+                <div>
+                  <div className="font-display text-xs font-bold text-foreground">Mr. Chandra Kant Mani</div>
+                  <div className="text-[10px] text-muted-foreground">Coordinator</div>
+                </div>
+                <a href="tel:9155256952" className="text-[11px] font-semibold text-primary mt-1">9155 256 952</a>
+              </div>
+              <div className="flex items-center justify-between sm:flex-col sm:items-start p-2 rounded-xl bg-white dark:bg-zinc-800 border border-black/[0.04]">
+                <div>
+                  <div className="font-display text-xs font-bold text-foreground">Mr. Aryan Yadav</div>
+                  <div className="text-[10px] text-muted-foreground">Coordinator</div>
+                </div>
+                <a href="tel:9950414483" className="text-[11px] font-semibold text-primary mt-1">9950 414 483</a>
+              </div>
+              <div className="flex items-center justify-between sm:flex-col sm:items-start p-2 rounded-xl bg-white dark:bg-zinc-800 border border-black/[0.04]">
+                <div>
+                  <div className="font-display text-xs font-bold text-foreground">Mr. Aatman Pareek</div>
+                  <div className="text-[10px] text-muted-foreground">Coordinator</div>
+                </div>
+                <a href="tel:9929390806" className="text-[11px] font-semibold text-primary mt-1">9929 390 806</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Official Guidelines & Document Vault */}
       <section className="mb-12 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] bg-slate-100/70 dark:bg-zinc-900/40 p-5 sm:p-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -499,7 +660,7 @@ function Home() {
                 Technorazz 2026 Official Document Vault
               </div>
               <div className="text-xs text-muted-foreground">
-                Download official rulebooks, schedule brochures, and general participation guidelines
+                Jaipur National University, Jaipur – Agra By-Pass, Jagatpura, Jaipur – 302017
               </div>
             </div>
           </div>

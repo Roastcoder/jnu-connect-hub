@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { EventCard } from "@/components/EventCard";
-import { events, type EventCategory } from "@/lib/mock-data";
+import { syncEventsFromDb, events, type EventCategory, type EventItem } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/events/")({
   head: () => ({
@@ -23,13 +23,23 @@ const categories: (EventCategory | "All")[] = [
   "Workshop",
   "Freshers",
   "Farewell",
+  "Alumni",
 ];
 
 function EventsPage() {
+  const [eventList, setEventList] = useState<EventItem[]>(events);
   const [cat, setCat] = useState<(EventCategory | "All")>("All");
   const [q, setQ] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const filtered = events.filter((e) => {
+  useEffect(() => {
+    syncEventsFromDb().then((data) => {
+      setEventList(data);
+      setLoading(false);
+    });
+  }, []);
+
+  const filtered = eventList.filter((e) => {
     const okCat = cat === "All" || e.category === cat;
     const okQ = !q || e.name.toLowerCase().includes(q.toLowerCase()) || e.tagline.toLowerCase().includes(q.toLowerCase());
     return okCat && okQ;

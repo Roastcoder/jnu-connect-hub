@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Briefcase, MessageCircle, Search, UserPlus } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/AppShell";
-import { alumni, jobBoard } from "@/lib/mock-data";
+import { syncAlumniFromDb, alumni, jobBoard } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/alumni")({
   head: () => ({
@@ -19,7 +19,17 @@ const tabs = ["Directory", "Mentorship", "Jobs"] as const;
 function AlumniPage() {
   const [tab, setTab] = useState<(typeof tabs)[number]>("Directory");
   const [q, setQ] = useState("");
-  const filtered = alumni.filter((a) =>
+  const [alumniList, setAlumniList] = useState(alumni);
+  const [jobsList, setJobsList] = useState(jobBoard);
+
+  useEffect(() => {
+    syncAlumniFromDb().then(() => {
+      setAlumniList([...alumni]);
+      setJobsList([...jobBoard]);
+    });
+  }, []);
+
+  const filtered = alumniList.filter((a) =>
     !q ||
     a.name.toLowerCase().includes(q.toLowerCase()) ||
     a.company.toLowerCase().includes(q.toLowerCase()) ||
@@ -100,7 +110,7 @@ function AlumniPage() {
 
       {tab === "Jobs" && (
         <div className="grid gap-3">
-          {jobBoard.map((j) => (
+          {jobsList.map((j) => (
             <div key={j.id} className="flex items-center gap-4 rounded-2xl border border-border/60 bg-card p-5 shadow-elevated">
               <div className="grid size-11 place-items-center rounded-xl bg-gradient-primary text-primary-foreground shadow-glow">
                 <Briefcase className="size-5" />

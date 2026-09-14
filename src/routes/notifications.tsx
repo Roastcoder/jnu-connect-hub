@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
-import { notifications } from "@/lib/mock-data";
+import { syncNotificationsFromDb, notifications } from "@/lib/mock-data";
 import { Bell } from "lucide-react";
 
 export const Route = createFileRoute("/notifications")({
@@ -14,11 +15,19 @@ export const Route = createFileRoute("/notifications")({
 });
 
 function NotificationsPage() {
+  const [notifList, setNotifList] = useState(notifications);
+
+  useEffect(() => {
+    syncNotificationsFromDb().then(() => {
+      setNotifList([...notifications]);
+    });
+  }, []);
+
   return (
     <AppShell>
       <PageHeader eyebrow="Inbox" title="Notifications" />
       <div className="grid gap-3">
-        {notifications.map((n) => (
+        {notifList.map((n) => (
           <div
             key={n.id}
             className={

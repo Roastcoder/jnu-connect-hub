@@ -1,6 +1,6 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   Column,
   CreateDateColumn,
   ManyToOne,
@@ -11,17 +11,35 @@ import { Department } from './department.entity';
 
 @Entity('certificates')
 export class Certificate {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('text')
   id: string;
+
+  @Column({ default: '' })
+  code: string;
+
+  @Column({ default: '' })
+  title: string;
 
   @Column()
   recipient_name: string;
+
+  @Column({ default: '' })
+  reg_id: string;
+
+  @Column({ default: '' })
+  event_name: string;
+
+  @Column({ default: '' })
+  position: string;
 
   @Column({ default: 'participation' })
   kind: string;
 
   @Column({ default: '' })
   url: string;
+
+  @Column({ default: '' })
+  signature: string;
 
   @Column({ name: 'event_id', nullable: true })
   event_id: string;

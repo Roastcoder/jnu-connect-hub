@@ -5,28 +5,31 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 
-@Entity('notifications')
-export class Notification {
+@Entity('alumni')
+export class Alumnus {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  title: string;
+  name: string;
 
   @Column({ default: '' })
-  body: string;
+  photo: string;
 
   @Column({ default: '' })
-  message: string;
-
-  @Column({ default: 'all' })
-  audience: string;
-
-  @Column({ default: true })
-  unread: boolean;
+  batch: string;
 
   @Column({ default: '' })
-  time: string;
+  course: string;
+
+  @Column({ default: '' })
+  role: string;
+
+  @Column({ default: '' })
+  company: string;
+
+  @Column({ default: '' })
+  city: string;
 
   @CreateDateColumn()
   created_at: Date;

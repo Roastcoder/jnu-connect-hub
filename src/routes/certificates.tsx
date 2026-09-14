@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import { Download, ShieldCheck, ScanLine, FileImage, FileText } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { AuthGuard } from "@/components/AuthGuard";
-import { certificates, type CertificateRecord } from "@/lib/mock-data";
+import { syncCertificatesFromDb, certificates, type CertificateRecord } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/certificates")({
   head: () => ({
@@ -24,6 +25,13 @@ function renderCertificate(c: CertificateRecord): HTMLCanvasElement | null {
 }
 
 function CertificatesPage() {
+  const [certList, setCertList] = useState<CertificateRecord[]>(certificates);
+
+  useEffect(() => {
+    syncCertificatesFromDb().then((data) => {
+      if (data && data.length > 0) setCertList(data);
+    });
+  }, []);
   function downloadPng(c: CertificateRecord) {
     const canvas = renderCertificate(c);
     if (!canvas) return;
@@ -71,7 +79,7 @@ function CertificatesPage() {
       />
 
       <div className="grid gap-4">
-        {certificates.map((c) => (
+        {certList.map((c) => (
           <div key={c.id} className="flex flex-col items-start justify-between gap-4 rounded-3xl border border-border/60 bg-card p-5 shadow-elevated md:flex-row md:items-center">
             <div className="flex items-center gap-4">
               <div className="grid size-14 place-items-center rounded-2xl bg-gradient-primary text-primary-foreground shadow-glow">

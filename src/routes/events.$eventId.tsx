@@ -2,11 +2,15 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { CalendarDays, MapPin, Users, Trophy, Ticket, CheckCircle2 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
-import { getEvent, type EventItem } from "@/lib/mock-data";
+import { getEvent, syncEventsFromDb, type EventItem } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/events/$eventId")({
-  loader: ({ params }): { event: EventItem } => {
-    const event = getEvent(params.eventId);
+  loader: async ({ params }): Promise<{ event: EventItem }> => {
+    let event = getEvent(params.eventId);
+    if (!event) {
+      const all = await syncEventsFromDb();
+      event = all.find((e) => e.id === params.eventId);
+    }
     if (!event) throw notFound();
     return { event };
   },

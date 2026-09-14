@@ -46,6 +46,18 @@ export class Event {
   @Column('simple-json', { nullable: true })
   rules: string[];
 
+  @Column('simple-json', { nullable: true })
+  schedule: { time: string; title: string }[];
+
+  @Column({ default: '' })
+  prize_pool: string;
+
+  @Column({ default: '' })
+  participants: string;
+
+  @Column({ default: false })
+  featured: boolean;
+
   @Column({ nullable: true })
   created_by: string;
 

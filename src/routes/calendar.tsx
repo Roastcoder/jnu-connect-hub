@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
-import { events } from "@/lib/mock-data";
+import { syncEventsFromDb, events, type EventItem } from "@/lib/mock-data";
 import { CalendarDays, MapPin } from "lucide-react";
 
 export const Route = createFileRoute("/calendar")({
@@ -14,7 +15,15 @@ export const Route = createFileRoute("/calendar")({
 });
 
 function CalendarPage() {
-  const sorted = [...events].sort((a, b) => a.startDate.localeCompare(b.startDate));
+  const [eventList, setEventList] = useState<EventItem[]>(events);
+
+  useEffect(() => {
+    syncEventsFromDb().then((data) => {
+      if (data && data.length > 0) setEventList(data);
+    });
+  }, []);
+
+  const sorted = [...eventList].sort((a, b) => a.startDate.localeCompare(b.startDate));
   return (
     <AppShell>
       <PageHeader eyebrow="Timeline" title="Event calendar" subtitle="Everything happening on campus, in order." />

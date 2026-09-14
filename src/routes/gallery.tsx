@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Play } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/AppShell";
-import { galleryAlbums, galleryVideos } from "@/lib/mock-data";
+import { syncGalleryFromDb, galleryAlbums, galleryVideos } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -19,6 +19,15 @@ const tabs = ["Photos", "Videos", "Reels"] as const;
 function GalleryPage() {
   const [tab, setTab] = useState<(typeof tabs)[number]>("Photos");
   const [playing, setPlaying] = useState<string | null>(null);
+  const [albums, setAlbums] = useState(galleryAlbums);
+  const [videos, setVideos] = useState(galleryVideos);
+
+  useEffect(() => {
+    syncGalleryFromDb().then(() => {
+      setAlbums([...galleryAlbums]);
+      setVideos([...galleryVideos]);
+    });
+  }, []);
 
   return (
     <AppShell>
@@ -34,7 +43,7 @@ function GalleryPage() {
 
       {tab === "Photos" && (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {galleryAlbums.map((a) => (
+          {albums.map((a) => (
             <div key={a.id} className="group relative overflow-hidden rounded-3xl shadow-elevated">
               <img src={a.cover} alt={a.title} loading="lazy" className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
@@ -49,7 +58,7 @@ function GalleryPage() {
 
       {(tab === "Videos" || tab === "Reels") && (
         <div className={"grid gap-5 " + (tab === "Reels" ? "sm:grid-cols-3 md:grid-cols-4" : "sm:grid-cols-2 lg:grid-cols-3")}>
-          {galleryVideos.map((v) => (
+          {videos.map((v) => (
             <div key={v.id} className="group overflow-hidden rounded-3xl border border-border/60 bg-card shadow-elevated">
               <div className={"relative " + (tab === "Reels" ? "aspect-[9/16]" : "aspect-video")}>
                 {playing === v.id ? (

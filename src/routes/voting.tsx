@@ -2,8 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Clock, Flame, Heart, History, TrendingUp, Trophy } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/AppShell";
-import { contestants, type Contestant } from "@/lib/mock-data";
+import { syncContestantsFromDb, contestants, type Contestant } from "@/lib/mock-data";
 import { useChannel, useVotingWindow } from "@/lib/realtime";
+import { api } from "@/lib/api";
 
 export const Route = createFileRoute("/voting")({
   head: () => ({
@@ -15,7 +16,6 @@ export const Route = createFileRoute("/voting")({
   component: VotingPage,
 });
 
-const categories = ["All", ...Array.from(new Set(contestants.map((c) => c.eventCategory)))];
 type VoteEvent = { contestantId: string; at: number };
 
 function useCountdown(target: number | null) {
@@ -38,6 +38,7 @@ function VotingPage() {
   const active = win.active && (win.endsAt === null || win.endsAt > Date.now());
   const countdown = useCountdown(win.endsAt);
   const [cat, setCat] = useState("All");
+  const [contestantList, setContestantList] = useState<Contestant[]>(contestants);
   const [voted, setVoted] = useState<Record<string, boolean>>(() => {
     if (typeof localStorage === "undefined") return {};
     try { return JSON.parse(localStorage.getItem("jnu:voted") ?? "{}"); } catch { return {}; }
@@ -48,6 +49,12 @@ function VotingPage() {
   });
   const [bumps, setBumps] = useState<Record<string, number>>({});
 
+  useEffect(() => {
+    syncContestantsFromDb().then((data) => {
+      if (data && data.length > 0) setContestantList(data);
+    });
+  }, []);
+
   // Live vote counter — mirror updates from leaderboard broadcasts.
   useChannel<{ contestantId: string; delta: number }>("jnu:votes", (m) => {
     setBumps((b) => ({ ...b, [m.contestantId]: (b[m.contestantId] ?? 0) + m.delta }));
@@ -57,26 +64,37 @@ function VotingPage() {
   useEffect(() => { localStorage.setItem("jnu:voted", JSON.stringify(voted)); }, [voted]);
   useEffect(() => { localStorage.setItem("jnu:vote-history", JSON.stringify(history)); }, [history]);
 
+  const categories = useMemo(() => {
+    return ["All", ...Array.from(new Set(contestantList.map((c) => c.eventCategory)))];
+  }, [contestantList]);
+
   const list = useMemo(
-    () => contestants.filter((c) => cat === "All" || c.eventCategory === cat),
-    [cat],
+    () => contestantList.filter((c) => cat === "All" || c.eventCategory === cat),
+    [cat, contestantList],
   );
 
-  function vote(c: Contestant) {
+  async function vote(c: Contestant) {
     if (!active) return;
     if (voted[c.id]) return;
     setVoted((v) => ({ ...v, [c.id]: true }));
     setHistory((h) => [{ contestantId: c.id, at: Date.now() }, ...h].slice(0, 50));
     setBumps((b) => ({ ...b, [c.id]: (b[c.id] ?? 0) + 1 }));
     emitVote({ contestantId: c.id, delta: 1 });
+
+    try {
+      await api.student.castVote(c.id);
+    } catch {
+      // Fallback direct vote insert
+      await api.from("votes").insert({ contestant_id: c.id, points: 1 });
+    }
   }
 
   const myRankMap = useMemo(() => {
-    const ranked = [...contestants]
+    const ranked = [...contestantList]
       .map((c) => ({ ...c, votes: c.votes + (bumps[c.id] ?? 0) }))
       .sort((a, b) => b.votes - a.votes);
     return Object.fromEntries(ranked.map((c, i) => [c.id, i + 1]));
-  }, [bumps]);
+  }, [contestantList, bumps]);
 
   return (
     <AppShell>

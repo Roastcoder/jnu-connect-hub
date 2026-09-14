@@ -5,8 +5,8 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 
-@Entity('notifications')
-export class Notification {
+@Entity('jobs')
+export class Job {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -14,19 +14,13 @@ export class Notification {
   title: string;
 
   @Column({ default: '' })
-  body: string;
+  company: string;
 
   @Column({ default: '' })
-  message: string;
+  location: string;
 
-  @Column({ default: 'all' })
-  audience: string;
-
-  @Column({ default: true })
-  unread: boolean;
-
-  @Column({ default: '' })
-  time: string;
+  @Column({ default: 'Full-time' })
+  type: string;
 
   @CreateDateColumn()
   created_at: Date;

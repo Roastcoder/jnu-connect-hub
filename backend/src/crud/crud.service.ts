@@ -22,6 +22,8 @@ import {
   AppSetting,
   Profile,
   UserRole,
+  Alumnus,
+  Job,
 } from '../entities';
 
 const ENTITY_MAP: Record<string, any> = {
@@ -55,6 +57,8 @@ const ENTITY_MAP: Record<string, any> = {
   user_profiles: Profile,
   user_roles: UserRole,
   roles: UserRole,
+  alumni: Alumnus,
+  jobs: Job,
 };
 
 @Injectable()

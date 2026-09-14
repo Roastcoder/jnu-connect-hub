@@ -7,13 +7,17 @@ import {
   Wifi, X, Calendar, MapPin, Image as ImageIcon, ListChecks,
 
 } from "lucide-react";
-import { getStream, liveStreams, contestants, getEvent, galleryAlbums, type LiveStream } from "@/lib/mock-data";
+import { getStream, syncLiveStreamsFromDb, liveStreams, contestants, getEvent, galleryAlbums, type LiveStream } from "@/lib/mock-data";
 import { useChannel, getChannel } from "@/lib/realtime";
 import { BottomNav, TopBar } from "@/components/AppShell";
 
 export const Route = createFileRoute("/live/$streamId")({
-  loader: ({ params }): { stream: LiveStream & { youtubeId?: string } } => {
-    const stream = getStream(params.streamId) ?? liveStreams.find((s) => s.id === params.streamId);
+  loader: async ({ params }): Promise<{ stream: LiveStream & { youtubeId?: string } }> => {
+    let stream = getStream(params.streamId) ?? liveStreams.find((s) => s.id === params.streamId);
+    if (!stream) {
+      const all = await syncLiveStreamsFromDb();
+      stream = all.find((s) => s.id === params.streamId);
+    }
     if (!stream) throw notFound();
     return { stream };
   },

@@ -6,8 +6,6 @@ import { signOut, useAuth, useRoles, type AppRole } from "@/lib/auth";
 
 type NavItem = { to: string; label: string; Icon: ComponentType<{ className?: string }>; roles?: AppRole[]; publicOnly?: boolean };
 
-// Public nav only — no dashboard links here. Signed-in dashboard entry point
-// is added dynamically via `dashboardLink()` based on the user's highest role.
 const nav: NavItem[] = [
   { to: "/", label: "Home", Icon: Home },
   { to: "/events", label: "Events", Icon: Sparkles },
@@ -27,7 +25,6 @@ const bottomNav: NavItem[] = [
   { to: "/profile", label: "Me", Icon: User },
 ];
 
-// Highest-privilege dashboard for the current user.
 function dashboardLink(roles: AppRole[]): { to: string; label: string } | null {
   if (roles.includes("admin")) return { to: "/admin", label: "Admin" };
   if (roles.includes("dept_admin")) return { to: "/dept-admin", label: "Department" };
@@ -40,12 +37,19 @@ export function AppShell({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
   return (
     <div
-      className="min-h-screen bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-12"
+      className="relative min-h-screen bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary pb-[calc(6.5rem+env(safe-area-inset-bottom))] md:pb-16 overflow-hidden"
       style={{ paddingTop: "env(safe-area-inset-top)" }}
     >
-      <TopBar />
-      <main className="mx-auto max-w-6xl px-4 pt-4 md:pt-6">{children}</main>
-      <BottomNav pathname={pathname} />
+      {/* Background Liquid Ambient Light Blobs */}
+      <div className="ambient-glow-orb -top-24 -left-24 size-96 bg-indigo-500/20 dark:bg-indigo-600/15 animate-float-slow" />
+      <div className="ambient-glow-orb top-1/3 -right-24 size-[32rem] bg-purple-500/15 dark:bg-purple-600/10 animate-float-slow [animation-delay:3s]" />
+      <div className="ambient-glow-orb bottom-10 left-1/4 size-[28rem] bg-cyan-500/15 dark:bg-cyan-600/10 animate-float-slow [animation-delay:5s]" />
+
+      <div className="relative z-10">
+        <TopBar />
+        <main className="mx-auto max-w-6xl px-4 pt-4 md:pt-6">{children}</main>
+        <BottomNav pathname={pathname} />
+      </div>
     </div>
   );
 }
@@ -58,17 +62,17 @@ export function TopBar() {
   if (user) items.push({ to: "/profile", label: "Profile", Icon: User });
 
   return (
-    <header className="sticky top-0 z-50 w-full transition-all duration-200">
+    <header className="sticky top-0 z-50 w-full transition-all duration-300">
       <div className="mx-auto max-w-6xl px-4 py-3">
-        <div className="flex items-center justify-between rounded-full border border-black/[0.08] dark:border-white/[0.1] bg-white/80 dark:bg-zinc-950/80 px-4 py-2 backdrop-blur-2xl shadow-apple transition-all">
+        <div className="liquid-glass-elevated flex items-center justify-between rounded-full px-4 py-2 transition-all">
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="transition-transform duration-200 group-hover:scale-105">
+            <div className="transition-transform duration-300 group-hover:scale-105">
               <JnuLogo />
             </div>
             <div className="leading-tight">
               <div className="font-display text-sm font-bold tracking-tight text-foreground flex items-center gap-1.5">
-                JNU <span className="text-primary font-extrabold">Connect</span>
-                <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[9px] font-semibold text-emerald-600 dark:text-emerald-400">
+                JNU <span className="text-primary font-extrabold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">Connect</span>
+                <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 text-[9px] font-semibold text-emerald-600 dark:text-emerald-400">
                   <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live
                 </span>
               </div>
@@ -76,7 +80,7 @@ export function TopBar() {
             </div>
           </Link>
 
-          <nav className="hidden items-center gap-1 lg:flex bg-slate-100/60 dark:bg-zinc-900/60 p-1 rounded-full border border-black/[0.04] dark:border-white/[0.05]">
+          <nav className="hidden items-center gap-1 lg:flex bg-black/[0.03] dark:bg-white/[0.04] p-1 rounded-full border border-black/[0.04] dark:border-white/[0.05]">
             {items.map((n) => (
               <Link
                 key={n.to}
@@ -105,7 +109,7 @@ export function TopBar() {
             {user && (
               <Link
                 to="/notifications"
-                className="relative grid size-8 place-items-center rounded-full bg-slate-100 dark:bg-zinc-900 text-foreground transition-all duration-200 hover:bg-slate-200 dark:hover:bg-zinc-800"
+                className="relative grid size-8 place-items-center rounded-full bg-black/[0.04] dark:bg-white/[0.06] text-foreground transition-all duration-200 hover:bg-black/[0.08] dark:hover:bg-white/[0.1]"
                 aria-label="Notifications"
               >
                 <Bell className="size-3.5" />
@@ -129,7 +133,7 @@ function AuthButton() {
       <Link
         to="/auth/login"
         search={{ next: "/profile" }}
-        className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-1.5 text-xs font-semibold text-background transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
+        className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-1.5 text-xs font-semibold text-background transition-all duration-200 hover:opacity-90 active:scale-[0.98] shadow-sm"
       >
         Sign in
       </Link>
@@ -138,7 +142,7 @@ function AuthButton() {
   return (
     <button
       onClick={() => void signOut()}
-      className="inline-flex items-center gap-1.5 rounded-full border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-zinc-900 px-3.5 py-1.5 text-xs font-semibold text-muted-foreground hover:text-destructive hover:border-destructive/30 transition-all duration-200 active:scale-[0.98]"
+      className="inline-flex items-center gap-1.5 rounded-full border border-black/[0.08] dark:border-white/[0.1] bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground hover:text-destructive hover:border-destructive/30 transition-all duration-200 active:scale-[0.98]"
       title={user.email ?? ""}
     >
       <LogOut className="size-3.5" />
@@ -150,10 +154,10 @@ function AuthButton() {
 export function BottomNav({ pathname }: { pathname: string }) {
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-black/[0.08] dark:border-white/[0.1] bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.06)] md:hidden"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-black/[0.06] dark:border-white/[0.08] bg-white/90 dark:bg-zinc-950/90 backdrop-blur-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.08)] md:hidden"
       style={{ paddingBottom: "max(env(safe-area-inset-bottom), 0.75rem)" }}
     >
-      <div className="mx-auto flex max-w-lg items-center justify-around px-3 pt-2">
+      <div className="mx-auto flex max-w-md items-center justify-around px-3 pt-2">
         {bottomNav.map(({ to, label, Icon }) => {
           const active = to === "/" ? pathname === "/" : pathname.startsWith(to);
           return (
@@ -164,10 +168,10 @@ export function BottomNav({ pathname }: { pathname: string }) {
             >
               <span
                 className={
-                  "grid size-9 place-items-center rounded-full transition-all duration-200 " +
+                  "grid size-9 place-items-center rounded-2xl transition-all duration-200 " +
                   (active
-                    ? "bg-primary text-white shadow-sm scale-105"
-                    : "text-muted-foreground hover:text-foreground hover:bg-slate-100 dark:hover:bg-zinc-800")
+                    ? "bg-gradient-primary text-white shadow-glow scale-105"
+                    : "text-muted-foreground hover:text-foreground hover:bg-black/[0.04] dark:hover:bg-white/[0.06]")
                 }
               >
                 <Icon className="size-4" />
@@ -204,7 +208,7 @@ export function PageHeader({
     <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
       <div>
         {eyebrow && (
-          <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-primary">
+          <div className="mb-2 inline-flex items-center gap-2 rounded-full liquid-pill px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-primary">
             {eyebrow}
           </div>
         )}
@@ -216,7 +220,6 @@ export function PageHeader({
   );
 }
 
-// 2x2 quick-actions grid — mobile app-style dashboard cards.
 export function QuickActionGrid({
   actions,
 }: {
@@ -232,7 +235,7 @@ export function QuickActionGrid({
     primary: "bg-gradient-primary text-primary-foreground shadow-glow",
     accent: "bg-gradient-to-br from-accent to-primary text-accent-foreground shadow-glow",
     success: "bg-gradient-to-br from-success to-primary text-white shadow-glow",
-    muted: "bg-secondary text-foreground",
+    muted: "liquid-pill text-foreground",
   };
   return (
     <div className="grid grid-cols-2 gap-3">
@@ -240,7 +243,7 @@ export function QuickActionGrid({
         <Link
           key={to}
           to={to}
-          className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-border/60 bg-card p-4 shadow-elevated transition-transform active:scale-[0.98]"
+          className="liquid-glass group relative flex flex-col justify-between overflow-hidden rounded-3xl p-4 shadow-elevated transition-transform active:scale-[0.98]"
         >
           <div className={`inline-grid size-11 place-items-center rounded-2xl ${tones[tone]}`}>
             <Icon className="size-5" />

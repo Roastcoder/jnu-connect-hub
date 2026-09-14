@@ -36,6 +36,12 @@ export class Contestant {
   @Column({ name: 'event_id', nullable: true })
   event_id: string;
 
+  @Column({ type: 'int', default: 0 })
+  votes_count: number;
+
+  @Column({ default: false })
+  trending: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 

@@ -20,8 +20,23 @@ export class Gallery {
   @Column({ default: '' })
   caption: string;
 
-  @Column()
+  @Column({ default: '' })
   image_url: string;
+
+  @Column({ default: 'General' })
+  album: string;
+
+  @Column({ type: 'int', default: 0 })
+  count: number;
+
+  @Column({ default: '' })
+  cover: string;
+
+  @Column({ default: '' })
+  youtube_id: string;
+
+  @Column({ default: '' })
+  duration: string;
 
   @Column({ name: 'event_id', nullable: true })
   event_id: string;

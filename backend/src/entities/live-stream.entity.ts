@@ -1,6 +1,6 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   Column,
   CreateDateColumn,
   ManyToOne,
@@ -10,7 +10,7 @@ import { Event } from './event.entity';
 
 @Entity('live_streams')
 export class LiveStream {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('text')
   id: string;
 
   @Column()
@@ -24,6 +24,18 @@ export class LiveStream {
 
   @Column({ default: 'scheduled' })
   status: string;
+
+  @Column({ type: 'int', default: 0 })
+  viewers: number;
+
+  @Column({ type: 'int', default: 0 })
+  peak_viewers: number;
+
+  @Column({ type: 'int', default: 0 })
+  likes: number;
+
+  @Column({ default: '' })
+  youtube_id: string;
 
   @Column({ nullable: true })
   scheduled_at: Date;
