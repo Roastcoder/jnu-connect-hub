@@ -1,7 +1,8 @@
 {
   "mcpServers": {
     "mehar-advisory": {
-      "url": "https://app.meharadvisory.cloud/mcp"
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sse", "https://app.meharadvisory.cloud/mcp"]
     }
   }
 }
