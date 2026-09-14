@@ -36,10 +36,7 @@ function dashboardLink(roles: AppRole[]): { to: string; label: string } | null {
 export function AppShell({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
   return (
-    <div
-      className="relative min-h-screen bg-slate-50/50 text-foreground antialiased selection:bg-primary/20 selection:text-primary pb-24 overflow-x-hidden"
-      style={{ paddingTop: "max(env(safe-area-inset-top), 0.5rem)" }}
-    >
+    <div className="relative min-h-screen bg-slate-50/50 text-foreground antialiased selection:bg-primary/20 selection:text-primary pb-24 overflow-x-hidden">
       {/* Background Soft Warm Light Glows (JNU Theme) */}
       <div className="ambient-glow-orb -top-24 -left-24 size-80 bg-red-600/5 animate-float-slow" />
       <div className="ambient-glow-orb top-1/3 -right-24 size-96 bg-amber-500/5 animate-float-slow [animation-delay:3s]" />
@@ -48,7 +45,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className="relative z-10 max-w-lg mx-auto min-h-screen flex flex-col justify-between">
         <div>
           <TopBar />
-          <main className="px-3.5 sm:px-4 pt-2">{children}</main>
+          <main className="px-3.5 sm:px-4 pt-3">{children}</main>
         </div>
         <BottomNav pathname={pathname} />
       </div>
@@ -62,8 +59,11 @@ export function TopBar() {
   const dash = user ? dashboardLink(roles) : null;
 
   return (
-    <header className="relative z-30 w-full px-3.5 sm:px-4 pt-2 pb-2">
-      <div className="flex items-center justify-between rounded-2xl bg-white/95 border border-rose-100/90 shadow-sm px-3.5 py-2 backdrop-blur-md">
+    <header
+      className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-xl border-b border-rose-100/90 shadow-xs px-3.5 sm:px-4 pb-2.5 transition-all"
+      style={{ paddingTop: "max(env(safe-area-inset-top), 0.65rem)" }}
+    >
+      <div className="flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5 group active:scale-95 transition-transform">
           <div className="transition-transform duration-300 group-hover:scale-105">
             <JnuLogo />
