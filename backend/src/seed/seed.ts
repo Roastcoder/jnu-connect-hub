@@ -448,7 +448,7 @@ async function seed() {
       name: 'DJ Tan',
       title: 'Celebrity DJ & Electronic Music Producer',
       bio: 'High-octane EDM producer electrifying the Central Lawn stage on Day 2.',
-      photo: 'https://images.unsplash.com/photo-1571266028243-3716f02d2d2e?w=500&auto=format&fit=crop&q=80',
+      photo: 'https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=500&auto=format&fit=crop&q=80',
     },
     {
       event_id: 'technorazz-2026',

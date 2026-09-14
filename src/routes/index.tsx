@@ -441,7 +441,7 @@ function Home() {
               name: "DJ Tan",
               role: "Celebrity DJ",
               tag: "EDM Fusion",
-              image: "https://images.unsplash.com/photo-1571266028243-3716f02d2d2e?w=400&h=400&fit=crop",
+              image: "https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=400&h=400&fit=crop",
             },
             {
               name: "Snehi Live",

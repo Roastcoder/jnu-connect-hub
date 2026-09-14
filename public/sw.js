@@ -17,7 +17,17 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
-  const url = new URL(req.url);
+  
+  let url;
+  try {
+    url = new URL(req.url);
+  } catch {
+    return;
+  }
+  
+  // Ignore unsupported schemes like chrome-extension://, moz-extension://, etc.
+  if (url.protocol !== "http:" && url.protocol !== "https:") return;
+
   // Never cache HTML navigations (SSR), server functions, or API/webhook routes
   if (
     req.mode === "navigate" ||
@@ -29,14 +39,17 @@ self.addEventListener("fetch", (event) => {
     );
     return;
   }
+
   // Stale-while-revalidate for assets
   event.respondWith(
     caches.match(req).then((cached) => {
       const network = fetch(req)
         .then((res) => {
-          if (res.ok && res.type === "basic") {
+          if (res.ok && (res.type === "basic" || res.type === "cors")) {
             const clone = res.clone();
-            caches.open(CACHE).then((c) => c.put(req, clone));
+            caches.open(CACHE).then((c) => {
+              c.put(req, clone).catch(() => {});
+            }).catch(() => {});
           }
           return res;
         })
