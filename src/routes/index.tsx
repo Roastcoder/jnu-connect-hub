@@ -252,31 +252,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Live Campus Ticker */}
-      <div className="mb-10 overflow-hidden rounded-2xl border border-black/[0.06] dark:border-white/[0.08] bg-white dark:bg-zinc-900 p-2 shadow-apple">
-        <div className="flex items-center gap-3 overflow-x-auto no-scrollbar py-1 px-3 text-xs">
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 text-primary font-bold px-2.5 py-1 shrink-0 text-[11px]">
-            <Zap className="size-3.5" /> LIVE UPDATES
-          </div>
-          <div className="flex items-center gap-6 text-muted-foreground shrink-0 font-medium">
-            <span className="flex items-center gap-1.5">
-              🏆 <strong className="text-foreground">₹5 Lakhs</strong> Prize Pool for 2026 Competitions
-            </span>
-            <span>•</span>
-            <span className="flex items-center gap-1.5">
-              ⚡ <strong className="text-foreground">24-Hr Hackathon</strong> registrations closing in 3 days
-            </span>
-            <span>•</span>
-            <span className="flex items-center gap-1.5">
-              🎤 <strong className="text-foreground">Celebrity Star Night</strong> artist reveal on Day 2
-            </span>
-            <span>•</span>
-            <span className="flex items-center gap-1.5">
-              🎟️ <strong className="text-foreground">Digital QR Ticket</strong> mandatory for campus entrance
-            </span>
-          </div>
-        </div>
-      </div>
 
       {/* Student Quick Hub (Apple Bento Grid) */}
       <section className="mb-12">
